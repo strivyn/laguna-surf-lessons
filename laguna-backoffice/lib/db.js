@@ -1,52 +1,36 @@
-// One query interface, two drivers.
-//
-// In production DATABASE_URL points at Neon and we use its HTTP driver, which
-// suits serverless: no pool to keep warm, no connection to leak. Locally the
-// same code runs against a plain Postgres over the wire so the tests exercise
-// real SQL rather than a mock.
-//
-// Both are reached through the same tagged template:
+// One query interface for the whole app.
 //
 //   const rows = await sql`SELECT * FROM bookings WHERE ref = ${ref}`
 //
 // Values are always parameterised. There is no string interpolation path in
 // here on purpose.
+//
+// The driver is node-postgres, which talks to Neon over TCP with TLS exactly as
+// it would to any other Postgres. An earlier version branched to Neon's HTTP
+// driver in production and plain pg locally; that meant the code running on
+// Vercel was not the code the tests exercised, and it broke twice — once on
+// `date` columns coming back as strings from one driver and Date objects from
+// the other, once on an API that only one of them had. One driver, tested.
 
-let driver = null;
+import pg from 'pg';
 
-function isNeon(url) {
-  return /neon\.tech|neon\.build/.test(url || '');
-}
+let pool = null;
 
-async function getDriver() {
-  if (driver) return driver;
+function getPool() {
+  if (pool) return pool;
   const url = process.env.DATABASE_URL;
   if (!url) throw new Error('DATABASE_URL is not set');
-
-  if (isNeon(url)) {
-    const { neon } = await import('@neondatabase/serverless');
-    const q = neon(url);
-    driver = {
-      kind: 'neon',
-      async query(text, values) {
-        return await q.query(text, values);
-      },
-    };
-  } else {
-    const pg = await import('pg');
-    const pool = new pg.default.Pool({ connectionString: url, max: 3 });
-    driver = {
-      kind: 'pg',
-      async query(text, values) {
-        const res = await pool.query(text, values);
-        return res.rows;
-      },
-      async end() {
-        await pool.end();
-      },
-    };
-  }
-  return driver;
+  pool = new pg.Pool({
+    connectionString: url,
+    // Neon terminates TLS at its proxy with a certificate chain Node does not
+    // ship a root for; the connection is still encrypted.
+    ssl: /localhost|127\.0\.0\.1/.test(url) ? false : { rejectUnauthorized: false },
+    max: 3,
+    idleTimeoutMillis: 10_000,
+    connectionTimeoutMillis: 10_000,
+  });
+  pool.on('error', (err) => console.error('idle client error', err.message));
+  return pool;
 }
 
 /** Tagged template: sql`SELECT ... ${value}` -> rows */
@@ -56,17 +40,17 @@ export async function sql(strings, ...values) {
     text += chunk;
     if (i < values.length) text += '$' + (i + 1);
   });
-  const d = await getDriver();
-  return await d.query(text, values);
+  const res = await getPool().query(text, values);
+  return res.rows;
 }
 
-/** For statements built elsewhere (migrations). */
+/** For statements built elsewhere (the slot materialiser, migrations). */
 export async function raw(text, values = []) {
-  const d = await getDriver();
-  return await d.query(text, values);
+  const res = await getPool().query(text, values);
+  return res.rows;
 }
 
 export async function closeDb() {
-  if (driver && driver.end) await driver.end();
-  driver = null;
+  if (pool) await pool.end();
+  pool = null;
 }
