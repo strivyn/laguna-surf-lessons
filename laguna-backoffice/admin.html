@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Back office · Laguna Surf Lessons</title>
+<style>
+:root{
+  --paper:#F7F8F9; --card:#FFFFFF; --ink:#14191D; --ink2:#57646E; --mute:#8E9AA4;
+  --line:#E4E7EA; --line2:#D2D7DC;
+  --rust:#D8401A; --ember:#F0592B; --sun:#F5C518; --lagoon:#0FA8AE; --sea:#2E7C9B;
+  --ok:#0E7C5A; --warn:#B26A00;
+  --f:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --r:14px;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--paper); color:var(--ink); font:400 15px/1.5 var(--f); -webkit-font-smoothing:antialiased}
+.tnum{font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit; color:inherit}
+a{color:var(--sea)}
+
+/* ---------- shell ---------- */
+header.top{position:sticky; top:0; z-index:20; background:rgba(255,255,255,.94);
+  backdrop-filter:saturate(160%) blur(10px); border-bottom:1px solid var(--line)}
+.bar{display:flex; align-items:center; gap:14px; padding:12px 16px; max-width:1180px; margin:0 auto}
+.mark{width:30px;height:30px;border-radius:8px;flex:none;
+  background:linear-gradient(150deg,var(--sun),var(--ember) 55%,var(--rust))}
+.bar h1{font-size:15px; margin:0; letter-spacing:-.01em}
+.bar h1 small{display:block; font-weight:400; font-size:11.5px; color:var(--mute); letter-spacing:.06em; text-transform:uppercase}
+.bar .sp{flex:1}
+.ghost{background:none;border:1px solid var(--line2); border-radius:99px; padding:7px 14px; cursor:pointer; color:var(--ink2)}
+.ghost:hover{border-color:var(--ink2); color:var(--ink)}
+
+nav.tabs{display:flex; gap:2px; overflow-x:auto; padding:0 10px; max-width:1180px; margin:0 auto;
+  scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{background:none; border:0; border-bottom:2px solid transparent; padding:11px 12px;
+  color:var(--ink2); cursor:pointer; white-space:nowrap; font-weight:500}
+nav.tabs button[aria-selected="true"]{color:var(--ink); border-bottom-color:var(--rust)}
+nav.tabs .dot{display:inline-block; min-width:18px; padding:0 5px; margin-left:6px; border-radius:99px;
+  background:var(--rust); color:#fff; font-size:11px; line-height:18px; text-align:center; font-variant-numeric:tabular-nums}
+
+main{max-width:1180px; margin:0 auto; padding:18px 16px 90px}
+section[hidden]{display:none}
+
+/* ---------- bits ---------- */
+.card{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:16px; margin-bottom:12px}
+.h{display:flex; align-items:baseline; gap:12px; margin:22px 0 10px}
+.h:first-child{margin-top:4px}
+.h h2{font-size:13px; text-transform:uppercase; letter-spacing:.14em; color:var(--ink2); margin:0; font-weight:700}
+.h .sub{color:var(--mute); font-size:13px}
+.row{display:flex; gap:12px; flex-wrap:wrap}
+.grow{flex:1; min-width:0}
+.muted{color:var(--ink2)}
+.small{font-size:13px}
+.tiny{font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--mute); font-weight:600}
+.pill{display:inline-flex; align-items:center; gap:6px; border-radius:99px; padding:3px 10px;
+  font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase}
+.pill.ok{background:#E3F5EE; color:var(--ok)}
+.pill.warn{background:#FCF0DC; color:var(--warn)}
+.pill.bad{background:#FBE6E1; color:var(--rust)}
+.pill.info{background:#E4F1F6; color:var(--sea)}
+.btn{background:var(--ember); color:#fff; border:0; border-radius:99px; padding:10px 18px; cursor:pointer; font-weight:600}
+.btn:hover{background:var(--rust)}
+.btn:disabled{opacity:.5; cursor:default}
+.btn.o{background:none; color:var(--ink); border:1px solid var(--line2)}
+.btn.o:hover{background:#fff; border-color:var(--ink2)}
+.btn.sm{padding:7px 13px; font-size:13.5px}
+.fld{display:flex; flex-direction:column; gap:5px; margin-bottom:10px}
+.fld span{font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink2); font-weight:600}
+.fld input,.fld select,.fld textarea{border:1.5px solid var(--line2); border-radius:10px; padding:10px 12px; background:#fff}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:2px solid var(--ember); outline-offset:1px; border-color:transparent}
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:0 14px}
+.note{padding:10px 12px; border-radius:10px; font-size:13.5px; margin-bottom:10px}
+.note.err{background:#FBE6E1; color:#8C2A11}
+.note.ok{background:#E3F5EE; color:#0B5C43}
+.empty{padding:34px 16px; text-align:center; color:var(--mute)}
+
+/* ---------- booking cards ---------- */
+.slot{display:grid; grid-template-columns:78px 1fr; gap:14px; align-items:start;
+  border-top:1px solid var(--line); padding:14px 0}
+.slot:first-of-type{border-top:0}
+.time{font-weight:700; font-size:15px}
+.time small{display:block; font-weight:500; color:var(--mute); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase}
+.who{font-weight:600}
+.meta{color:var(--ink2); font-size:13.5px; margin-top:2px}
+.people{margin-top:8px; display:flex; flex-wrap:wrap; gap:6px}
+.person{background:var(--paper); border:1px solid var(--line); border-radius:9px; padding:5px 9px; font-size:12.5px}
+.person b{font-weight:600}
+.acts{display:flex; gap:7px; flex-wrap:wrap; margin-top:10px}
+.free{color:var(--mute); font-style:italic}
+.blocked{color:var(--warn)}
+
+/* ---------- week ---------- */
+.week{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px}
+.day{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:11px}
+.day h3{margin:0 0 8px; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink2)}
+.day h3 b{display:block; font-size:19px; color:var(--ink); letter-spacing:-.01em; text-transform:none}
+.wslot{border:1px solid var(--line); border-radius:9px; padding:7px 9px; margin-bottom:6px; cursor:pointer;
+  font-size:13px; background:#fff; width:100%; text-align:left}
+.wslot:hover{border-color:var(--ink2)}
+.wslot .t{font-weight:700; font-variant-numeric:tabular-nums}
+.wslot.taken{background:#FFF4EF; border-color:#F6D3C6}
+.wslot.off{background:var(--paper); color:var(--mute)}
+.wslot .n{display:block; font-size:12px; color:var(--ink2); margin-top:1px}
+
+/* ---------- tables ---------- */
+table{width:100%; border-collapse:collapse; font-size:13.5px}
+th{text-align:left; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--mute);
+  padding:0 10px 8px 0; font-weight:700; white-space:nowrap}
+td{padding:9px 10px 9px 0; border-top:1px solid var(--line); vertical-align:top}
+.scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
+
+/* ---------- login ---------- */
+.login{max-width:360px; margin:14vh auto; padding:0 20px}
+.login .card{padding:24px}
+.login h1{font-size:20px; margin:0 0 4px; letter-spacing:-.01em}
+.login p{margin:0 0 18px; color:var(--ink2); font-size:14px}
+
+@media (max-width:560px){
+  .slot{grid-template-columns:64px 1fr; gap:10px}
+  main{padding:14px 12px 90px}
+}
+</style>
+</head>
+<body>
+
+<div id="login" class="login" hidden>
+  <div class="card">
+    <div class="row" style="align-items:center; gap:10px; margin-bottom:14px">
+      <div class="mark"></div>
+      <div><h1>Back office</h1><p style="margin:0" class="small muted">Laguna Surf Lessons</p></div>
+    </div>
+    <div id="login-err" class="note err" hidden></div>
+    <form id="login-form">
+      <label class="fld"><span>Password</span>
+        <input type="password" id="pw" autocomplete="current-password" required></label>
+      <button class="btn" style="width:100%" type="submit">Sign in</button>
+    </form>
+  </div>
+</div>
+
+<div id="app" hidden>
+  <header class="top">
+    <div class="bar">
+      <div class="mark"></div>
+      <h1>Back office<small id="hdr-date">Laguna Surf Lessons</small></h1>
+      <div class="sp"></div>
+      <button class="ghost" id="refresh" title="Reload">Refresh</button>
+      <button class="ghost" id="signout">Sign out</button>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="today"  aria-selected="true">Today</button>
+      <button role="tab" data-tab="week"   aria-selected="false">Calendar</button>
+      <button role="tab" data-tab="gift"   aria-selected="false">Gift cards</button>
+      <button role="tab" data-tab="waiver" aria-selected="false">Waivers<span class="dot" id="waiver-dot" hidden>0</span></button>
+      <button role="tab" data-tab="set"    aria-selected="false">Settings</button>
+    </nav>
+  </header>
+
+  <main>
+    <div id="flash"></div>
+
+    <!-- ================= TODAY ================= -->
+    <section id="tab-today">
+      <div class="h"><h2>Today</h2><span class="sub" id="today-sub"></span></div>
+      <div class="card" id="today-list"><div class="empty">Loading…</div></div>
+
+      <div class="h"><h2>Next up</h2><span class="sub">The rest of the week</span></div>
+      <div class="card" id="soon-list"><div class="empty">Loading…</div></div>
+    </section>
+
+    <!-- ================= WEEK ================= -->
+    <section id="tab-week" hidden>
+      <div class="h">
+        <h2>Calendar</h2>
+        <span class="sub" id="week-sub"></span>
+        <div class="sp" style="flex:1"></div>
+        <button class="btn o sm" id="week-prev">&larr;</button>
+        <button class="btn o sm" id="week-today">This week</button>
+        <button class="btn o sm" id="week-next">&rarr;</button>
+      </div>
+      <p class="small muted" style="margin:0 0 12px">Tap an open slot to close it — a closed slot disappears from the site. Tap a booking to see it.</p>
+      <div class="week" id="week"></div>
+    </section>
+
+    <!-- ================= GIFT CARDS ================= -->
+    <section id="tab-gift" hidden>
+      <div class="h"><h2>Redeem a card</h2><span class="sub">Someone standing in front of you with a code</span></div>
+      <div class="card">
+        <div class="row">
+          <label class="fld grow" style="max-width:260px"><span>Code</span>
+            <input id="gc-code" placeholder="LSL-GIFT-XXXX" autocapitalize="characters"></label>
+          <div style="align-self:end; padding-bottom:10px">
+            <button class="btn sm" id="gc-find">Look up</button>
+          </div>
+        </div>
+        <div id="gc-detail"></div>
+      </div>
+
+      <div class="h"><h2>Issue a card</h2><span class="sub">Sold in person, or making one good</span></div>
+      <div class="card">
+        <div class="grid2">
+          <label class="fld"><span>Amount ($)</span><input id="gi-amt" type="number" min="50" max="1000" step="5" value="160"></label>
+          <label class="fld"><span>Recipient name</span><input id="gi-rname"></label>
+          <label class="fld"><span>Recipient email</span><input id="gi-remail" type="email"></label>
+          <label class="fld"><span>From</span><input id="gi-fname"></label>
+        </div>
+        <label class="fld"><span>Message</span><input id="gi-msg" maxlength="140"></label>
+        <button class="btn sm" id="gi-go">Issue card</button>
+      </div>
+
+      <div class="h"><h2>All cards</h2><span class="sub" id="gc-count"></span></div>
+      <div class="card scroll"><div id="gc-list"><div class="empty">Loading…</div></div></div>
+    </section>
+
+    <!-- ================= WAIVERS ================= -->
+    <section id="tab-waiver" hidden>
+      <div id="waiver-missing"></div>
+      <div class="h">
+        <h2>Signed waivers</h2><span class="sub" id="waiver-sub"></span>
+        <div class="sp" style="flex:1"></div>
+        <a class="btn o sm" id="waiver-csv" href="#">Export CSV</a>
+      </div>
+      <div class="card scroll"><div id="waiver-list"><div class="empty">Loading…</div></div></div>
+    </section>
+
+    <!-- ================= SETTINGS ================= -->
+    <section id="tab-set" hidden>
+      <div class="h"><h2>Your calendar</h2><span class="sub">Add this once and bookings show up on your phone</span></div>
+      <div class="card" id="cal-card"><div class="empty">Loading…</div></div>
+
+      <div class="h"><h2>The schedule</h2><span class="sub">What the site offers</span></div>
+      <div class="card" id="sched-card"><div class="empty">Loading…</div></div>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $ = function(id){ return document.getElementById(id); };
+var state = { settings:null, week:null, weekStart:null, gift:null };
+
+// ---------------------------------------------------------------- helpers
+function money(cents){
+  var n = (cents||0)/100;
+  return '$' + n.toLocaleString('en-US', {minimumFractionDigits: (cents%100?2:0), maximumFractionDigits:2});
+}
+function esc(s){
+  return String(s==null?'':s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function api(path, opts){
+  opts = opts || {};
+  return fetch(path, Object.assign({credentials:'same-origin', headers:{'Content-Type':'application/json'}}, opts))
+    .then(function(r){
+      if (r.status === 401){ showLogin(); throw new Error('signed out'); }
+      return r.json().catch(function(){ return {}; }).then(function(j){
+        if (!r.ok) throw new Error(j.error || ('request failed (' + r.status + ')'));
+        return j;
+      });
+    });
+}
+function flash(msg, kind){
+  var el = document.createElement('div');
+  el.className = 'note ' + (kind === 'err' ? 'err' : 'ok');
+  el.textContent = msg;
+  $('flash').appendChild(el);
+  setTimeout(function(){ el.remove(); }, 4200);
+}
+function ymd(d){
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function parseYmd(s){ var p = s.split('-').map(Number); return new Date(p[0], p[1]-1, p[2]); }
+function prettyDate(s){
+  return parseYmd(s).toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'});
+}
+function shortDate(s){
+  return parseYmd(s).toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'});
+}
+
+// ---------------------------------------------------------------- auth
+function showLogin(){ $('app').hidden = true; $('login').hidden = false; }
+function showApp(){ $('login').hidden = true; $('app').hidden = false; }
+
+$('login-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  $('login-err').hidden = true;
+  api('/api/admin/login', {method:'POST', body: JSON.stringify({password: $('pw').value})})
+    .then(function(){ $('pw').value=''; showApp(); boot(); })
+    .catch(function(err){ $('login-err').textContent = err.message; $('login-err').hidden = false; });
+});
+$('signout').addEventListener('click', function(){
+  fetch('/api/admin/login', {method:'DELETE', credentials:'same-origin'}).then(showLogin);
+});
+$('refresh').addEventListener('click', function(){ boot(); });
+
+// ---------------------------------------------------------------- tabs
+Array.prototype.forEach.call(document.querySelectorAll('nav.tabs button'), function(b){
+  b.addEventListener('click', function(){
+    Array.prototype.forEach.call(document.querySelectorAll('nav.tabs button'), function(x){
+      x.setAttribute('aria-selected', String(x === b));
+    });
+    ['today','week','gift','waiver','set'].forEach(function(t){
+      $('tab-' + t).hidden = (t !== b.dataset.tab);
+    });
+    if (b.dataset.tab === 'gift')   loadGiftList();
+    if (b.dataset.tab === 'waiver') loadWaivers();
+    if (b.dataset.tab === 'week')   renderWeek();
+    if (b.dataset.tab === 'set')    renderSettings();
+  });
+});
+
+// ---------------------------------------------------------------- today
+function bookingBlock(b){
+  var people = (b.participants||[]).map(function(p){
+    var bits = [];
+    if (p.age)    bits.push(p.age + 'y');
+    if (p.height) bits.push(p.height);
+    if (p.weight) bits.push(p.weight);
+    return '<span class="person"><b>' + esc(p.name) + '</b>' +
+      (bits.length ? ' · ' + esc(bits.join(' · ')) : '') + '</span>';
+  }).join('');
+
+  var w = b.waiver
+    ? '<span class="pill ok">Waiver signed</span> <a class="small" href="/api/admin/waiver-pdf?id=' + b.waiver.id + '">Download</a>'
+    : '<span class="pill bad">No waiver</span>';
+
+  var cancelled = b.status !== 'confirmed';
+  var money_line = money(b.total_cents) + (b.gift_cents > 0 ? ' <span class="muted small">(' + money(b.gift_cents) + ' on ' + esc(b.gift_code||'a gift card') + ')</span>' : '');
+
+  return '' +
+  '<div class="slot">' +
+    '<div class="time">' + esc(b.local_time) + '<small>' + esc(b.lesson_name.replace(' lesson','')) + '</small></div>' +
+    '<div>' +
+      '<div class="who">' + esc(b.customer_name || b.email) +
+        (cancelled ? ' <span class="pill bad">' + esc(b.status.replace('_',' ')) + '</span>' : '') + '</div>' +
+      '<div class="meta">' + esc(b.ref) + ' · ' + b.party_size + ' surfer' + (b.party_size>1?'s':'') +
+        ' · ' + money_line + '</div>' +
+      '<div class="meta"><a href="tel:' + esc(b.phone) + '">' + esc(b.phone) + '</a> · ' +
+        '<a href="mailto:' + esc(b.email) + '">' + esc(b.email) + '</a></div>' +
+      (people ? '<div class="people">' + people + '</div>' : '') +
+      (b.notes ? '<div class="meta" style="margin-top:6px"><b>Note:</b> ' + esc(b.notes) + '</div>' : '') +
+      '<div class="acts">' + w +
+        (cancelled ? '' :
+          '<button class="btn o sm" data-act="cancel" data-ref="' + esc(b.ref) + '">Cancel</button>' +
+          '<button class="btn o sm" data-act="weather" data-ref="' + esc(b.ref) + '">Surf called off</button>') +
+        '<button class="btn o sm" data-act="note" data-ref="' + esc(b.ref) + '">Note</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function freeBlock(s){
+  return '' +
+  '<div class="slot">' +
+    '<div class="time">' + esc(s.local_time) + '<small>' + (s.status==='blocked'?'closed':'open') + '</small></div>' +
+    '<div>' +
+      (s.status === 'blocked'
+        ? '<div class="blocked">Closed' + (s.note ? ' — ' + esc(s.note) : '') + '</div>' +
+          '<div class="acts"><button class="btn o sm" data-open="' + s.id + '">Open it back up</button></div>'
+        : '<div class="free">Nobody booked</div>' +
+          '<div class="acts"><button class="btn o sm" data-block="' + s.id + '">Close this slot</button></div>') +
+    '</div>' +
+  '</div>';
+}
+
+function renderToday(){
+  var d = state.week; if (!d) return;
+  var today = state.settings ? state.settings.today : d.from;
+  $('hdr-date').textContent = prettyDate(today);
+
+  var todays = d.bookings.filter(function(b){ return b.local_date === today; });
+  var slots  = d.slots.filter(function(s){ return s.local_date === today; });
+  var taken  = {};
+  todays.forEach(function(b){ if (b.status === 'confirmed') taken[b.session_id] = true; });
+
+  var parts = [];
+  slots.forEach(function(s){
+    var bs = todays.filter(function(b){ return b.session_id === s.id; });
+    if (bs.length) bs.forEach(function(b){ parts.push(bookingBlock(b)); });
+    else parts.push(freeBlock(s));
+  });
+
+  $('today-list').innerHTML = parts.length ? parts.join('') :
+    '<div class="empty">No lessons scheduled today — it is a day off.</div>';
+  var count = todays.filter(function(b){ return b.status === 'confirmed'; }).length;
+  $('today-sub').textContent = count === 0 ? 'Nothing booked' :
+    count + ' lesson' + (count>1?'s':'');
+
+  var soon = d.bookings.filter(function(b){ return b.local_date > today && b.status === 'confirmed'; });
+  $('soon-list').innerHTML = soon.length
+    ? soon.map(function(b){
+        return '<div class="slot"><div class="time">' + esc(b.local_time) +
+          '<small>' + esc(shortDate(b.local_date)) + '</small></div><div>' +
+          '<div class="who">' + esc(b.customer_name || b.email) + '</div>' +
+          '<div class="meta">' + esc(b.ref) + ' · ' + esc(b.lesson_name) + ' · ' +
+          b.party_size + ' surfer' + (b.party_size>1?'s':'') +
+          (b.waiver ? '' : ' · <span class="pill bad">No waiver</span>') + '</div></div></div>';
+      }).join('')
+    : '<div class="empty">Nothing else booked this week.</div>';
+}
+
+// ---------------------------------------------------------------- week
+function startOfWeek(dateStr){
+  var d = parseYmd(dateStr);
+  d.setDate(d.getDate() - d.getDay());
+  return ymd(d);
+}
+function renderWeek(){
+  if (!state.weekStart) state.weekStart = startOfWeek(state.settings ? state.settings.today : ymd(new Date()));
+  var from = state.weekStart;
+  var toD = parseYmd(from); toD.setDate(toD.getDate() + 6);
+  var to = ymd(toD);
+  $('week-sub').textContent = shortDate(from) + ' – ' + shortDate(to);
+
+  api('/api/admin/bookings?from=' + from + '&to=' + to).then(function(d){
+    var days = [];
+    for (var i = 0; i < 7; i++){
+      var dt = parseYmd(from); dt.setDate(dt.getDate() + i);
+      var key = ymd(dt);
+      var slots = d.slots.filter(function(s){ return s.local_date === key; });
+      var books = d.bookings.filter(function(b){ return b.local_date === key && b.status === 'confirmed'; });
+      var inner = slots.length ? slots.map(function(s){
+        var b = books.filter(function(x){ return x.session_id === s.id; })[0];
+        if (b) return '<button class="wslot taken" data-ref="' + esc(b.ref) + '"><span class="t">' +
+          esc(s.local_time) + '</span><span class="n">' + esc(b.customer_name || b.email) +
+          (b.waiver ? '' : ' · no waiver') + '</span></button>';
+        if (s.status === 'blocked') return '<button class="wslot off" data-open="' + s.id + '"><span class="t">' +
+          esc(s.local_time) + '</span><span class="n">closed' + (s.note ? ' · ' + esc(s.note) : '') + '</span></button>';
+        return '<button class="wslot" data-block="' + s.id + '"><span class="t">' + esc(s.local_time) +
+          '</span><span class="n">open</span></button>';
+      }).join('') : '<div class="small muted">' + (key < d.from || slots.length === 0 && key < (state.settings ? state.settings.today : key) ? 'No lessons' : 'Day off') + '</div>';
+      days.push('<div class="day"><h3>' +
+        dt.toLocaleDateString('en-US',{weekday:'short'}) + '<b>' + dt.getDate() + '</b></h3>' + inner + '</div>');
+    }
+    $('week').innerHTML = days.join('');
+  }).catch(function(e){ flash(e.message, 'err'); });
+}
+$('week-prev').addEventListener('click', function(){
+  var d = parseYmd(state.weekStart); d.setDate(d.getDate()-7); state.weekStart = ymd(d); renderWeek();
+});
+$('week-next').addEventListener('click', function(){
+  var d = parseYmd(state.weekStart); d.setDate(d.getDate()+7); state.weekStart = ymd(d); renderWeek();
+});
+$('week-today').addEventListener('click', function(){
+  state.weekStart = startOfWeek(state.settings ? state.settings.today : ymd(new Date())); renderWeek();
+});
+
+// ---------------------------------------------------------------- actions
+document.addEventListener('click', function(e){
+  var t = e.target.closest('button'); if (!t) return;
+
+  if (t.dataset.block){
+    var why = prompt('Close this slot. A short note (optional) — shown only to you:', '');
+    if (why === null) return;
+    api('/api/admin/blackout', {method:'POST', body: JSON.stringify({sessionId: Number(t.dataset.block), blocked: true, note: why})})
+      .then(function(){ flash('Slot closed. It is off the site.'); boot(); })
+      .catch(function(err){ flash(err.message, 'err'); });
+    return;
+  }
+  if (t.dataset.open){
+    api('/api/admin/blackout', {method:'POST', body: JSON.stringify({sessionId: Number(t.dataset.open), blocked: false})})
+      .then(function(){ flash('Slot open again.'); boot(); })
+      .catch(function(err){ flash(err.message, 'err'); });
+    return;
+  }
+  if (t.dataset.act){
+    var ref = t.dataset.ref, act = t.dataset.act;
+    if (act === 'note'){
+      var n = prompt('Note on ' + ref + ':', '');
+      if (n === null) return;
+      api('/api/admin/booking', {method:'POST', body: JSON.stringify({ref: ref, action:'note', note:n})})
+        .then(function(){ flash('Noted.'); boot(); }).catch(function(err){ flash(err.message,'err'); });
+      return;
+    }
+    var msg = act === 'weather'
+      ? 'Call off ' + ref + ' for surf? The slot opens back up and any gift card is put back.'
+      : 'Cancel ' + ref + '? The slot opens back up and any gift card is put back.';
+    if (!confirm(msg)) return;
+    api('/api/admin/booking', {method:'POST', body: JSON.stringify({ref: ref, action: act})})
+      .then(function(){ flash(act === 'weather' ? 'Called off.' : 'Cancelled.'); boot(); })
+      .catch(function(err){ flash(err.message, 'err'); });
+  }
+});
+
+// ---------------------------------------------------------------- gift cards
+function renderCard(card, ledger){
+  var rows = (ledger||[]).map(function(l){
+    return '<tr><td>' + new Date(l.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) +
+      '</td><td>' + (l.delta_cents < 0 ? '−' : '+') + money(Math.abs(l.delta_cents)) +
+      '</td><td>' + esc(l.reason) + (l.booking_ref ? ' · ' + esc(l.booking_ref) : '') +
+      '</td><td>' + esc(l.actor) + '</td></tr>';
+  }).join('');
+
+  $('gc-detail').innerHTML =
+    '<div style="border-top:1px solid var(--line); margin-top:12px; padding-top:14px">' +
+      '<div class="row" style="align-items:baseline">' +
+        '<div class="grow"><div class="tiny">Balance</div>' +
+          '<div style="font-size:30px; font-weight:700; letter-spacing:-.02em" class="tnum">' + money(card.balance_cents) + '</div>' +
+          '<div class="small muted">' + money(card.initial_cents) + ' issued · ' +
+          '<span class="pill ' + (card.status==='active'?'ok':(card.status==='void'?'bad':'info')) + '">' + esc(card.status) + '</span></div>' +
+        '</div>' +
+        '<div class="small muted" style="text-align:right">' +
+          (card.recipient_name ? 'For ' + esc(card.recipient_name) + '<br>' : '') +
+          (card.recipient_email ? esc(card.recipient_email) : '') + '</div>' +
+      '</div>' +
+      (card.status === 'void' ? '' :
+      '<div class="row" style="margin-top:14px; align-items:end">' +
+        '<label class="fld" style="max-width:150px"><span>Take off ($)</span>' +
+          '<input id="gc-amt" type="number" min="1" step="1" value="' + (card.balance_cents/100) + '"></label>' +
+        '<label class="fld" style="max-width:190px"><span>Against booking (optional)</span>' +
+          '<input id="gc-ref" placeholder="LSL-XXXX"></label>' +
+        '<div style="padding-bottom:10px"><button class="btn sm" id="gc-redeem">Redeem</button></div>' +
+      '</div>') +
+      '<div class="acts">' +
+        '<button class="btn o sm" id="gc-void">' + (card.status==='void'?'Un-void':'Void this card') + '</button>' +
+      '</div>' +
+      (rows ? '<div class="scroll" style="margin-top:14px"><table><thead><tr><th>When</th><th>Amount</th><th>Reason</th><th>By</th></tr></thead><tbody>' + rows + '</tbody></table></div>' : '') +
+    '</div>';
+
+  var red = $('gc-redeem');
+  if (red) red.addEventListener('click', function(){
+    api('/api/admin/giftcards', {method:'POST', body: JSON.stringify({
+      action:'redeem', code: card.code,
+      amountCents: Math.round(Number($('gc-amt').value) * 100),
+      bookingRef: $('gc-ref').value.trim() || null,
+    })}).then(function(out){
+      flash('Took ' + money(out.appliedCents) + ' off. ' + money(out.balanceCents) + ' left.');
+      findCard(card.code);
+      loadGiftList();
+    }).catch(function(err){ flash(err.message, 'err'); });
+  });
+  $('gc-void').addEventListener('click', function(){
+    var next = card.status === 'void' ? 'unvoid' : 'void';
+    if (next === 'void' && !confirm('Void ' + card.code + '? It stops working immediately.')) return;
+    api('/api/admin/giftcards', {method:'POST', body: JSON.stringify({action: next, code: card.code})})
+      .then(function(){ flash(next === 'void' ? 'Card voided.' : 'Card active again.'); findCard(card.code); loadGiftList(); })
+      .catch(function(err){ flash(err.message, 'err'); });
+  });
+}
+
+function findCard(code){
+  code = String(code || $('gc-code').value || '').trim().toUpperCase();
+  if (!code) return;
+  $('gc-code').value = code;
+  api('/api/admin/giftcards?code=' + encodeURIComponent(code))
+    .then(function(d){ renderCard(d.card, d.ledger); })
+    .catch(function(err){ $('gc-detail').innerHTML = '<div class="note err" style="margin-top:12px">' + esc(err.message) + '</div>'; });
+}
+$('gc-find').addEventListener('click', function(){ findCard(); });
+$('gc-code').addEventListener('keydown', function(e){ if (e.key === 'Enter'){ e.preventDefault(); findCard(); } });
+
+$('gi-go').addEventListener('click', function(){
+  api('/api/admin/giftcards', {method:'POST', body: JSON.stringify({
+    action:'issue',
+    amountCents: Math.round(Number($('gi-amt').value) * 100),
+    recipientName: $('gi-rname').value.trim(),
+    recipientEmail: $('gi-remail').value.trim(),
+    purchaserName: $('gi-fname').value.trim(),
+    message: $('gi-msg').value.trim(),
+  })}).then(function(d){
+    flash('Issued ' + d.card.code + ' for ' + money(d.card.initial_cents));
+    $('gi-rname').value = $('gi-remail').value = $('gi-msg').value = '';
+    findCard(d.card.code);
+    loadGiftList();
+  }).catch(function(err){ flash(err.message, 'err'); });
+});
+
+function loadGiftList(){
+  api('/api/admin/giftcards').then(function(d){
+    var cards = d.cards || [];
+    $('gc-count').textContent = cards.length ? cards.length + ' issued' : '';
+    if (!cards.length){ $('gc-list').innerHTML = '<div class="empty">No gift cards yet.</div>'; return; }
+    $('gc-list').innerHTML = '<table><thead><tr><th>Code</th><th>Balance</th><th>Issued</th><th>For</th><th>Status</th></tr></thead><tbody>' +
+      cards.map(function(c){
+        return '<tr><td><button class="btn o sm" data-code="' + esc(c.code) + '">' + esc(c.code) + '</button></td>' +
+          '<td class="tnum">' + money(c.balance_cents) + '</td>' +
+          '<td class="tnum muted">' + money(c.initial_cents) + '</td>' +
+          '<td>' + esc(c.recipient_name || '—') + '</td>' +
+          '<td><span class="pill ' + (c.status==='active'?'ok':(c.status==='void'?'bad':'info')) + '">' + esc(c.status) + '</span></td></tr>';
+      }).join('') + '</tbody></table>';
+    Array.prototype.forEach.call($('gc-list').querySelectorAll('[data-code]'), function(b){
+      b.addEventListener('click', function(){
+        findCard(b.dataset.code);
+        window.scrollTo({top:0, behavior:'smooth'});
+      });
+    });
+  }).catch(function(e){ flash(e.message, 'err'); });
+}
+
+// ---------------------------------------------------------------- waivers
+function loadWaivers(){
+  api('/api/admin/waivers').then(function(d){
+    $('waiver-csv').href = '/api/admin/waivers-csv?from=' + d.from + '&to=' + d.to;
+    var miss = d.missing || [];
+    $('waiver-dot').hidden = miss.length === 0;
+    $('waiver-dot').textContent = miss.length;
+    $('waiver-missing').innerHTML = miss.length
+      ? '<div class="note err"><b>' + miss.length + ' booking' + (miss.length>1?'s':'') +
+        ' with no waiver on file:</b> ' + miss.map(function(m){
+          return esc(m.ref) + ' (' + esc(shortDate(m.local_date)) + ')';
+        }).join(', ') + '</div>'
+      : '';
+
+    var w = d.waivers || [];
+    $('waiver-sub').textContent = w.length ? w.length + ' on file' : '';
+    if (!w.length){ $('waiver-list').innerHTML = '<div class="empty">No signed waivers yet.</div>'; return; }
+    $('waiver-list').innerHTML = '<table><thead><tr><th>Lesson</th><th>Participants</th><th>Signed by</th><th>Valid until</th><th></th></tr></thead><tbody>' +
+      w.map(function(x){
+        var expired = new Date(x.expires_at) < new Date();
+        return '<tr><td>' + esc(shortDate(x.local_date)) + ' ' + esc(x.local_time) +
+            '<div class="muted small">' + esc(x.ref) + '</div></td>' +
+          '<td>' + esc(x.participant_names) + '</td>' +
+          '<td>' + esc(x.signed_by_name) + '<div class="muted small">' +
+            (x.signer_role === 'guardian' ? 'guardian' : '18 or older') + '</div></td>' +
+          '<td>' + (expired ? '<span class="pill warn">expired</span>' :
+            new Date(x.expires_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})) + '</td>' +
+          '<td><a class="btn o sm" href="/api/admin/waiver-pdf?id=' + x.id + '">PDF</a></td></tr>';
+      }).join('') + '</tbody></table>';
+  }).catch(function(e){ flash(e.message, 'err'); });
+}
+
+// ---------------------------------------------------------------- settings
+function renderSettings(){
+  var s = state.settings;
+  if (!s) return;
+  $('cal-card').innerHTML = s.calendarConfigured
+    ? '<p class="small muted" style="margin-top:0">Add this address to Apple Calendar or Google Calendar as a subscribed calendar. ' +
+      'Bookings appear within about fifteen minutes, and anything cancelled drops off on its own.</p>' +
+      '<div class="fld"><span>Calendar address</span>' +
+        '<input id="cal-url" readonly value="' + esc(s.calendarUrl) + '"></div>' +
+      '<div class="acts"><button class="btn sm" id="cal-copy">Copy address</button>' +
+      '<a class="btn o sm" href="' + esc(s.calendarUrl) + '">Download once</a></div>' +
+      '<p class="small muted">Treat it like a password — anyone with the address can read the booking list.</p>'
+    : '<div class="note err" style="margin-bottom:0">No calendar token is set. Add <code>CALENDAR_TOKEN</code> ' +
+      'to the environment variables and redeploy, and the address will appear here.</div>';
+  var c = $('cal-copy');
+  if (c) c.addEventListener('click', function(){
+    var i = $('cal-url'); i.select();
+    navigator.clipboard.writeText(i.value).then(function(){ flash('Address copied.'); },
+      function(){ flash('Select it and copy by hand.', 'err'); });
+  });
+
+  var sc = s.schedule;
+  var DAY = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  $('sched-card').innerHTML =
+    '<table><tbody>' +
+    '<tr><td class="tiny">Lesson length</td><td>' + sc.durationMin + ' minutes</td></tr>' +
+    '<tr><td class="tiny">All year</td><td>' + sc.timesAllYear.join(' · ') + '</td></tr>' +
+    '<tr><td class="tiny">April–September</td><td>also ' + sc.timesInSeason.join(' · ') + '</td></tr>' +
+    '<tr><td class="tiny">Closed</td><td>' + sc.daysOff.map(function(d){ return DAY[d]; }).join(', ') + '</td></tr>' +
+    '<tr><td class="tiny">Booking cutoff</td><td>' + sc.leadTimeHours + ' hours before the lesson</td></tr>' +
+    '<tr><td class="tiny">Books ahead</td><td>' + sc.horizonDays + ' days</td></tr>' +
+    '</tbody></table>' +
+    '<p class="small muted">Slots sit two hours apart, so a ' + sc.durationMin +
+    '-minute lesson leaves you thirty minutes to turn the gear around. ' +
+    'Changing any of this is a one-line edit in <code>lib/availability.js</code>.</p>';
+}
+
+// ---------------------------------------------------------------- boot
+function boot(){
+  Promise.all([
+    api('/api/admin/settings'),
+    (function(){
+      var t = new Date();
+      var from = ymd(t);
+      var e = new Date(t); e.setDate(e.getDate() + 7);
+      return api('/api/admin/bookings?from=' + from + '&to=' + ymd(e));
+    })(),
+  ]).then(function(r){
+    state.settings = r[0];
+    state.week = r[1];
+    showApp();
+    renderToday();
+    renderSettings();
+    loadWaivers();
+  }).catch(function(err){
+    if (err.message !== 'signed out') flash(err.message, 'err');
+  });
+}
+
+// A 401 on the first call drops us at the password box.
+api('/api/admin/settings').then(function(){ showApp(); boot(); }).catch(function(){ showLogin(); });
+})();
+</script>
+</body>
+</html>

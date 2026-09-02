@@ -1,0 +1,27 @@
+// The release of liability, verbatim from the signed source document
+// ("Corrected final Laguna_Surf_Lessons_Waiver_With_New_Logo"). Version it, so
+// a waiver signed in 2026 can always be reprinted with the text that was
+// actually on screen.
+
+export const WAIVER_VERSION = '2026-08';
+
+export const WAIVER_TITLE = 'LAGUNA SURF LESSONS — RELEASE OF LIABILITY';
+
+export const WAIVER_INTRO =
+  'I am the participant or the parent/legal guardian of a minor participant (where applicable), ' +
+  'hereby agree to the following terms and conditions:';
+
+export const WAIVER_CLAUSES = [
+  '1. I accept and agree that this release of liability, voluntary assumption of risk, indemnification and waiver of claim (hereinafter, the "Release") shall be binding on me and/or the minor participant, and my or the minor participant’s heirs, representatives, endeavors, next of kin, beneficiaries, administrators, successors and assigns.',
+  '2. I, on behalf of myself or on behalf of the minor participant do agree that Laguna Surf Lessons, its owners, agents, employees, independent contractors, and sponsors along with the City of Laguna Beach, City of Dana Point, and the City of San Clemente, and their elected officials, officers, agents, employees and volunteers (hereinafter, the "Released Parties") shall not be liable for any damages arising from personal injuries (including death), damage to or loss of property or other harm, whether foreseen or unforeseen, present or future, known or unknown that I or the minor participant may sustain in any way which directly or indirectly results from or arises out of my or minor participant’s participation in surf lessons/instructions conducted by Laguna Surf Lessons or any of the Released Parties.',
+  '3. I am aware that surfing involves many inherent risks, dangers and hazards, including but not limited to the use and operation of surfboards, impact of collision with surfboards of any thereof including the fins and other attachments; skin irritations or abrasions caused by the use of wetsuits; ear infections caused by the water; impact to the beachhead, or as the case may be, the ocean floor; severe weather conditions; my ability to swim in dangerous ocean conditions, as the case may be; extreme water and air temperatures; the prevailing condition of the surf; undertow and tide; the possible existence of dangerous rocks, reefs, driftwood, logs, floating objects, sea mammals and other hazards and obstructions, whether marked or unmarked in the area chosen to conduct surf camps; impact of collision with swimmers or other surfers or their surfboards, whether or not caused by negligence of such swimmers or surfer; dangers involved in travelling to the surfing area including possible transportation provided by Laguna Surf Lessons (collectively referred to as the "Surfing Activities"). I freely accept and fully assume all such risks, dangers, and hazards.',
+  '4. Despite my understanding of the foregoing risks, I, individually and as the parent or legal guardian of the minor participant, AGREE NOT TO SUE AND TO RELEASE FROM LIABILITY AND TO DEFEND, INDEMNIFY AND HOLD HARMLESS THE RELEASED PARTIES for any damage or injury arising out of mine or the minor child’s participation in the Surfing Activities regardless of the cause, including NEGLIGENCE.',
+  '5. I, on my own behalf and/or on behalf of the minor participant, further agree to and do hereby expressly, knowingly and voluntarily assume any and all risks involved in the Surfing Activities and/or loss of my or the minor participant’s property, real or personal, caused by or arising out of my or the minor participant’s involvement in the Surfing Activities. I hereby represent and certify that I am or the minor participant is in good health and has no mental or physical condition that would prevent my or the minor participant’s participation in the Surfing Activities.',
+  '6. I, on my own behalf and/or on behalf of the minor participant, understand that THIS RELEASE INCLUDES ANY CLAIMS BASED IN WHOLE OR IN PART ON THE NEGLIGENCE, ACTION OR INACTION OF ANY OF THE RELEASED PARTIES AND HEREBY RELEASE, WAIVE AND FULLY DISCHARGE THE RELEASED PARTIES FROM ANY AND ALL LIABILITY FOR ANY CLAIMS, EVEN IF CAUSED IN WHOLE OR IN PART BY THE PRESENT OR FUTURE NEGLIGENCE, FAULT, STRICT PRODUCT LIABILITY, BREACH OF CONTRACT OR OTHER ACT, CONDUCT OR STATUS OF ANY OF THE RELEASED PARTIES.',
+];
+
+export const WAIVER_CLOSING = [
+  'BY SIGNING THIS RELEASE, I ON BEHALF OF MYSELF OR ON THE BEHALF OF THE MINOR PARTICIPANT UNDERSTAND THAT I HAVE WAIVED MY (OR THE MINOR PARTICIPANT’S) RIGHT TO SUE THE RELEASED PARTIES FOR ANY INJURY RESULTING FROM SURF INSTRUCTIONS OR THE SURF ACTIVITIES DISCUSSED HEREIN.',
+  'I have read and understand this Release and Indemnity Agreement prior to signing it and am aware that by signing this document, I am affecting the legal rights and liabilities of myself, my heirs, next of kin, executors, administrators and assigns in relation to the aforementioned activities. This Release Form is valid for 1 year of all Laguna Surf Lessons activities from the date signed below.',
+  'This Release must be signed (or confirmed digitally) by the participant or participant’s legal guardian and received by Laguna Surf Lessons before participation is permitted. No refunds will be given for non-participation due to failure to submit this Release.',
+];
