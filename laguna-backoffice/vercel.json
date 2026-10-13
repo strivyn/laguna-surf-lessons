@@ -1,21 +1,119 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/admin", "destination": "/admin.html" }
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    }
   ],
   "headers": [
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "no-store" }
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
       ]
     },
     {
       "source": "/admin.html",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
-        { "key": "Cache-Control", "value": "no-store" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
       ]
+    },
+    {
+      "source": "/(img|fonts)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(og.jpg|favicon.png|apple-touch-icon.png)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    },
+    {
+      "source": "/llms.txt",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "laguna-surf-lessons.vercel.app"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/admin",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/((?!api/|admin).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "laguna.demetyr.com"
+        }
+      ],
+      "destination": "https://surfinglagunabeach.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/((?!api/|admin).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "laguna-surf-lessons.vercel.app"
+        }
+      ],
+      "destination": "https://surfinglagunabeach.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/((?!api/|admin).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.surfinglagunabeach.com"
+        }
+      ],
+      "destination": "https://surfinglagunabeach.com/$1",
+      "permanent": true
     }
   ]
 }
