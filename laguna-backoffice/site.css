@@ -1,7 +1,7 @@
 @font-face{font-family:'ArchivoBlk';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/1383ec16f0.woff2) format('woff2')}@font-face{font-family:'LSInter';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/05eb14d95f.woff2) format('woff2')}@font-face{font-family:'LSInter';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/c98d6c393b.woff2) format('woff2')}@font-face{font-family:'LSInter';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/34e441dea2.woff2) format('woff2')}@font-face{font-family:'LSInter';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/bb8537c2ef.woff2) format('woff2')}@font-face{font-family:'ArchivoNar';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/f9f7268c92.woff2) format('woff2')}@font-face{font-family:'ArchivoNar';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/702301bf56.woff2) format('woff2')}
 *,*::before,*::after{box-sizing:border-box}
 :root{
-  --paper:#FFFFFF; --ink:#14191D; --ink2:#57646E; --mute:#8E9AA4;
+  --paper:#FFFFFF; --ink:#14191D; --ink2:#57646E; --mute:#5F6B75;
   --line:#E9EBED; --line2:#D9DDE1;
   --rust:#BF3915; --ember:#F0592B; --ember-ink:#C7431E; --sun:#F5C518; --lagoon:#0FA8AE;
   --f-dis:'ArchivoBlk',Impact,'Arial Black',sans-serif;
@@ -514,6 +514,43 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
   color:#E9EEF0; font-size:clamp(.98rem,1.25vw,1.12rem); line-height:1.64; text-shadow:0 1px 14px rgba(0,0,0,.4)}
 .rot p.on{opacity:1; transform:none}
 @media (prefers-reduced-motion:reduce){.wavy b{animation:none}}
+
+/* ---------- 13 Oct 2026: surf check, FAQ accordion, mobile hero ---------- */
+.rp-spot{display:flex; flex-direction:column; gap:6px}
+.spot-sel{position:relative; margin-top:2px}
+.spot-sel select{appearance:none; -webkit-appearance:none; width:100%; background:transparent; border:0;
+  border-bottom:2px solid var(--sun); border-radius:0; padding:4px 26px 6px 0; color:var(--ink); cursor:pointer;
+  font-family:var(--f-lab); font-weight:700; font-size:1.06rem; letter-spacing:.04em; text-transform:uppercase}
+.spot-sel::after{content:""; position:absolute; right:4px; top:42%; width:8px; height:8px;
+  border-right:2px solid var(--ink); border-bottom:2px solid var(--ink); transform:translateY(-50%) rotate(45deg); pointer-events:none}
+.spot-sel select:focus-visible{outline:2px solid var(--rust); outline-offset:3px}
+.rp-sl{font-size:.82rem; font-weight:600; color:var(--ink2); text-decoration:none}
+.rp-sl:hover{color:var(--rust); text-decoration:underline; text-underline-offset:3px}
+.report .rp b{text-transform:none}
+@media (max-width:900px){
+  .report .wrap{grid-template-columns:1fr 1fr}
+  .report .rp.rp-spot{grid-column:1/-1; border-right:0; padding-left:0}
+  .report .rp:last-child{grid-column:auto}
+}
+.time-help{margin:14px 0 0; font-size:.95rem; color:var(--ink2)}
+.time-help a{color:var(--ember-ink); font-weight:600}
+.troy-sig{margin:16px 0 0; font-family:var(--f-lab); font-weight:700; letter-spacing:.14em; text-transform:uppercase; font-size:.8rem; color:var(--ink2)}
+#troy .lead a{color:var(--ember-ink); font-weight:600}
+details.qa{padding:0; border-bottom:1px solid var(--line)}
+details.qa summary{list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:20px 0}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::after{content:"+"; font:600 1.4rem/1 var(--f-body); color:var(--rust); flex:0 0 auto; transition:transform .25s}
+details.qa[open] summary::after{transform:rotate(45deg)}
+details.qa summary:focus-visible{outline:2px solid var(--rust); outline-offset:3px}
+details.qa p{margin:0 0 22px}
+@media (max-width:700px){
+  .cine{height:auto; min-height:0; display:flex; flex-direction:column; background:#0B2227}
+  .cine picture{display:block; position:relative; height:min(56svh,470px); flex:0 0 auto; overflow:hidden}
+  .cine picture img{position:absolute; inset:0; object-position:62% 16%}
+  .cine-scrim{inset:auto 0 auto 0; top:0; height:min(56svh,470px);
+    background:linear-gradient(to top, #0B2227 0%, rgba(11,34,39,0) 34%)}
+  .cine-in{position:relative; inset:auto; margin-top:-48px; padding:0 20px 30px}
+}
 
 /* ---------- service pages ---------- */
 .sp-hero{padding:132px 0 56px}

@@ -2,13 +2,14 @@
 //
 // Order matters here. The slot is claimed before anything else is written, and
 // the price is recomputed from the lesson key rather than trusted from the
-// client. A client sending totalCents: 1 still owes $160.
+// client. A client sending totalCents: 1 still owes $170.
 
 import crypto from 'node:crypto';
 import { sql } from '../lib/db.js';
 import { claimSlot, releaseSlot, priceBooking, SCHEDULE } from '../lib/availability.js';
 import { redeem } from '../lib/giftcards.js';
 import { readBody, methodGuard, clientIp, bookingRef } from '../lib/http.js';
+import { sendConfirmation } from '../lib/email.js';
 
 const WAIVER_VERSION = '2026-08';
 
@@ -137,8 +138,30 @@ export default async function handler(req, res) {
       VALUES ('customer', 'booking.created', ${ref},
               ${JSON.stringify({ sessionId: Number(slot.id), owed, appliedGift })})`;
 
+    // ---- confirmation email. Never decides the booking: it is already made.
+    let emailed = false;
+    try {
+      const sent = await sendConfirmation(String(email).trim(), {
+        ref,
+        lesson: priced.lesson.name,
+        startsAt: slot.starts_at,
+        names: people.map(p => p.name),
+        addons: priced.addons,
+        giftCents: appliedGift,
+        totalCents: owed,
+      });
+      emailed = sent.ok;
+      await sql`
+        INSERT INTO audit_log (actor, action, subject, detail)
+        VALUES ('system', ${sent.ok ? 'email.sent' : 'email.failed'}, ${ref},
+                ${JSON.stringify(sent)})`;
+    } catch (err) {
+      console.error('confirmation email failed', err);
+    }
+
     res.status(201).json({
       ref,
+      emailed,
       cancelToken,
       when: { date: slot.local_date, time: slot.local_time, startsAt: slot.starts_at },
       durationMin: SCHEDULE.durationMin,
@@ -148,7 +171,7 @@ export default async function handler(req, res) {
       addonsCents: priced.addonsCents,
       giftCents: appliedGift,
       totalCents: owed,
-      meetingPoint: 'Bottom of the Thalia Street stairs',
+      meetingPoint: 'Troy texts you the spot before your lesson',
     });
   } catch (err) {
     console.error('booking failed after claim', err);

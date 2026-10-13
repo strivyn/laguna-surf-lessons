@@ -37,10 +37,10 @@ export async function issue({
       const rows = await sql`
         INSERT INTO gift_cards
           (code, initial_cents, balance_cents, purchaser_name, purchaser_email,
-           recipient_name, recipient_email, message, send_on)
+           recipient_name, recipient_email, message, send_on, status)
         VALUES (${code}, ${cents}, ${cents}, ${purchaserName || null}, ${purchaserEmail || null},
                 ${recipientName || null}, ${recipientEmail || null}, ${message || null},
-                ${sendOn || null})
+                ${sendOn || null}, ${actor === 'customer' ? 'unpaid' : 'active'})
         RETURNING *`;
       await sql`
         INSERT INTO gift_card_ledger (code, delta_cents, reason, actor)
@@ -83,6 +83,10 @@ export async function redeem({ code, requestCents, bookingId = null, reason = 'r
   }
   if (card.status === 'void') {
     const err = new Error('gift card is void'); err.code = 'VOID'; throw err;
+  }
+  // Bought on the site but not paid for yet: worth nothing until Troy marks it paid.
+  if (card.status === 'unpaid') {
+    const err = new Error('gift card has not been paid for'); err.code = 'UNPAID'; throw err;
   }
   if (card.balance_cents <= 0) {
     const err = new Error('gift card has no balance left'); err.code = 'EMPTY'; throw err;
@@ -132,7 +136,7 @@ export async function refund({ code, cents, bookingId = null, reason = 'booking 
 }
 
 export async function setStatus(code, status, actor = 'troy') {
-  if (!['active', 'void', 'spent'].includes(status)) throw new Error('bad status');
+  if (!['active', 'void', 'spent', 'unpaid'].includes(status)) throw new Error('bad status');
   const rows = await sql`
     UPDATE gift_cards SET status = ${status} WHERE code = ${code} RETURNING *`;
   if (rows.length) {

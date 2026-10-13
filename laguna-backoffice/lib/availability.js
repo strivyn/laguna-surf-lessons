@@ -14,20 +14,20 @@ export const TZ = 'America/Los_Angeles';
 
 export const SCHEDULE = {
   durationMin: 90,
-  // Every two hours, so a ninety-minute lesson leaves thirty minutes to turn
-  // the gear around.
-  timesAllYear: ['7:00 AM', '9:00 AM', '11:00 AM'],
-  timesInSeason: ['1:00 PM', '3:00 PM'],
-  seasonMonths: [4, 5, 6, 7, 8, 9],   // April–September, 1-indexed
-  daysOff: [2],                        // Tuesday (0 = Sunday)
-  leadTimeHours: 12,
+  // Troy teaches 6 AM to 5 PM. Starts sit two hours apart so the gear can be
+  // turned around, and the last lesson starts at 3:30 so it ends by 5:00.
+  timesAllYear: ['6:00 AM', '8:00 AM', '10:00 AM', '12:00 PM', '2:00 PM', '3:30 PM'],
+  timesInSeason: [],
+  seasonMonths: [],
+  daysOff: [1],                        // Monday (0 = Sunday)
+  leadTimeHours: 24,
   horizonDays: 120,
 };
 
 export const LESSONS = {
-  private:  { name: 'Private lesson',    cents: 16000, perPerson: false, min: 1, max: 1 },
+  private:  { name: 'Private lesson',    cents: 17000, perPerson: false, min: 1, max: 1 },
   pgroup:   { name: 'Private group',     cents: 13000, perPerson: true,  min: 2, max: 5 },
-  advanced: { name: 'Advanced coaching', cents: 16000, perPerson: false, min: 1, max: 1 },
+  advanced: { name: 'Advanced coaching', cents: 18000, perPerson: false, min: 1, max: 1 },
 };
 
 export const ADDONS = {
@@ -143,9 +143,14 @@ export async function availability(fromDate, toDate, now = new Date()) {
 
   const cutoff = new Date(now.getTime() + SCHEDULE.leadTimeHours * 3600 * 1000);
   const byDate = new Map();
+  const scheduled = new Map();
   for (const r of rows) {
     const starts = new Date(r.starts_at);
     if (starts < cutoff) continue;
+    // Rows made under an older schedule stay in the table (bookings point at
+    // them). Only show them if somebody is actually booked into one.
+    if (!scheduled.has(r.local_date)) scheduled.set(r.local_date, new Set(timesFor(r.local_date)));
+    if (!scheduled.get(r.local_date).has(r.local_time) && r.booked_count === 0) continue;
     const open = r.status === 'open' && r.booked_count < r.capacity;
     if (!byDate.has(r.local_date)) byDate.set(r.local_date, []);
     byDate.get(r.local_date).push({

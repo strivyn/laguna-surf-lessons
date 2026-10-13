@@ -54,7 +54,7 @@ export default async function handler(req, res) {
       return res.status(200).json(out);
     }
 
-    if (b.action === 'void' || b.action === 'unvoid') {
+    if (b.action === 'void' || b.action === 'unvoid' || b.action === 'markpaid') {
       const card = await setStatus(b.code, b.action === 'void' ? 'void' : 'active');
       if (!card) return res.status(404).json({ error: 'no such gift card' });
       return res.status(200).json({ card });
@@ -62,6 +62,7 @@ export default async function handler(req, res) {
   } catch (err) {
     if (err.code === 'NOT_FOUND') return res.status(404).json({ error: 'no such gift card' });
     if (err.code === 'VOID')      return res.status(409).json({ error: 'that card is void' });
+    if (err.code === 'UNPAID')    return res.status(409).json({ error: 'that card has not been paid for yet. Mark it paid first.' });
     if (err.code === 'EMPTY')     return res.status(409).json({ error: 'that card has nothing left on it' });
     if (err.code === 'RACED')     return res.status(409).json({ error: 'the balance just changed — look it up again' });
     if (err.code === 'AMOUNT_RANGE') return res.status(400).json({ error: 'amount out of range' });

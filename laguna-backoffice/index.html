@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Surf Lessons in Laguna Beach, CA | Laguna Surf Lessons with Troy MacDonald</title>
-<meta name="description" content="Private surf lessons in Laguna Beach at Thalia Street with Troy MacDonald, a Laguna local with 20+ years teaching. $160 private, $130 per person for groups. Board and wetsuit included. Book online.">
+<meta name="description" content="Private surf lessons in Laguna Beach and South Orange County with Troy MacDonald, a Laguna local with 20+ years teaching. $170 private, $130 per person for groups. Board and wetsuit included. Book online.">
 <link rel="canonical" href="https://surfinglagunabeach.com/">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#3E3330">
@@ -14,7 +14,7 @@
 <link rel="preload" as="font" type="font/woff2" href="/fonts/1383ec16f0.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/fonts/05eb14d95f.woff2" crossorigin>
 <meta property="og:title" content="Laguna Surf Lessons — Learn to surf where the locals learned">
-<meta property="og:description" content="Surf lessons at Thalia Street, Laguna Beach with Troy MacDonald. Book online — board and wetsuit included.">
+<meta property="og:description" content="Surf lessons in Laguna Beach with Troy MacDonald. Book online — board and wetsuit included.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://surfinglagunabeach.com/">
 <meta property="og:site_name" content="Laguna Surf Lessons">
@@ -30,7 +30,7 @@
 <style>@font-face{font-family:'ArchivoBlk';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/1383ec16f0.woff2) format('woff2')}@font-face{font-family:'LSInter';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/05eb14d95f.woff2) format('woff2')}@font-face{font-family:'LSInter';font-style:normal;font-weight:500;font-display:swap;src:url(/fonts/c98d6c393b.woff2) format('woff2')}@font-face{font-family:'LSInter';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/34e441dea2.woff2) format('woff2')}@font-face{font-family:'LSInter';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/bb8537c2ef.woff2) format('woff2')}@font-face{font-family:'ArchivoNar';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/f9f7268c92.woff2) format('woff2')}@font-face{font-family:'ArchivoNar';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/702301bf56.woff2) format('woff2')}
 *,*::before,*::after{box-sizing:border-box}
 :root{
-  --paper:#FFFFFF; --ink:#14191D; --ink2:#57646E; --mute:#8E9AA4;
+  --paper:#FFFFFF; --ink:#14191D; --ink2:#57646E; --mute:#5F6B75;
   --line:#E9EBED; --line2:#D9DDE1;
   --rust:#BF3915; --ember:#F0592B; --ember-ink:#C7431E; --sun:#F5C518; --lagoon:#0FA8AE;
   --f-dis:'ArchivoBlk',Impact,'Arial Black',sans-serif;
@@ -245,7 +245,7 @@ section{padding:clamp(60px,8.5vw,120px) 0}
 .cred div{padding-right:26px; margin-right:26px; border-right:1px solid var(--line)}
 .cred div:last-child{border-right:0; margin-right:0; padding-right:0}
 .cred b{display:block; font-weight:600; font-size:.98rem}
-.cred span{font-family:var(--f-lab); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:.64rem; color:var(--mute)}
+.cred > div > span{font-family:var(--f-lab); font-weight:600; text-transform:uppercase; letter-spacing:.14em; font-size:.74rem; color:var(--mute)}
 .pframe{position:relative; border-radius:18px; overflow:hidden; height:clamp(420px,52vw,600px)}
 .pframe svg{position:absolute; inset:0; width:100%; height:100%}
 .troy-g figcaption{font-family:var(--f-lab); font-weight:600; text-transform:uppercase; letter-spacing:.18em; font-size:.68rem; color:var(--mute); margin-top:12px}
@@ -428,7 +428,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
 .paydemo{border:1.5px dashed var(--line2); border-radius:14px; padding:16px; background:#FFF}
 .demo-tag{margin:0 0 12px; font-family:var(--f-lab); font-weight:700; text-transform:uppercase; letter-spacing:.14em;
   font-size:.62rem; color:var(--rust)}
-.pay-ghost{opacity:.55; pointer-events:none; display:flex; flex-direction:column; gap:10px}
+.pay-ghost{opacity:1; pointer-events:none; display:flex; flex-direction:column; gap:10px}
 .pg-row{display:flex; gap:10px}
 .pg-pill{flex:1; text-align:center; padding:11px 0; border-radius:9px; border:1.5px solid var(--line2);
   font-weight:600; font-size:.95rem; background:#FFF}
@@ -543,6 +543,43 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
   color:#E9EEF0; font-size:clamp(.98rem,1.25vw,1.12rem); line-height:1.64; text-shadow:0 1px 14px rgba(0,0,0,.4)}
 .rot p.on{opacity:1; transform:none}
 @media (prefers-reduced-motion:reduce){.wavy b{animation:none}}
+
+/* ---------- 13 Oct 2026: surf check, FAQ accordion, mobile hero ---------- */
+.rp-spot{display:flex; flex-direction:column; gap:6px}
+.spot-sel{position:relative; margin-top:2px}
+.spot-sel select{appearance:none; -webkit-appearance:none; width:100%; background:transparent; border:0;
+  border-bottom:2px solid var(--sun); border-radius:0; padding:4px 26px 6px 0; color:var(--ink); cursor:pointer;
+  font-family:var(--f-lab); font-weight:700; font-size:1.06rem; letter-spacing:.04em; text-transform:uppercase}
+.spot-sel::after{content:""; position:absolute; right:4px; top:42%; width:8px; height:8px;
+  border-right:2px solid var(--ink); border-bottom:2px solid var(--ink); transform:translateY(-50%) rotate(45deg); pointer-events:none}
+.spot-sel select:focus-visible{outline:2px solid var(--rust); outline-offset:3px}
+.rp-sl{font-size:.82rem; font-weight:600; color:var(--ink2); text-decoration:none}
+.rp-sl:hover{color:var(--rust); text-decoration:underline; text-underline-offset:3px}
+.report .rp b{text-transform:none}
+@media (max-width:900px){
+  .report .wrap{grid-template-columns:1fr 1fr}
+  .report .rp.rp-spot{grid-column:1/-1; border-right:0; padding-left:0}
+  .report .rp:last-child{grid-column:auto}
+}
+.time-help{margin:14px 0 0; font-size:.95rem; color:var(--ink2)}
+.time-help a{color:var(--ember-ink); font-weight:600}
+.troy-sig{margin:16px 0 0; font-family:var(--f-lab); font-weight:700; letter-spacing:.14em; text-transform:uppercase; font-size:.8rem; color:var(--ink2)}
+#troy .lead a{color:var(--ember-ink); font-weight:600}
+details.qa{padding:0; border-bottom:1px solid var(--line)}
+details.qa summary{list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:18px; padding:20px 0}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::after{content:"+"; font:600 1.4rem/1 var(--f-body); color:var(--rust); flex:0 0 auto; transition:transform .25s}
+details.qa[open] summary::after{transform:rotate(45deg)}
+details.qa summary:focus-visible{outline:2px solid var(--rust); outline-offset:3px}
+details.qa p{margin:0 0 22px}
+@media (max-width:700px){
+  .cine{height:auto; min-height:0; display:flex; flex-direction:column; background:#0B2227}
+  .cine picture{display:block; position:relative; height:min(56svh,470px); flex:0 0 auto; overflow:hidden}
+  .cine picture img{position:absolute; inset:0; object-position:62% 16%}
+  .cine-scrim{inset:auto 0 auto 0; top:0; height:min(56svh,470px);
+    background:linear-gradient(to top, #0B2227 0%, rgba(11,34,39,0) 34%)}
+  .cine-in{position:relative; inset:auto; margin-top:-48px; padding:0 20px 30px}
+}
 </style>
 <script type="application/ld+json">{
  "@context": "https://schema.org",
@@ -563,10 +600,10 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
    ],
    "@id": "https://surfinglagunabeach.com/#business",
    "name": "Laguna Surf Lessons",
-   "description": "Private surf lessons and private group lessons at Thalia Street beach in Laguna Beach, California, taught by Troy MacDonald, a Laguna Beach local with over 20 years of surf instruction. Board, wetsuit and leash included.",
+   "description": "Private surf lessons and private group lessons in Laguna Beach and South Orange County, taught by Troy MacDonald, a Laguna Beach native with over 20 years of surf instruction. Board, wetsuit and leash included.",
    "url": "https://surfinglagunabeach.com/",
    "telephone": "+1-949-280-5818",
-   "priceRange": "$130-$160",
+   "priceRange": "$130-$180",
    "currenciesAccepted": "USD",
    "image": [
     "https://surfinglagunabeach.com/og.jpg",
@@ -594,11 +631,15 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
     },
     {
      "@type": "City",
-     "name": "Newport Beach"
+     "name": "Dana Point"
     },
     {
      "@type": "City",
-     "name": "Dana Point"
+     "name": "San Clemente"
+    },
+    {
+     "@type": "City",
+     "name": "Newport Beach"
     },
     {
      "@type": "AdministrativeArea",
@@ -615,32 +656,15 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
     {
      "@type": "OpeningHoursSpecification",
      "dayOfWeek": [
-      "Monday",
+      "Tuesday",
       "Wednesday",
       "Thursday",
       "Friday",
       "Saturday",
       "Sunday"
      ],
-     "opens": "07:00",
-     "closes": "16:30",
-     "validFrom": "2026-04-01",
-     "validThrough": "2026-09-30"
-    },
-    {
-     "@type": "OpeningHoursSpecification",
-     "dayOfWeek": [
-      "Monday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
-     ],
-     "opens": "07:00",
-     "closes": "12:30",
-     "validFrom": "2026-10-01",
-     "validThrough": "2027-03-31"
+     "opens": "06:00",
+     "closes": "17:00"
     }
    ],
    "aggregateRating": {
@@ -664,7 +688,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
     {
      "@type": "Offer",
      "name": "Private surf lesson (90 minutes)",
-     "price": "160",
+     "price": "170",
      "priceCurrency": "USD",
      "url": "https://surfinglagunabeach.com/#book",
      "itemOffered": {
@@ -700,7 +724,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
     {
      "@type": "Offer",
      "name": "Advanced surf coaching (90 minutes)",
-     "price": "160",
+     "price": "180",
      "priceCurrency": "USD",
      "url": "https://surfinglagunabeach.com/#book",
      "itemOffered": {
@@ -737,7 +761,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
    "worksFor": {
     "@id": "https://surfinglagunabeach.com/#business"
    },
-   "description": "Laguna Beach native who has taught surfing at Thalia Street for over 20 years.",
+   "description": "Laguna Beach local born into a surf family, competitive surfer and surf instructor for over 20 years. Free diver and underwater photographer.",
    "homeLocation": {
     "@type": "City",
     "name": "Laguna Beach"
@@ -758,7 +782,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
    "about": {
     "@id": "https://surfinglagunabeach.com/#business"
    },
-   "dateModified": "2026-10-12",
+   "dateModified": "2026-10-13",
    "inLanguage": "en-US",
    "primaryImageOfPage": "https://surfinglagunabeach.com/og.jpg"
   },
@@ -768,34 +792,50 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
    "mainEntity": [
     {
      "@type": "Question",
-     "name": "How much are surf lessons in Laguna Beach?",
+     "name": "How much are surf lessons?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "With Laguna Surf Lessons, a 90-minute private lesson with Troy is $160, a private group (2 to 5 people) is $130 per person, and advanced coaching is $160. The board, wetsuit and leash are included."
+      "text": "A private one-on-one lesson is $170. A private group lesson is $130 per person for 2 to 5 people. Advanced coaching is $180. Every lesson is 90 minutes and includes a premium surfboard, wetsuit and leash. For coaching packages, birthday parties or corporate and team events, text Troy."
      }
     },
     {
      "@type": "Question",
-     "name": "Do I need to know how to swim?",
+     "name": "When can I book a lesson?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Yes. You should be comfortable in water over your head. You do not need to be a strong swimmer. Lessons run in waist-to-chest-deep water and Troy is next to you the whole time."
+      "text": "Lessons run every day except Monday, 6 AM to 5 PM, conditions permitting. Lessons start at 6:00, 8:00 and 10:00 AM, 12:00, 2:00 and 3:30 PM. Book at least 24 hours ahead. Don't see a time that works? Text Troy at 949-280-5818."
      }
     },
     {
      "@type": "Question",
-     "name": "What do I need to bring?",
+     "name": "I've never been surfing. Is that a problem?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "A towel, sunscreen and a swimsuit or board shorts to wear under the wetsuit. The board, wetsuit and leash are included."
+      "text": "Sharing the joy of surfing with a first-time surfer is one of our favorite things to do! We are with you every step of the way, creating a fun, positive and memorable surfing experience."
      }
     },
     {
      "@type": "Question",
-     "name": "How old do you have to be?",
+     "name": "Is surfing still an option for me, despite my age?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Five and up for a private lesson and seven and up for a private group. There is no upper age limit; adults in their seventies are welcome."
+      "text": "We welcome students of all ages! Our private one-on-one lessons are great for kids as young as 5 to adults in their 70s. Private group lessons are perfect for ages 7 and up, provided they are competent swimmers."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What if I'm not a strong swimmer or I'm afraid of the ocean?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Surf lessons are still an option. We love helping people overcome a fear of the ocean. Our goal is for you to feel safe, have fun and turn that fear into a love for the ocean."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What happens in my first lesson?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Before hitting the water, we start with land demonstrations on reading waves and ocean conditions, standing up, board handling, ocean safety and surf etiquette. Then we move to the water and put those skills into practice."
      }
     },
     {
@@ -808,42 +848,106 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
     },
     {
      "@type": "Question",
-     "name": "What times are lessons?",
-     "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Lessons are 90 minutes and start at 7:00, 9:00 and 11:00 AM all year, plus 1:00 and 3:00 PM from April to September. There are no lessons on Tuesdays. Book at least 12 hours ahead."
-     }
-    },
-    {
-     "@type": "Question",
      "name": "Where do we meet?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Thalia Street beach in Laguna Beach. Come down the Thalia Street stairs, turn left, and wait under the building overhang. Arrive 15 minutes early."
+      "text": "Troy picks the spot for each lesson based on the conditions, safety and your ability, and texts you where to meet before your lesson."
      }
     },
     {
      "@type": "Question",
-     "name": "What if the surf is too big or too flat?",
+     "name": "How early should I arrive?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Troy calls it the morning of and moves your lesson at no charge."
+      "text": "Allow time to find parking, especially in summer. We recommend arriving 15 minutes before your lesson."
      }
     },
     {
      "@type": "Question",
-     "name": "Is parking hard?",
+     "name": "What equipment is provided?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Street parking on Thalia and Glenneyre. Come fifteen minutes early on a summer weekend."
+      "text": "Your lesson includes a premium surfboard, wetsuit and leash. Your equipment will be waiting for you at the beach."
      }
     },
     {
      "@type": "Question",
-     "name": "What is the cancellation policy?",
+     "name": "What should I bring?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Full refund with 24 hours' notice, or if Troy cancels for conditions. With less than 24 hours' notice you can reschedule for free if you let Troy know at least 12 hours before."
+      "text": "Bring what you would bring for a day at the beach: a bottle of water, a bathing suit, sunscreen and a towel."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Do I need to sign a waiver?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. You sign it online when you book, and it must be signed before your lesson starts."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What payment methods do you accept?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Credit and debit cards, Apple Pay, Zelle and Venmo. If you'd rather book by text, you can pay with Zelle or Venmo."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How do I tip my instructor?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Tips can be given by Zelle, Venmo or cash."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "When can I get a full refund?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "If you ask for a refund 24 or more hours before your lesson, or if the lesson is cancelled because of conditions, you get a full refund."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What if I need to reschedule?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "You can reschedule free of charge if you let Troy know at least 12 hours before your lesson."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is there somewhere to store my things?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. Pack for a day at the beach. We are not responsible for personal belongings."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Are there restrooms nearby?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "There are no restrooms directly on the beach. You'll need to use a nearby business."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I surf with goggles, a life jacket or floaties?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "We recommend not wearing goggles if you can avoid it. Life jackets and floaties get in the way of paddling, so we don't use them."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I rent a surfboard after my lesson?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "We don't rent boards, but several local shops rent surfboards and wetsuits by the day."
      }
     },
     {
@@ -851,7 +955,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
      "name": "Can I buy a surf lesson as a gift?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Yes. Gift cards are sold online for any amount from $50 to $1,000, delivered by email on the day you choose, and good for any lesson."
+      "text": "Yes. Gift cards come in any amount from $50 to $1,000 and are good for any lesson."
      }
     }
    ]
@@ -868,7 +972,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
       <a href="#lessons">Lessons</a>
       <a href="#gift">Gift cards</a>
       <a href="#reviews">Reviews</a>
-      <a href="#where">The beach</a>
+      <a href="#surf">Surf check</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="hd-r">
@@ -891,7 +995,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
     <div class="cine-scrim" aria-hidden="true"></div>
     <div class="cine-badge" aria-hidden="true"><svg viewBox="-11.60 -11.60 273.20 313.20" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Laguna Surf Lessons"><clipPath id="ct9"><path d="M3.00 261.00 L3.00 125.00 A122.00 122.00 0 0 1 247.00 125.00 L247.00 261.00 A26.00 26.00 0 0 1 221.00 287.00 L29.00 287.00 A26.00 26.00 0 0 1 3.00 261.00 Z"/></clipPath><path d="M3.00 261.00 L3.00 125.00 A122.00 122.00 0 0 1 247.00 125.00 L247.00 261.00 A26.00 26.00 0 0 1 221.00 287.00 L29.00 287.00 A26.00 26.00 0 0 1 3.00 261.00 Z" fill="#FBEFD9"/><g clip-path="url(#ct9)"><g transform="translate(3.00 46.35) scale(0.8714)"><g transform="translate(0 -34.60)"><rect x="-168.00" y="77.44" width="616.00" height="18.28" fill="#F3C244"/><rect x="-168.00" y="95.72" width="616.00" height="18.28" fill="#EE8F2E"/><rect x="-168.00" y="114.00" width="616.00" height="18.28" fill="#DF5B2C"/><rect x="-168.00" y="132.28" width="616.00" height="18.28" fill="#C13B33"/><rect x="-168.00" y="150.56" width="616.00" height="18.28" fill="#2E7C9B"/><circle cx="161.00" cy="106.00" r="71.40" fill="#E9A13B"/><g transform="translate(11.20 91.42) scale(2.5760)"><g transform="translate(-10.0331 -59.4534) scale(0.144517) translate(0 861.0) scale(0.1 -0.1)"><clipPath id="wv7"><path d="M2515 4485 c-642 -79 -1088 -562 -1450 -1570 -20 -55 -38 -107 -40 -115 -2 -8 -9 -28 -14 -45 -15 -40 -79 -250 -92 -300 -6 -22 -17 -58 -24 -80 -7 -22 -23 -78 -35 -125 -12 -47 -28 -107 -36 -135 -8 -27 -24 -88 -35 -135 -11 -47 -22 -92 -24 -100 -14 -51 -63 -250 -70 -282 -5 -23 1 -24 485 -92 164 -23 256 -35 375 -46 61 -6 166 -17 235 -25 301 -34 960 -79 1420 -97 400 -16 1875 -15 2340 0 763 26 1386 66 1970 124 106 11 111 12 70 20 -134 24 -225 39 -310 53 -191 32 -214 36 -221 40 -4 3 -35 9 -70 15 -35 5 -116 20 -179 34 -63 13 -151 31 -195 40 -44 9 -107 23 -140 31 -33 8 -100 24 -150 35 -49 11 -115 27 -145 35 -30 8 -84 22 -120 30 -75 19 -142 36 -222 59 -32 9 -82 22 -110 30 -29 8 -66 19 -83 25 -16 5 -84 26 -150 46 -227 70 -664 225 -800 285 -22 9 -62 25 -90 35 -27 10 -55 22 -60 26 -6 4 -35 17 -65 29 -570 223 -1175 622 -1359 896 -86 128 -121 342 -74 442 117 247 633 290 1050 89 84 -40 87 -39 41 15 -425 511 -1047 784 -1623 713z"/></clipPath><path d="M2515 4485 c-642 -79 -1088 -562 -1450 -1570 -20 -55 -38 -107 -40 -115 -2 -8 -9 -28 -14 -45 -15 -40 -79 -250 -92 -300 -6 -22 -17 -58 -24 -80 -7 -22 -23 -78 -35 -125 -12 -47 -28 -107 -36 -135 -8 -27 -24 -88 -35 -135 -11 -47 -22 -92 -24 -100 -14 -51 -63 -250 -70 -282 -5 -23 1 -24 485 -92 164 -23 256 -35 375 -46 61 -6 166 -17 235 -25 301 -34 960 -79 1420 -97 400 -16 1875 -15 2340 0 763 26 1386 66 1970 124 106 11 111 12 70 20 -134 24 -225 39 -310 53 -191 32 -214 36 -221 40 -4 3 -35 9 -70 15 -35 5 -116 20 -179 34 -63 13 -151 31 -195 40 -44 9 -107 23 -140 31 -33 8 -100 24 -150 35 -49 11 -115 27 -145 35 -30 8 -84 22 -120 30 -75 19 -142 36 -222 59 -32 9 -82 22 -110 30 -29 8 -66 19 -83 25 -16 5 -84 26 -150 46 -227 70 -664 225 -800 285 -22 9 -62 25 -90 35 -27 10 -55 22 -60 26 -6 4 -35 17 -65 29 -570 223 -1175 622 -1359 896 -86 128 -121 342 -74 442 117 247 633 290 1050 89 84 -40 87 -39 41 15 -425 511 -1047 784 -1623 713z" fill="none" stroke="#FBEFD9" stroke-width="300.9" stroke-linejoin="round"/></g></g><g transform="translate(11.20 91.42) scale(2.5760)"><g transform="translate(-10.0331 -59.4534) scale(0.144517) translate(0 861.0) scale(0.1 -0.1)"><clipPath id="wv8"><path d="M2515 4485 c-642 -79 -1088 -562 -1450 -1570 -20 -55 -38 -107 -40 -115 -2 -8 -9 -28 -14 -45 -15 -40 -79 -250 -92 -300 -6 -22 -17 -58 -24 -80 -7 -22 -23 -78 -35 -125 -12 -47 -28 -107 -36 -135 -8 -27 -24 -88 -35 -135 -11 -47 -22 -92 -24 -100 -14 -51 -63 -250 -70 -282 -5 -23 1 -24 485 -92 164 -23 256 -35 375 -46 61 -6 166 -17 235 -25 301 -34 960 -79 1420 -97 400 -16 1875 -15 2340 0 763 26 1386 66 1970 124 106 11 111 12 70 20 -134 24 -225 39 -310 53 -191 32 -214 36 -221 40 -4 3 -35 9 -70 15 -35 5 -116 20 -179 34 -63 13 -151 31 -195 40 -44 9 -107 23 -140 31 -33 8 -100 24 -150 35 -49 11 -115 27 -145 35 -30 8 -84 22 -120 30 -75 19 -142 36 -222 59 -32 9 -82 22 -110 30 -29 8 -66 19 -83 25 -16 5 -84 26 -150 46 -227 70 -664 225 -800 285 -22 9 -62 25 -90 35 -27 10 -55 22 -60 26 -6 4 -35 17 -65 29 -570 223 -1175 622 -1359 896 -86 128 -121 342 -74 442 117 247 633 290 1050 89 84 -40 87 -39 41 15 -425 511 -1047 784 -1623 713z"/></clipPath><path d="M2515 4485 c-642 -79 -1088 -562 -1450 -1570 -20 -55 -38 -107 -40 -115 -2 -8 -9 -28 -14 -45 -15 -40 -79 -250 -92 -300 -6 -22 -17 -58 -24 -80 -7 -22 -23 -78 -35 -125 -12 -47 -28 -107 -36 -135 -8 -27 -24 -88 -35 -135 -11 -47 -22 -92 -24 -100 -14 -51 -63 -250 -70 -282 -5 -23 1 -24 485 -92 164 -23 256 -35 375 -46 61 -6 166 -17 235 -25 301 -34 960 -79 1420 -97 400 -16 1875 -15 2340 0 763 26 1386 66 1970 124 106 11 111 12 70 20 -134 24 -225 39 -310 53 -191 32 -214 36 -221 40 -4 3 -35 9 -70 15 -35 5 -116 20 -179 34 -63 13 -151 31 -195 40 -44 9 -107 23 -140 31 -33 8 -100 24 -150 35 -49 11 -115 27 -145 35 -30 8 -84 22 -120 30 -75 19 -142 36 -222 59 -32 9 -82 22 -110 30 -29 8 -66 19 -83 25 -16 5 -84 26 -150 46 -227 70 -664 225 -800 285 -22 9 -62 25 -90 35 -27 10 -55 22 -60 26 -6 4 -35 17 -65 29 -570 223 -1175 622 -1359 896 -86 128 -121 342 -74 442 117 247 633 290 1050 89 84 -40 87 -39 41 15 -425 511 -1047 784 -1623 713z" fill="#5E8F86" stroke="#3E3330" stroke-width="75.2" stroke-linejoin="round"/><g clip-path="url(#wv8)"><path d="M2515 4485 c-642 -79 -1088 -562 -1450 -1570 -20 -55 -38 -107 -40 -115 -2 -8 -9 -28 -14 -45 -15 -40 -79 -250 -92 -300 -6 -22 -17 -58 -24 -80 -7 -22 -23 -78 -35 -125 -12 -47 -28 -107 -36 -135 -8 -27 -24 -88 -35 -135 -11 -47 -22 -92 -24 -100 -14 -51 -63 -250 -70 -282 -5 -23 1 -24 485 -92 164 -23 256 -35 375 -46 61 -6 166 -17 235 -25 301 -34 960 -79 1420 -97 400 -16 1875 -15 2340 0 763 26 1386 66 1970 124 106 11 111 12 70 20 -134 24 -225 39 -310 53 -191 32 -214 36 -221 40 -4 3 -35 9 -70 15 -35 5 -116 20 -179 34 -63 13 -151 31 -195 40 -44 9 -107 23 -140 31 -33 8 -100 24 -150 35 -49 11 -115 27 -145 35 -30 8 -84 22 -120 30 -75 19 -142 36 -222 59 -32 9 -82 22 -110 30 -29 8 -66 19 -83 25 -16 5 -84 26 -150 46 -227 70 -664 225 -800 285 -22 9 -62 25 -90 35 -27 10 -55 22 -60 26 -6 4 -35 17 -65 29 -570 223 -1175 622 -1359 896 -86 128 -121 342 -74 442 117 247 633 290 1050 89 84 -40 87 -39 41 15 -425 511 -1047 784 -1623 713z" fill="none" stroke="#FBEFD9" stroke-width="82.7" transform="translate(90.3 -120.3)"/></g></g></g><g transform="translate(187.7 189.1) rotate(-0.9) translate(-49.7 -95.7)"><g transform="translate(0.00 0.00) scale(0.9940)"><g transform="translate(-12.1267 -8.9615) scale(0.024820) matrix(0.1 0 0 -0.1 0 5000)"><path d="M24822.2 15066.1C22822.2 15578.3 20852.9 16066.4 19051.9 16494.9 19051.9 16494.9 18223.7 18748.3 17932.5 19224.7 17625.8 19725.9 16587.7 21152.8 16587.7 21152.8L18181.5 21930 19927.7 23055.8C19927.7 23055.8 20659.2 22574.4 20854.8 22360.5 21029.5 22169.4 21280.1 21709.1 21400.4 21479.5 21518.9 21252.4 21679.8 20761 21807.6 20538.7 21931.4 20322.8 22241 19929.6 22397.9 19736.3 22611.2 19473.5 23096.1 18996.9 23300.8 18727.6 23532.8 18423.1 23909.9 17754.9 24107 17426.8 24277.4 17143.3 24772.8 16282.6 24772.8 16282.6L24864.5 15494.4 24822.2 15066.1ZM28425.9 33834.1C28536.2 33753.6 28707.2 33534.7 28783 33421.4 28918.4 33219 29141.4 32781.3 29221.1 32551.3 29293 32344.2 29628.9 31679.9 29628.9 31679.9 29628.9 31679.9 28447.5 32850.4 28169.4 33227.5 27986.6 33476.5 27257.8 34542.6 27257.8 34542.6 27257.8 34542.6 28236.1 33972.7 28425.9 33834.1ZM28200.5 14186.5C28200.5 14186.5 27782.3 14657.8 27645.2 14861.2 27550.8 15000.6 27441.7 15325.7 27347.7 15465 27282.3 15561.9 27104 15718.3 27035.9 15813.2 26972.3 15902.6 26865.1 16096 26820.6 16196.6 26407.7 17133.3 25856.3 19115.7 25619.2 20112 25170.4 21999.1 23134.7 24274.2 23134.7 24274.2 23134.7 24274.2 24078 24260.5 24391.3 24285.3 24868.4 24323.7 25815.5 24476.5 26284.1 24572.5 26599.7 24637.2 27229 24783.5 27531 24895.1 27828.4 25005.3 28406.6 25276.6 28669.6 25453.8 28863.1 25584 29206.1 25905.9 29365.5 26077 29583.5 26310.7 30010.2 26799.5 30150.3 27087 30251.5 27294 30323.6 27755.4 30375.1 27979.6 30445.8 28285.4 30632.4 29207.7 30632.4 29207.7L31077.1 28210.7C31077.1 28210.7 31579.8 27104.6 31671.1 26942.9 31720.9 26854.3 31844.4 26575.6 31844.4 26575.6L31762 26335.6 31621.9 25846.4 31501.3 25266.2C31501.3 25266.2 31481.2 25054.5 31469.7 24984.5 31459 24918.8 31431.5 24787.7 31412.6 24724 31390.2 24646.8 31341.3 24492.2 31301.6 24423.1 31269.7 24368.2 31174.8 24280.6 31139.7 24227.9 31110.1 24184.9 31030.5 24095.7 31040.3 24044.6 31045.7 24016.5 31103.3 23985.4 31128.1 23971.4 31163 23952.4 31239 23926 31278.2 23921.5 31324 23916.2 31419.3 23921.8 31462.2 23938.6 31517.6 23959.5 31609.6 24037.7 31652.5 24078.2 31716.6 24138.4 31835.9 24271 31877.2 24348.8 31919.3 24427.2 31979.2 24689.3 31979.2 24689.3L32057.5 24847.4 32315.6 24633.1 32474.1 24363.5C32474.1 24363.5 32605.9 24046.6 32641.2 23938 32677.5 23827.7 32719.7 23598.9 32758.7 23489.9 32796.7 23383.2 32897.4 23179.3 32948.1 23077.4 32995.1 22982.9 33081 22786.4 33147.9 22704.4 33182.4 22662.4 33263.2 22581.9 33314.7 22565.7 33349.4 22555.7 33430.3 22556.9 33459 22579.3 33501.8 22612.4 33531.1 22729.5 33532.7 22783.6 33534.2 22854.5 33476.3 22989.1 33449.6 23055 33418.8 23128.5 33289.5 23554.3 33274.4 23624.7 33253.6 23723.7 33168.7 23909.5 33146 24008.2 33129.6 24078 33119.3 24296 33119.3 24296L33181.6 24371.2C33181.6 24371.2 33310.4 24158.3 33348 24084.9 33400.8 23981.3 33484.8 23764.5 33538.2 23661 33592.2 23556.2 33756.3 23055.9 33774.1 22997.7 33795.5 22928.5 33867.6 22799.6 33913.8 22743.6 33942.5 22709 34009.4 22642.2 34052.3 22628.7 34079.8 22620.2 34141.7 22626.1 34167.6 22639.5 34196.1 22654.9 34239.8 22709.1 34250.9 22740 34265.1 22778.2 34257.4 22862.4 34253.2 22902.9 34248.6 22953.5 34234.7 23104.7 34234.7 23104.7 34234.7 23104.7 34298.9 23132 34323.6 23180.6 34385.1 23300.5 34315.8 23539 34309.8 23610.7 34304.2 23666.8 34293.4 23779.2 34289 23835.3 34283.5 23890.2 34277.4 24000.3 34268.3 24054.3 34254.4 24133.5 34186.9 24365.8 34186.9 24365.8L34070.9 24738.4 33996.3 24981.2C33996.3 24981.2 34195.6 24767.9 34255.4 24692 34297.6 24638.3 34409.7 24467.9 34409.7 24467.9 34409.7 24467.9 34465.3 24223.2 34511.3 24155.1 34539.8 24113.7 34618 24041.8 34665.6 24027.3 34694.6 24018.1 34760 24024.2 34786.8 24038.5 34810 24050.9 34846.7 24094.9 34854.1 24120.1 34875 24186.6 34842.7 24328.6 34828.5 24396.7 34811.3 24479.3 34758.2 24641 34723.3 24717.7 34685.2 24802.3 34595.7 24964.6 34547.8 25044.3 34496.3 25130 34377.1 25291.9 34325.2 25377.8 34281.8 25449.4 34201.7 25595.6 34164.4 25670.6 34112.6 25774.4 34026.5 25990.6 33974.2 26094.1 33920.1 26200.9 33794.6 26405.1 33732.2 26507 33638.4 26661.3 33431.5 26957.8 33344.8 27115.7 33307.8 27183.1 33242.7 27322.5 33214.6 27394 33160.5 27527.7 32702.5 29756.1 32463.7 30524.7 32276.9 31124.3 31774.5 32278.6 31564.1 32870.4 31452.2 33184.2 31267.2 33824.9 31147.5 34135.9 31074.5 34327.4 30922.8 34711.8 30810.9 34883.7 30544.6 35293.5 29876.8 36020.5 29507.5 36340.1 29222.1 36587 28600.2 37017.6 28294.1 37237.9 27653.6 37697.8 26362.8 38605 25706.7 39042.1 25362.3 39271.2 24676.2 39736.7 24310.5 39929.4 24065.9 40058.3 23561.1 40291.2 23294.8 40363.8 23027 40436.7 22470.3 40473.1 22195.2 40505.6 21678.5 40566.6 20639.4 40818.1 20127.7 40728.2 19956.7 40697.9 19665.6 40486.5 19503.4 40424.9 19347.2 40365.5 18858.6 40244.4 18858.6 40244.4L18320 40274 18309.5 40815C18309.5 40815 18464.5 41076 18504.7 41169.1 18551.8 41277.8 18629.1 41503.3 18651 41620.1 18666 41699.5 18728.4 41814.7 18732.3 42000.1 18736.2 42158.1 18589.7 42217.6 18589.7 42217.6L18752.4 42721.7C18752.4 42721.7 18841.3 43295.1 18830.1 43487.2 18819.9 43665.5 18747.8 44020.5 18677.8 44184.6 18591.9 44383.3 18441.2 44836.1 18282.1 44983 18121.6 45131.3 17430.4 45333.7 17430.4 45333.7 17430.4 45333.7 17258.3 45466.7 17199 45508.6 17175.1 45525.9 17128 45563.5 17100.3 45574.4 16790.1 45696.7 15784.5 45792.9 15784.5 45792.9 15558.4 45909.9 15515.8 45899.2 15385.3 46049.4 15334.6 46107 15171.5 46389.4 15171.5 46389.4 15171.5 46389.4 15218.8 46127.5 15235.8 46036.4 15252.2 45949.4 15417.7 45733.1 15417.7 45733.1 15417.7 45733.1 15203 45682.5 15135.1 45702.6 15062.1 45724 14582.7 45860.2 14582.7 45860.2 14582.7 45860.2 14582.4 45696.9 14834.6 45573.8 14886 45548.7 15092.6 45399.6 15092.6 45399.6 15092.6 45399.6 14928.6 45366.8 14823.3 45370.9 14621 45379 14026.7 45522 14026.7 45522L14454.9 45243.9 14260.5 45061.6C14260.5 45061.6 14030.1 45086.7 13940.1 44956.4 13873.9 44859.9 13886.3 44723.2 13752.8 44651.6 13576.7 44557.4 13487.4 44400.8 13432.5 44223.5L13431.7 43947.7C13375.7 43764 13379.3 43372 13389.1 43180.2 13396.4 43035.6 13612.6 42458.8 13612.6 42458.8L13779.5 42049.1C13779.5 42049.1 13807.9 41522.1 13800.7 41345.5 13795.3 41195.4 13835.5 40895.6 13862.4 40748 13891.8 40587.6 13989.8 40275.4 14030.3 40117.7 14067.1 39974.1 14126.4 39682.8 14174 39542.1 14278 39233.7 14413.1 39117.1 14510.1 38986.7 14588 38881.6 14713.3 38604 14713.3 38604L14346.1 38130.3C14346.1 38130.3 13156.9 37300.6 13149.1 37293.2 12747.7 36901.6 12105.8 35904.6 11873.8 35394.5 11873.8 35394.5 11455.4 34378.7 11199.3 33789.8 11105.2 33572.7 10893.5 33055.6 10721.7 32892.1 10539.6 32719.2 10099.5 32468.2 9902.11 32312.5 9673.24 32130.8 9226.31 31750 9026.76 31536.6 8784.63 31277.7 8366.03 30704.1 8160.27 30415.7 7939.18 30105.1 7540.74 29455 7325.15 29141.2L6482.76 27839.4 6264.21 27357.5C6264.21 27357.5 6079.5 27004.4 6014.2 26889.4 5957.86 26789.6 5836.38 26595.7 5778.05 26497 5731.25 26418.1 5635.54 26261.9 5593.94 26180.4 5557.06 26107.6 5488.59 25959.5 5461.55 25882.6 5438.54 25816.3 5407.95 25679.6 5390.45 25612.1 5372.26 25544.8 5342.14 25407.8 5318.94 25341.9 5296.42 25278.9 5233.78 25159.9 5209.67 25097.7 5185.58 25036.2 5143.48 24910.5 5125.78 24846.8 5111.92 24796.4 5090.27 24693.9 5077.68 24642.9 5063.02 24582.6 5031.85 24461.8 5016.41 24401.2 5000.96 24341 4967.82 24220.8 4955.04 24159.7 4942.65 24098.9 4924.55 23975.9 4915.99 23914.6 4907.73 23855.5 4880.79 23737.7 4886.69 23678.4 4888.84 23654.9 4904.87 23609.1 4917.47 23588.7 4926.02 23574 4948.94 23546.9 4964.29 23540 4981.99 23532.4 5021.91 23538.9 5040.8 23538.9 5058.5 23538.4 5111.43 23537.9 5111.43 23537.9 5111.43 23537.9 5106.1 23425.1 5108.97 23387.8 5111.22 23349.8 5115.16 23271.2 5132.37 23237.1 5139.85 23221 5165.81 23192.4 5182.14 23185.3 5201.11 23176.9 5244.59 23179.8 5265.24 23184.2 5297.21 23190.5 5357.11 23218.2 5384.25 23236.5 5411.78 23254.6 5459 23300.9 5478.37 23327.4 5491.76 23346.1 5517.51 23410 5517.51 23410 5517.51 23410 5552.14 23442.8 5563.25 23453.7 5585.97 23475.7 5635.84 23515.8 5654.03 23541.9 5668.97 23562.5 5690.13 23609.5 5696.91 23633.9 5717.28 23703.3 5733.71 23920.5 5733.71 23920.5 5733.71 23920.5 5787.7 23967.5 5801.86 23986.6 5823.1 24015.3 5856.24 24079.4 5867.66 24113.3 5884.58 24163.8 5898.15 24270.4 5902.67 24323.3 5905.52 24352.9 5904.93 24441.5 5904.93 24441.5 5904.93 24441.5 5944.86 24553.7 5958.24 24590.8 5977.42 24644 6014.51 24751 6034.86 24803.5 6065.84 24882.8 6124.46 25042.9 6164.69 25117.4 6183.27 25152 6230.47 25215 6253 25247.1 6284.86 25291.7 6350.57 25379.8 6383.62 25423.7 6409.59 25458.9 6464.26 25526.3 6487.69 25562.6 6500.65 25582.5 6534.09 25645 6534.09 25645L6725.5 25641.6C6725.5 25641.6 6722.34 25536.5 6723.14 25501.6 6724.71 25435.8 6731.4 25304.6 6738.38 25239.4 6743.98 25181.4 6759.81 25065.7 6772.61 25009 6784.5 24959.6 6815.49 24863.5 6833.79 24816.1 6848.24 24778.3 6878.63 24701.8 6901.64 24668.5 6921.81 24638.4 6971.87 24584.1 7002.27 24564.8 7024 24550.2 7074.36 24529.9 7100.31 24527.9 7174.57 24522.2 7368.04 24535.8 7394.1 24684.3 7400.09 24718.7 7399.7 24789.9 7396.26 24824.7 7391.34 24879.4 7372.46 24995.7 7367.65 25050.6 7361.65 25109.9 7374.13 25230.1 7371.09 25290.3 7368.04 25359.1 7343.83 25496.1 7340.5 25565.1 7336.67 25642.1 7336.46 25797.6 7345.61 25874.7 7352.98 25938.5 7388.78 26062.6 7400.69 26125.9 7414.26 26200.6 7438.07 26350.2 7443.57 26425.5 7448.1 26483.7 7454.19 26600.5 7447.51 26658.8 7441.21 26712.1 7407.47 26815 7393.4 26867.2 7379.64 26917.5 7335.87 27069.4 7335.87 27069.4 7335.87 27069.4 7463.24 27176.2 7507.4 27210 7596.81 27279 7782.3 27407.8 7872.3 27476 7965.83 27546.4 8152.6 27686.8 8240.72 27763.5 8304.54 27819.2 8540.79 28029.7 8540.79 28029.7 8756.29 28232.9 9213.93 28608.6 9448.21 28789.1 9659.46 28952.2 10109.1 29242 10319.6 29405.9 10528 29567.7 10931.9 29909.2 11122.8 30091.6 11252.2 30215.1 11501.2 30473.3 11612.1 30613.6 11707.4 30734.5 12641 31764.1 12800.3 31987.8 13075.1 32374.5 14372.9 33457.4 14372.9 33457.4L15253.6 33905.7C15253.6 33905.7 16403.5 33211.3 16797 32997.7 17080.8 32843.5 17658.6 32552.7 17953.6 32420.7 18223 32299.9 18794.4 32129.6 19050.3 31981.9 19278.6 31849.9 19686.4 31508.9 19878.6 31328.4 20046.7 31170 20357.4 30825.1 20495.4 30639.2 20589.6 30512.7 20823.5 30101 20823.5 30101L20440.7 29285.1C20440.7 29285.1 18198.3 27958.4 17202.2 27199.5 15830.7 26154.5 14372.3 24058.7 13365.3 22986.9 13257.3 22872.2 12974.7 22458.6 12885 22329.5 12793.9 22198.1 12668.4 21893.6 12649.8 21734.8 12633.4 21598.3 12862.3 21105.8 12906.2 20975.4 12964.9 20801.9 13156.5 20484.2 13262.6 20334.5 13414.6 20119.8 13960.3 19546.7 13960.3 19546.7L14753.1 18682.2 15595.2 17792.5 16100.5 17176C13573.7 17737.6 11696.2 18087.9 11048.8 18074.9 10634.7 18066.5 8440.09 17920.7 8539.81 16344.8 8640.19 14759.2 11518.1 12428.7 24282.8 7833.3 32058.2 5034.2 44891.9 3284.5 45170.5 5373.2 45398 7080.6 38347.1 11221.7 28200.5 14186.5" fill="#3E3330" fill-rule="nonzero"/></g></g></g></g></g></g><g transform="translate(42.50 232.00)"><g transform="translate(-2.677 24.889)"><path d="M2.677 -24.889H10.672V-6.367H23.442V0.000H2.677ZM43.122 0.000 42.073 -3.509H33.355L32.305 0.000H24.130L33.210 -24.889H42.507L51.587 0.000ZM35.019 -9.080H40.409L37.804 -17.943H37.660ZM78.756 -15.881H71.123Q71.123 -17.437 69.748 -18.396Q68.373 -19.354 66.420 -19.354Q63.598 -19.354 62.151 -17.853Q60.704 -16.352 60.704 -13.602V-11.287Q60.704 -8.538 62.151 -7.036Q63.598 -5.535 66.420 -5.535Q68.373 -5.535 69.748 -6.457Q71.123 -7.380 71.123 -8.827H65.479V-13.892H78.756V0.000H74.632L73.836 -2.460Q70.435 0.434 64.936 0.434Q58.750 0.434 55.639 -2.804Q52.528 -6.041 52.528 -12.445Q52.528 -18.775 56.055 -22.049Q59.582 -25.323 66.094 -25.323Q69.676 -25.323 72.533 -24.238Q75.391 -23.153 77.074 -21.037Q78.756 -18.920 78.756 -15.881ZM95.759 0.434Q89.826 0.434 86.588 -2.243Q83.350 -4.920 83.350 -10.021V-24.889H91.345V-10.129Q91.345 -8.031 92.467 -6.783Q93.588 -5.535 95.722 -5.535Q97.857 -5.535 98.996 -6.801Q100.136 -8.067 100.136 -10.129V-24.889H108.131V-10.021Q108.131 -4.920 104.911 -2.243Q101.692 0.434 95.759 0.434ZM130.922 0.000 120.467 -12.083V0.000H113.123V-24.889H120.105L130.560 -12.626V-24.889H137.904V0.000ZM159.212 0.000 158.163 -3.509H149.444L148.395 0.000H140.219L149.299 -24.889H158.597L167.677 0.000ZM151.108 -9.080H156.499L153.894 -17.943H153.749Z" fill="#3E3330"/></g><g transform="translate(-0.467 41.762)"><path d="M7.239 -5.296V-5.166H4.992V-5.209Q4.992 -5.535 4.754 -5.752Q4.515 -5.969 4.026 -5.969Q3.549 -5.969 3.294 -5.828Q3.039 -5.687 3.039 -5.481Q3.039 -5.188 3.386 -5.047Q3.733 -4.906 4.504 -4.754Q5.405 -4.569 5.985 -4.368Q6.566 -4.168 7.000 -3.712Q7.434 -3.256 7.445 -2.474Q7.445 -1.150 6.550 -0.510Q5.654 0.130 4.157 0.130Q2.409 0.130 1.438 -0.456Q0.467 -1.042 0.467 -2.529H2.735Q2.735 -1.964 3.028 -1.774Q3.321 -1.585 3.940 -1.585Q4.395 -1.585 4.694 -1.682Q4.992 -1.780 4.992 -2.084Q4.992 -2.355 4.661 -2.491Q4.330 -2.626 3.581 -2.778Q2.670 -2.974 2.073 -3.185Q1.476 -3.397 1.031 -3.885Q0.586 -4.374 0.586 -5.209Q0.586 -6.436 1.536 -7.016Q2.485 -7.597 3.940 -7.597Q5.372 -7.597 6.295 -7.016Q7.217 -6.436 7.239 -5.296ZM19.000 0.130Q17.220 0.130 16.249 -0.673Q15.277 -1.476 15.277 -3.006V-7.467H17.676V-3.039Q17.676 -2.409 18.012 -2.035Q18.349 -1.660 18.989 -1.660Q19.629 -1.660 19.971 -2.040Q20.313 -2.420 20.313 -3.039V-7.467H22.711V-3.006Q22.711 -1.476 21.746 -0.673Q20.780 0.130 19.000 0.130ZM36.600 -3.126 38.260 0.000H35.569L34.244 -2.724H33.355V0.000H30.956V-7.467H35.525Q36.328 -7.467 36.898 -7.157Q37.468 -6.848 37.755 -6.322Q38.043 -5.795 38.043 -5.177Q38.043 -4.493 37.674 -3.940Q37.305 -3.386 36.600 -3.126ZM34.928 -5.763H33.355V-4.385H34.928Q35.210 -4.385 35.406 -4.585Q35.601 -4.786 35.601 -5.079Q35.601 -5.372 35.406 -5.568Q35.210 -5.763 34.928 -5.763ZM46.038 -7.467H52.072V-5.676H48.436V-4.395H51.562V-2.681H48.436V0.000H46.038ZM70.168 -7.467H72.566V-1.910H76.397V0.000H70.168ZM84.045 -7.467H90.502V-5.676H86.443V-4.645H89.916V-2.930H86.443V-1.791H90.578V0.000H84.045ZM104.955 -5.296V-5.166H102.708V-5.209Q102.708 -5.535 102.469 -5.752Q102.231 -5.969 101.742 -5.969Q101.265 -5.969 101.010 -5.828Q100.755 -5.687 100.755 -5.481Q100.755 -5.188 101.102 -5.047Q101.449 -4.906 102.220 -4.754Q103.121 -4.569 103.701 -4.368Q104.282 -4.168 104.716 -3.712Q105.150 -3.256 105.161 -2.474Q105.161 -1.150 104.266 -0.510Q103.370 0.130 101.873 0.130Q100.125 0.130 99.154 -0.456Q98.183 -1.042 98.183 -2.529H100.451Q100.451 -1.964 100.744 -1.774Q101.037 -1.585 101.655 -1.585Q102.111 -1.585 102.410 -1.682Q102.708 -1.780 102.708 -2.084Q102.708 -2.355 102.377 -2.491Q102.046 -2.626 101.297 -2.778Q100.386 -2.974 99.789 -3.185Q99.192 -3.397 98.747 -3.885Q98.302 -4.374 98.302 -5.209Q98.302 -6.436 99.252 -7.016Q100.201 -7.597 101.655 -7.597Q103.088 -7.597 104.011 -7.016Q104.933 -6.436 104.955 -5.296ZM119.429 -5.296V-5.166H117.182V-5.209Q117.182 -5.535 116.944 -5.752Q116.705 -5.969 116.216 -5.969Q115.739 -5.969 115.484 -5.828Q115.229 -5.687 115.229 -5.481Q115.229 -5.188 115.576 -5.047Q115.923 -4.906 116.694 -4.754Q117.595 -4.569 118.175 -4.368Q118.756 -4.168 119.190 -3.712Q119.624 -3.256 119.635 -2.474Q119.635 -1.150 118.740 -0.510Q117.844 0.130 116.347 0.130Q114.599 0.130 113.628 -0.456Q112.657 -1.042 112.657 -2.529H114.925Q114.925 -1.964 115.218 -1.774Q115.511 -1.585 116.130 -1.585Q116.585 -1.585 116.884 -1.682Q117.182 -1.780 117.182 -2.084Q117.182 -2.355 116.851 -2.491Q116.520 -2.626 115.771 -2.778Q114.860 -2.974 114.263 -3.185Q113.666 -3.397 113.221 -3.885Q112.776 -4.374 112.776 -5.209Q112.776 -6.436 113.726 -7.016Q114.675 -7.597 116.130 -7.597Q117.562 -7.597 118.485 -7.016Q119.407 -6.436 119.429 -5.296ZM135.216 -3.733Q135.216 -1.845 134.163 -0.857Q133.111 0.130 131.179 0.130Q129.247 0.130 128.200 -0.852Q127.153 -1.834 127.153 -3.733Q127.153 -5.633 128.200 -6.615Q129.247 -7.597 131.179 -7.597Q133.111 -7.597 134.163 -6.609Q135.216 -5.622 135.216 -3.733ZM129.605 -4.081V-3.386Q129.605 -2.594 130.007 -2.127Q130.408 -1.660 131.179 -1.660Q131.950 -1.660 132.356 -2.127Q132.763 -2.594 132.763 -3.386V-4.081Q132.763 -4.873 132.356 -5.340Q131.950 -5.806 131.179 -5.806Q130.408 -5.806 130.007 -5.340Q129.605 -4.873 129.605 -4.081ZM148.486 0.000 145.349 -3.625V0.000H143.146V-7.467H145.241L148.377 -3.788V-7.467H150.580V0.000ZM165.261 -5.296V-5.166H163.014V-5.209Q163.014 -5.535 162.775 -5.752Q162.537 -5.969 162.048 -5.969Q161.571 -5.969 161.316 -5.828Q161.061 -5.687 161.061 -5.481Q161.061 -5.188 161.408 -5.047Q161.755 -4.906 162.526 -4.754Q163.427 -4.569 164.007 -4.368Q164.588 -4.168 165.022 -3.712Q165.456 -3.256 165.467 -2.474Q165.467 -1.150 164.571 -0.510Q163.676 0.130 162.178 0.130Q160.431 0.130 159.460 -0.456Q158.488 -1.042 158.488 -2.529H160.757Q160.757 -1.964 161.050 -1.774Q161.343 -1.585 161.961 -1.585Q162.417 -1.585 162.716 -1.682Q163.014 -1.780 163.014 -2.084Q163.014 -2.355 162.683 -2.491Q162.352 -2.626 161.603 -2.778Q160.692 -2.974 160.095 -3.185Q159.498 -3.397 159.053 -3.885Q158.608 -4.374 158.608 -5.209Q158.608 -6.436 159.557 -7.016Q160.507 -7.597 161.961 -7.597Q163.394 -7.597 164.316 -7.016Q165.239 -6.436 165.261 -5.296Z" fill="#3E3330"/></g></g><path d="M3.00 261.00 L3.00 125.00 A122.00 122.00 0 0 1 247.00 125.00 L247.00 261.00 A26.00 26.00 0 0 1 221.00 287.00 L29.00 287.00 A26.00 26.00 0 0 1 3.00 261.00 Z" fill="none" stroke="#3E3330" stroke-width="6.00"/></svg></div>
     <div class="cine-in">
-      <p class="eyeb">Laguna Beach surf lessons &middot; Thalia Street &middot; Since 2005</p>
+      <p class="eyeb">Laguna Beach surf lessons &middot; Since 2005</p>
       <h1 class="mega">
         <span class="ln"><i>Learn to surf</i></span>
         <span class="ln"><i>where the <em class="wavy"><b style="--i:0">l</b><b style="--i:1">o</b><b style="--i:2">c</b><b style="--i:3">a</b><b style="--i:4">l</b><b style="--i:5">s</b></em></i></span>
@@ -905,7 +1009,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
         </div>
         <div class="hero-cta">
           <a class="btn btn-w" href="#book">Book a lesson <span class="ar">&#8594;</span></a>
-          <a class="tlink tlink-w" href="tel:+19492805818">or call Troy <span class="ar">&#8594;</span></a>
+          <a class="tlink tlink-w" href="sms:+19492805818">or text Troy <span class="ar">&#8594;</span></a>
         </div>
       </div>
       <p class="cine-cred">Troy MacDonald &middot; Thalia Street &middot; April 2026</p>
@@ -913,13 +1017,15 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
   </div>
 </section>
 
-<div class="report" aria-label="Today at Thalia Street">
+<div class="report" id="surf" aria-label="Surf check">
   <div class="wrap">
-    <div class="rp"><p class="lab">Today</p><b>Thalia Street</b></div>
-    <div class="rp"><p class="lab">Surf</p><b id="rp-surf">Live forecast</b></div>
-    <div class="rp"><p class="lab">Water</p><b id="rp-water">Live forecast</b></div>
-    <div class="rp"><p class="lab">First lesson</p><b>7:00 AM</b></div>
-    <div class="rp"><p class="lab">Next open spot</p><b><a class="rplink" id="rp-next" href="#book">See open times <span aria-hidden="true">&#8594;</span></a></b></div>
+    <div class="rp rp-spot"><label class="lab" for="spot-pick">Surf check</label>
+      <div class="spot-sel"><select id="spot-pick"><option value="0" data-lat="33.5369" data-lon="-117.7769" data-sl="https://www.surfline.com/surf-report/thalia-street/5842041f4e65fad6a77088de">Thalia Street</option><option value="1" data-lat="33.5327" data-lon="-117.7776" data-sl="https://www.surfline.com/surf-report/brooks-street/5842041f4e65fad6a77088dd">Brooks Street</option><option value="2" data-lat="33.5089" data-lon="-117.7524" data-sl="https://www.surfline.com/surf-report/aliso-creek/5842041f4e65fad6a77088dc">Aliso Creek</option><option value="3" data-lat="33.4776" data-lon="-117.7246" data-sl="https://www.surfline.com/surf-report/salt-creek/5842041f4e65fad6a770882e">Salt Creek</option><option value="4" data-lat="33.461" data-lon="-117.6854" data-sl="https://www.surfline.com/surf-report/doheny-state-beach/5842041f4e65fad6a77088d7">Doheny</option><option value="5" data-lat="33.4195" data-lon="-117.6205" data-sl="https://www.surfline.com/surf-report/san-clemente-pier-northside/5cc8b55739a02e0001ac69f8">San Clemente</option><option value="6" data-lat="33.3845" data-lon="-117.5945" data-sl="https://www.surfline.com/surf-report/upper-trestles/5842041f4e65fad6a7708887">Upper Trestles</option><option value="7" data-lat="33.3814" data-lon="-117.5884" data-sl="https://www.surfline.com/surf-report/lower-trestles/5842041f4e65fad6a770888a">Lower Trestles</option></select></div>
+      <a class="rp-sl" id="rp-sl" href="https://www.surfline.com/surf-report/thalia-street/5842041f4e65fad6a77088de" target="_blank" rel="noopener">Full report on Surfline <span aria-hidden="true">&#8599;</span></a></div>
+    <div class="rp"><p class="lab">Swell</p><b id="rp-swell" aria-live="polite">&mdash;</b></div>
+    <div class="rp"><p class="lab">Wind</p><b id="rp-wind" aria-live="polite">&mdash;</b></div>
+    <div class="rp"><p class="lab">Water</p><b id="rp-water" aria-live="polite">&mdash;</b></div>
+    <div class="rp"><p class="lab">Next open lesson</p><b><a class="rplink" id="rp-next" href="#book">See open times <span aria-hidden="true">&#8594;</span></a></b></div>
   </div>
 </div>
 
@@ -951,13 +1057,13 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
         <p class="lab">Lessons &amp; pricing</p>
         <h2 class="disp">Three ways in.</h2>
       </div>
-      <aside><p>Every lesson is ninety minutes, and every price includes the board, the wetsuit and the rash guard. No gear fee at the bottom of the stairs.</p></aside>
+      <aside><p>Every lesson is ninety minutes and includes the board and wetsuit.</p></aside>
     </div>
     <div class="menu"><a class="mrow rv" href="#book" data-pick="private" style="transition-delay:0ms">
   <span class="mn tnum">01</span>
   <span class="mi" aria-hidden="true"><img src="/img/2e76764266.jpg" alt="" loading="lazy"></span>
   <span class="mt"><span class="mh">Private lesson</span><span class="ms">1-on-1 with Troy &middot; best if you want to stand up today</span></span>
-  <span class="mp"><b class="tnum">$160</b><small>90 minutes</small></span>
+  <span class="mp"><b class="tnum">$170</b><small>90 minutes</small></span>
   <span class="ma" aria-hidden="true">&#8594;</span>
 </a><a class="mrow rv" href="#book" data-pick="pgroup" style="transition-delay:70ms">
   <span class="mn tnum">02</span>
@@ -969,7 +1075,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
   <span class="mn tnum">03</span>
   <span class="mi" aria-hidden="true"><img src="/img/9c7f398fc0.jpg" alt="" loading="lazy"></span>
   <span class="mt"><span class="mh">Advanced coaching</span><span class="ms">Already standing up &middot; filmed from the sand, told the one thing that is wrong</span></span>
-  <span class="mp"><b class="tnum">$160</b><small>90 minutes</small></span>
+  <span class="mp"><b class="tnum">$180</b><small>90 minutes</small></span>
   <span class="ma" aria-hidden="true">&#8594;</span>
 </a></div>
     <div class="menu-note rv">
@@ -987,9 +1093,9 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
     <div class="shead rv">
       <div>
         <p class="lab">Book</p>
-        <h2 class="disp">Pick a morning.</h2>
+        <h2 class="disp">Pick a time.</h2>
       </div>
-      <aside><p>Takes about thirty seconds. You pay when you get here, or online &mdash; whichever you prefer.</p></aside>
+      
     </div>
 
     <form class="ticket rv" id="bk" novalidate>
@@ -1019,6 +1125,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
         <div class="step">
           <div class="step-h"><span class="step-n" aria-hidden="true">4</span><span class="lab">What time</span></div>
           <div class="times" id="opt-time" role="group" aria-label="Choose a time"></div>
+          <p class="time-help">Don&rsquo;t see a time that works for you? <a href="sms:+19492805818">Text Troy directly</a> at 949-280-5818.</p>
         </div>
 
         <div id="bk-more" hidden>
@@ -1105,13 +1212,13 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
             <div class="row"><span>Day</span><span id="s-date">&mdash;</span></div>
             <div class="row"><span>Time</span><span id="s-time">&mdash;</span></div>
             <div class="row"><span>Surfers</span><span id="s-qty" class="tnum">1</span></div>
-            <div class="row"><span>Meeting point</span><span>Thalia St stairs</span></div>
+            <div class="row"><span>Meeting spot</span><span>Troy texts you</span></div>
             <hr>
-            <div class="row"><span id="s-calc">90-minute lesson</span><span class="tnum" id="s-sub">$160</span></div>
+            <div class="row"><span id="s-calc">90-minute lesson</span><span class="tnum" id="s-sub">$170</span></div>
             <div class="row" id="s-adrow" hidden><span>Add-ons</span><span class="tnum" id="s-adds">$0</span></div>
             <div class="row"><span>Board &amp; wetsuit</span><span>Included</span></div>
           </div>
-          <div class="total" style="margin-top:18px"><span>Total</span><span class="tnum" id="s-total">$160</span></div>
+          <div class="total" style="margin-top:18px"><span>Total</span><span class="tnum" id="s-total">$170</span></div>
           <button class="btn" type="submit" style="width:100%;margin-top:22px" id="s-go">Continue &mdash; hold this spot</button>
           <p class="stub-note" id="s-note">Nothing is charged yet. Your spot holds for 12 minutes while you finish.</p>
         </div>
@@ -1122,18 +1229,17 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
           <div class="sum" style="margin-top:14px">
             <div class="row"><span>Lesson</span><span id="cf-lesson"></span></div>
             <div class="row"><span>When</span><span id="cf-when"></span></div>
-            <div class="row"><span>Meet</span><span>Thalia Street stairs, turn left</span></div>
+            <div class="row"><span>Meet</span><span>Troy texts you the spot</span></div>
             <div class="row"><span>Paid</span><span id="cf-paid" class="tnum"></span></div>
           </div>
           <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap">
             <a class="btn btn-sm" id="cf-cal" href="#" target="_blank" rel="noopener">Add to calendar</a>
-            <a class="btn btn-o btn-sm" href="https://maps.google.com/?q=Thalia+Street+Beach+Laguna+Beach+CA" target="_blank" rel="noopener">Directions</a>
+            <a class="btn btn-o btn-sm" href="sms:+19492805818">Text Troy</a>
           </div>
           <div class="journey">
             <p class="lab" style="margin-bottom:10px">What happens next</p>
-            <div class="j-row"><b>Now</b><span>Confirmation email with everything above</span></div>
-            <div class="j-row"><b>Tonight</b><span>Text from Troy &mdash; what to bring, where to park</span></div>
-            <div class="j-row"><b>2h before</b><span>&ldquo;See you at the stairs&rdquo; + conditions check</span></div>
+            <div class="j-row"><b>Now</b><span>Confirmation email. Not in your inbox? Check spam</span></div>
+            <div class="j-row"><b>Before</b><span>Troy texts you the spot, picked on conditions, safety and your ability</span></div>
             <div class="j-row"><b>2h after</b><span>Your photos &amp; video, if you added them</span></div>
           </div>
         </div>
@@ -1152,7 +1258,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
         <p class="lab">Gift cards</p>
         <h2 class="disp">Give someone<br>their first wave.</h2>
       </div>
-      <aside><p>Good for any lesson, any time of year. It arrives by email on the day you choose, and the balance stays on it until it is used &mdash; nothing expires in a drawer.</p></aside>
+      <aside><p>It arrives by email on the day you choose, and the balance stays on it until it is used.</p></aside>
     </div>
 
     <form class="ticket rv" id="gc" novalidate>
@@ -1173,7 +1279,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
             <label class="fld"><span>From</span><input type="text" id="gc-fname" autocomplete="name" placeholder="Your name"></label>
             <label class="fld"><span>Send it on</span><input type="date" id="gc-date"></label>
           </div>
-          <label class="fld" style="margin-top:14px"><span>Message &mdash; optional</span><input type="text" id="gc-msg" maxlength="140" placeholder="Happy birthday. See you at the stairs."></label>
+          <label class="fld" style="margin-top:14px"><span>Message &mdash; optional</span><input type="text" id="gc-msg" maxlength="140" placeholder="Happy birthday. See you in the water."></label>
         </div>
 
         <div class="step">
@@ -1194,16 +1300,16 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
           <p class="lab" style="color:var(--rust)">Your gift card</p>
           <div class="gcard" aria-hidden="true">
             <span class="gcard-lab">Laguna Surf Lessons</span>
-            <span class="gcard-amt tnum" id="gc-face">$160</span>
-            <span class="gcard-foot">Good for any lesson &middot; Thalia Street</span>
+            <span class="gcard-amt tnum" id="gc-face">$170</span>
+            <span class="gcard-foot">Good for any lesson &middot; Laguna Surf Lessons</span>
           </div>
           <div class="sum" style="margin-top:18px">
-            <div class="row"><span>Value</span><span class="tnum" id="s-gc-amt">$160</span></div>
+            <div class="row"><span>Value</span><span class="tnum" id="s-gc-amt">$170</span></div>
             <div class="row"><span>For</span><span id="s-gc-who">&mdash;</span></div>
             <div class="row"><span>Delivered</span><span id="s-gc-when">Straight away</span></div>
             <div class="row"><span>Expires</span><span>Balance never expires</span></div>
           </div>
-          <div class="total" style="margin-top:18px"><span>Total</span><span class="tnum" id="s-gc-total">$160</span></div>
+          <div class="total" style="margin-top:18px"><span>Total</span><span class="tnum" id="s-gc-total">$170</span></div>
           <button class="btn" type="submit" style="width:100%;margin-top:22px" id="gc-go">Continue &mdash; buy gift card</button>
           <p class="stub-note">Nothing is charged yet. You will see the card exactly as they will before you pay.</p>
         </div>
@@ -1218,8 +1324,8 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
           </div>
           <div class="journey">
             <p class="lab" style="margin-bottom:10px">What happens next</p>
-            <div class="j-row"><b>Now</b><span>Receipt to you, with the code and a printable card</span></div>
-            <div class="j-row"><b>On the day</b><span>The card lands in their inbox with your message</span></div>
+            <div class="j-row"><b>Now</b><span>Troy texts you to take payment</span></div>
+            <div class="j-row"><b>On the day</b><span>The card goes to them with your message</span></div>
             <div class="j-row"><b>When they book</b><span>Code comes off the total at checkout</span></div>
           </div>
         </div>
@@ -1233,12 +1339,13 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
     <div class="rv">
       <p class="lab" style="color:var(--rust)">Your instructor</p>
       <h2 class="disp" style="margin-top:16px">Troy MacDonald</h2>
-      <p class="pull">&ldquo;He will not put you anywhere <em>you should not be.</em>&rdquo;</p>
-      <p class="lead" style="margin-top:26px">Born in Laguna, raised in a surf family, in the water here since before he could drive. He has been teaching this beach for over twenty years &mdash; long enough that the parents booking lessons now are people he taught as kids.</p>
-      <p class="lead" style="margin-top:14px">He is calm, he is patient, and that is most of why the first lesson works.</p>
+      <p class="lead" style="margin-top:26px">I am a Laguna Beach local, born into a surf family. My father had me on a surfboard at the age of 3. The ocean has always been a huge part of my life, and I have a deep connection and respect for it. I began competing at a young age, winning numerous surf contests and riding for multiple sponsors who recognized my passion and dedication to the sport.</p>
+      <p class="lead" style="margin-top:14px">I spent my summers working with local surfing companies and camps, teaching people of all ages and skill levels. With over 20 years of surf instruction experience, my goal is to make your surf lesson both fun and safe, leaving you excited to do it again. When you learn to surf with me, you get guidance from a lifelong surfer who not only knows how to surf but knows how to teach it.</p>
+      <p class="lead" style="margin-top:14px">I&rsquo;m just as passionate about what lies beneath the waves as I am about riding them. As a free diver and underwater photographer, I love capturing marine life through my lens. <a href="https://www.youtube.com/@TroyMacDonald" target="_blank" rel="noopener">See my work on YouTube</a>.</p>
+      <p class="troy-sig">Troy MacDonald, owner and instructor</p>
       <div class="cred">
         <div><b>Laguna born</b><span>Local his whole life</span></div>
-        <div><b>20+ years</b><span>Teaching Thalia Street</span></div>
+        <div><b>20+ years</b><span>Teaching surf</span></div>
         <div><b>4.8 on Google</b><span>16 reviews</span></div>
       </div>
     </div>
@@ -1274,26 +1381,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
   </div>
 </section>
 
-<!-- ================= WHERE ================= -->
-<section id="where" style="padding-top:0">
-  <div class="wrap meet">
-    <div class="rv">
-      <p class="lab" style="color:var(--rust)">Where we meet</p>
-      <h2 class="disp" style="margin-top:16px">Bottom of the Thalia&nbsp;Street stairs.</h2>
-      <p class="lead" style="margin-top:22px">Come down the stairs, turn left, and wait under the building overhang. Troy is the one with the boards. Street parking on Thalia and Glenneyre &mdash; give yourself fifteen minutes on a summer weekend.</p>
-      <div class="cta-row">
-        <a class="btn btn-o" href="https://maps.google.com/?q=Thalia+Street+Beach+Laguna+Beach+CA" target="_blank" rel="noopener">Open in Maps</a>
-        <a class="tlink" href="tel:+19492805818">Call 949&#8202;280&#8202;5818 <span class="ar">&#8594;</span></a>
-      </div>
-    </div>
-    <dl class="rv">
-      <div class="drow"><dt>Address</dt><dd>Thalia Street Beach, Laguna Beach, CA 92651</dd></div>
-      <div class="drow"><dt>Lesson times</dt><dd>7:00, 9:00 and 11:00 AM all year, plus 1:00 and 3:00 PM April to September. No lessons on Tuesdays</dd></div>
-      <div class="drow"><dt>Bring</dt><dd>A towel, sunscreen, and a swimsuit to go under the wetsuit</dd></div>
-      <div class="drow"><dt>Cancellation</dt><dd>Full refund with 24 hours&rsquo; notice. Troy calls off bad days himself, at no charge</dd></div>
-    </dl>
-  </div>
-</section>
+
 
 <!-- ================= FAQ ================= -->
 <section id="faq" style="padding-top:0">
@@ -1305,15 +1393,15 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
       </div>
     </div>
     <div class="faq-grid">
-      <div><div class="qa rv"><h3>How much are surf lessons in Laguna Beach?</h3><p>With Laguna Surf Lessons, a 90-minute private lesson with Troy is $160, a private group (2 to 5 people) is $130 per person, and advanced coaching is $160. The board, wetsuit and leash are included.</p></div><div class="qa rv"><h3>Do I need to know how to swim?</h3><p>Yes. You should be comfortable in water over your head. You do not need to be a strong swimmer. Lessons run in waist-to-chest-deep water and Troy is next to you the whole time.</p></div><div class="qa rv"><h3>What do I need to bring?</h3><p>A towel, sunscreen and a swimsuit or board shorts to wear under the wetsuit. The board, wetsuit and leash are included.</p></div><div class="qa rv"><h3>How old do you have to be?</h3><p>Five and up for a private lesson and seven and up for a private group. There is no upper age limit; adults in their seventies are welcome.</p></div><div class="qa rv"><h3>Will I actually stand up?</h3><p>About 95% of Troy's students stand up in their first lesson.</p></div><div class="qa rv"><h3>What times are lessons?</h3><p>Lessons are 90 minutes and start at 7:00, 9:00 and 11:00 AM all year, plus 1:00 and 3:00 PM from April to September. There are no lessons on Tuesdays. Book at least 12 hours ahead.</p></div></div>
-      <div><div class="qa rv"><h3>Where do we meet?</h3><p>Thalia Street beach in Laguna Beach. Come down the Thalia Street stairs, turn left, and wait under the building overhang. Arrive 15 minutes early.</p></div><div class="qa rv"><h3>What if the surf is too big or too flat?</h3><p>Troy calls it the morning of and moves your lesson at no charge.</p></div><div class="qa rv"><h3>Is parking hard?</h3><p>Street parking on Thalia and Glenneyre. Come fifteen minutes early on a summer weekend.</p></div><div class="qa rv"><h3>What is the cancellation policy?</h3><p>Full refund with 24 hours' notice, or if Troy cancels for conditions. With less than 24 hours' notice you can reschedule for free if you let Troy know at least 12 hours before.</p></div><div class="qa rv"><h3>Can I buy a surf lesson as a gift?</h3><p>Yes. Gift cards are sold online for any amount from $50 to $1,000, delivered by email on the day you choose, and good for any lesson.</p></div></div>
+      <div><details class="qa"><summary><h3>How much are surf lessons?</h3></summary><p>A private one-on-one lesson is $170. A private group lesson is $130 per person for 2 to 5 people. Advanced coaching is $180. Every lesson is 90 minutes and includes a premium surfboard, wetsuit and leash. For coaching packages, birthday parties or corporate and team events, text Troy.</p></details><details class="qa"><summary><h3>When can I book a lesson?</h3></summary><p>Lessons run every day except Monday, 6 AM to 5 PM, conditions permitting. Lessons start at 6:00, 8:00 and 10:00 AM, 12:00, 2:00 and 3:30 PM. Book at least 24 hours ahead. Don&#x27;t see a time that works? Text Troy at 949-280-5818.</p></details><details class="qa"><summary><h3>I&#x27;ve never been surfing. Is that a problem?</h3></summary><p>Sharing the joy of surfing with a first-time surfer is one of our favorite things to do! We are with you every step of the way, creating a fun, positive and memorable surfing experience.</p></details><details class="qa"><summary><h3>Is surfing still an option for me, despite my age?</h3></summary><p>We welcome students of all ages! Our private one-on-one lessons are great for kids as young as 5 to adults in their 70s. Private group lessons are perfect for ages 7 and up, provided they are competent swimmers.</p></details><details class="qa"><summary><h3>What if I&#x27;m not a strong swimmer or I&#x27;m afraid of the ocean?</h3></summary><p>Surf lessons are still an option. We love helping people overcome a fear of the ocean. Our goal is for you to feel safe, have fun and turn that fear into a love for the ocean.</p></details><details class="qa"><summary><h3>What happens in my first lesson?</h3></summary><p>Before hitting the water, we start with land demonstrations on reading waves and ocean conditions, standing up, board handling, ocean safety and surf etiquette. Then we move to the water and put those skills into practice.</p></details><details class="qa"><summary><h3>Will I actually stand up?</h3></summary><p>About 95% of Troy&#x27;s students stand up in their first lesson.</p></details><details class="qa"><summary><h3>Where do we meet?</h3></summary><p>Troy picks the spot for each lesson based on the conditions, safety and your ability, and texts you where to meet before your lesson.</p></details><details class="qa"><summary><h3>How early should I arrive?</h3></summary><p>Allow time to find parking, especially in summer. We recommend arriving 15 minutes before your lesson.</p></details><details class="qa"><summary><h3>What equipment is provided?</h3></summary><p>Your lesson includes a premium surfboard, wetsuit and leash. Your equipment will be waiting for you at the beach.</p></details><details class="qa"><summary><h3>What should I bring?</h3></summary><p>Bring what you would bring for a day at the beach: a bottle of water, a bathing suit, sunscreen and a towel.</p></details></div>
+      <div><details class="qa"><summary><h3>Do I need to sign a waiver?</h3></summary><p>Yes. You sign it online when you book, and it must be signed before your lesson starts.</p></details><details class="qa"><summary><h3>What payment methods do you accept?</h3></summary><p>Credit and debit cards, Apple Pay, Zelle and Venmo. If you&#x27;d rather book by text, you can pay with Zelle or Venmo.</p></details><details class="qa"><summary><h3>How do I tip my instructor?</h3></summary><p>Tips can be given by Zelle, Venmo or cash.</p></details><details class="qa"><summary><h3>When can I get a full refund?</h3></summary><p>If you ask for a refund 24 or more hours before your lesson, or if the lesson is cancelled because of conditions, you get a full refund.</p></details><details class="qa"><summary><h3>What if I need to reschedule?</h3></summary><p>You can reschedule free of charge if you let Troy know at least 12 hours before your lesson.</p></details><details class="qa"><summary><h3>Is there somewhere to store my things?</h3></summary><p>No. Pack for a day at the beach. We are not responsible for personal belongings.</p></details><details class="qa"><summary><h3>Are there restrooms nearby?</h3></summary><p>There are no restrooms directly on the beach. You&#x27;ll need to use a nearby business.</p></details><details class="qa"><summary><h3>Can I surf with goggles, a life jacket or floaties?</h3></summary><p>We recommend not wearing goggles if you can avoid it. Life jackets and floaties get in the way of paddling, so we don&#x27;t use them.</p></details><details class="qa"><summary><h3>Can I rent a surfboard after my lesson?</h3></summary><p>We don&#x27;t rent boards, but several local shops rent surfboards and wetsuits by the day.</p></details><details class="qa"><summary><h3>Can I buy a surf lesson as a gift?</h3></summary><p>Yes. Gift cards come in any amount from $50 to $1,000 and are good for any lesson.</p></details></div>
     </div>
   </div>
 </section>
 </main>
 
 <div class="mob-bar">
-  <a class="btn btn-o btn-sm" href="tel:+19492805818">Call Troy</a>
+  <a class="btn btn-o btn-sm" href="sms:+19492805818">Text Troy</a>
   <a class="btn btn-sm" href="#book">Book a lesson</a>
 </div>
 
@@ -1321,7 +1409,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
   <div class="wrap f-top">
     <div class="f-tag">
       <p class="lab">Laguna Surf Lessons</p>
-      <p>Surf lessons at Thalia Street, taught by the guy who grew up on it.</p>
+      <p>Surf lessons in Laguna Beach and South Orange County, taught by the guy who grew up here.</p>
     </div>
     <div class="f-cols">
       <div>
@@ -1338,16 +1426,16 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
         <ul>
           <li><a href="#troy">Meet Troy</a></li>
           <li><a href="#reviews">Reviews</a></li>
-          <li><a href="/thalia-street-beach">Where we meet</a></li>
+          <li><a href="#surf">Surf check</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </div>
       <div>
         <h4>Get in the water</h4>
         <ul>
-          <li><a href="tel:+19492805818">949-280-5818</a></li>
-          <li>Thalia Street Beach<br>Laguna Beach, CA 92651</li>
-          <li>Lessons from 7am, closed Tuesdays</li>
+          <li><a href="sms:+19492805818">Text Troy, 949-280-5818</a></li>
+          <li>Laguna Beach, CA 92651</li>
+          <li>Lessons 6 AM to 5 PM, closed Mondays</li>
           <li><a href="#book">Book a lesson</a></li>
         </ul>
       </div>
@@ -1363,12 +1451,11 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
 <script>
 (function(){
   var LESSONS = [
-    {k:'private',  n:'Private lesson',    d:'1-on-1 with Troy, 90 minutes',        p:160, per:false, min:1, max:1},
+    {k:'private',  n:'Private lesson',    d:'1-on-1 with Troy, 90 minutes',        p:170, per:false, min:1, max:1},
     {k:'pgroup',   n:'Private group',     d:'Your own people, 2 to 5',             p:130, per:true,  min:2, max:5},
-    {k:'advanced', n:'Advanced coaching', d:'For surfers who already stand up',    p:160, per:false, min:1, max:1}
+    {k:'advanced', n:'Advanced coaching', d:'For surfers who already stand up',    p:180, per:false, min:1, max:1}
   ];
-  var TIMES = ['7:00 AM','9:00 AM','11:00 AM','1:00 PM','3:00 PM'];
-  var TIDES = ['Tide 2.1 ft rising','Tide 3.4 ft high','Tide 3.0 ft falling','Tide 2.2 ft falling','Tide 1.9 ft low'];
+    var TIDES = ['Tide 2.1 ft rising','Tide 3.4 ft high','Tide 3.0 ft falling','Tide 2.2 ft falling','Tide 1.9 ft low'];
   var state = {lesson:LESSONS[0], date:null, dateKey:null, time:null, sessionId:null, qty:1, phase:1};
   var $ = function(id){ return document.getElementById(id); };
 
@@ -1399,7 +1486,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
   }
 
   function loadAvailability(){
-    wrapD.innerHTML = '<p class="mute" style="font-size:.9rem">Loading Troy&rsquo;s diary&hellip;</p>';
+    wrapD.innerHTML = '<p class="mute" style="font-size:.9rem;flex-basis:100%;max-width:60ch">Loading Troy&rsquo;s diary&hellip;</p>';
     wrapT.innerHTML = '';
     return fetch('/api/availability', {headers:{'Accept':'application/json'}})
       .then(function(r){ if (!r.ok) throw new Error('unavailable'); return r.json(); })
@@ -1410,17 +1497,16 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
         renderDates();
       })
       .catch(function(){
-        wrapD.innerHTML = '<p class="mute" style="font-size:.9rem">' +
-          'We could not load the diary just now. Call Troy on ' +
-          '<a href="tel:+19495550100">(949) 555-0100</a> and he will sort you out.</p>';
+        wrapD.innerHTML = '<p class="mute" style="font-size:.9rem;flex-basis:100%;max-width:60ch">' +
+          'We could not load the diary just now. <a href="sms:+19492805818">Text Troy</a> at 949-280-5818 and he will sort you out.</p>';
       });
   }
 
   function renderDates(){
     wrapD.innerHTML = '';
     if (!AVAIL.length){
-      wrapD.innerHTML = '<p class="mute" style="font-size:.9rem">Nothing open in the next few weeks &mdash; ' +
-        'call Troy and he will find you a slot.</p>';
+      wrapD.innerHTML = '<p class="mute" style="font-size:.9rem;flex-basis:100%;max-width:60ch">Nothing open in the next few weeks &mdash; ' +
+        '<a href="sms:+19492805818">text Troy</a> at 949-280-5818 and he will find you a slot.</p>';
       return;
     }
     AVAIL.slice(0, 14).forEach(function(day, i){
@@ -1560,7 +1646,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
     $('q-minus').disabled = state.qty <= L.min;
     $('q-plus').disabled  = state.qty >= L.max;
     $('q-out').textContent = state.qty;
-    $('step-qty').style.opacity = (L.max === 1) ? .5 : 1;
+    $('step-qty').style.opacity = 1;
     $('q-note').textContent = L.max === 1
       ? 'This one is one-on-one.'
       : 'Two to five people, all yours.';
@@ -1590,7 +1676,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
       state.phase = 2;
       $('bk-more').hidden = false;
       $('s-go').textContent = 'Confirm booking';
-      $('s-note').textContent = 'Payment is the last step. In the live site Stripe handles it right here.';
+      $('s-note').textContent = 'Once you confirm, check your email for your booking confirmation. If you don\u2019t see it, check your spam folder.';
       startHold();
       buildSurfers();
       var first = document.querySelector('#bk-more .step');
@@ -1679,8 +1765,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
       $('cf-cal').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
         + '&text=' + encodeURIComponent('Surf lesson with Troy - Laguna Surf Lessons')
         + '&dates=' + g(st) + '/' + g(en)
-        + '&location=' + encodeURIComponent('Thalia Street Beach, Laguna Beach, CA')
-        + '&details=' + encodeURIComponent('Booking ' + b.ref + '. Meet at the bottom of the Thalia Street stairs, turn left. Board and wetsuit included.');
+        + '&details=' + encodeURIComponent('Booking ' + b.ref + '. Troy texts you the spot before your lesson. Questions: text Troy at 949-280-5818. Board and wetsuit included.');
 
       $('stub-live').hidden = true;
       $('stub-done').hidden = false;
@@ -1831,12 +1916,12 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
   var $ = function(id){ return document.getElementById(id); };
   var form = $('gc'); if (!form) return;
   var AMOUNTS = [
-    {v:160, n:'One private lesson',  d:'Ninety minutes, one-on-one with Troy'},
-    {v:320, n:'Two private lessons', d:'The one where it clicks is usually the second'},
-    {v:480, n:'Three private lessons', d:'Enough to be paddling into them alone'},
+    {v:170, n:'One private lesson',  d:'Ninety minutes, one-on-one with Troy'},
+    {v:340, n:'Two private lessons', d:'The one where it clicks is usually the second'},
+    {v:510, n:'Three private lessons', d:'Enough to be paddling into them alone'},
     {v:0,   n:'Another amount',      d:'Anything from $50 &mdash; they put it toward whatever they book'}
   ];
-  var state = {amount:160, custom:0};
+  var state = {amount:170, custom:0};
   var wrap = $('gc-amounts');
   AMOUNTS.forEach(function(A,i){
     var lab = document.createElement('label');
@@ -1955,19 +2040,39 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
 </script>
 <script>
 (function(){
-  function ft(m){return Math.round(m*3.28084*2)/2}
-  fetch('https://marine-api.open-meteo.com/v1/marine?latitude=33.5369&longitude=-117.7769&current=wave_height,sea_surface_temperature&timezone=America%2FLos_Angeles')
-    .then(function(r){return r.json()}).then(function(d){
-      var c=d&&d.current; if(!c) return;
-      if(c.wave_height!=null){var a=ft(c.wave_height); document.getElementById('rp-surf').textContent=(a<1?'Under 1':a+'–'+(a+1))+' ft';}
-      if(c.sea_surface_temperature!=null){document.getElementById('rp-water').textContent=Math.round(c.sea_surface_temperature*9/5+32)+'°F';}
-    }).catch(function(){});
-  fetch('/api/availability',{headers:{'Accept':'application/json'}}).then(function(r){return r.json()}).then(function(d){
-    var days=(d&&d.days)||[], now=new Date();
-    for(var i=0;i<days.length;i++){var s=(days[i].slots||[]).filter(function(x){return x.open})[0];
-      if(s){var dt=new Date(s.startsAt), t=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);
-        var lab=dt.toDateString()===now.toDateString()?'Today':dt.toDateString()===t.toDateString()?'Tomorrow':dt.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',timeZone:'America/Los_Angeles'});
-        document.getElementById('rp-next').innerHTML=lab+' &middot; '+s.time+' <span aria-hidden="true">&#8594;</span>'; return;}}
+  var sel = document.getElementById('spot-pick'); if (!sel) return;
+  var DIRS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  function dir(d){ return d == null ? '' : DIRS[Math.round(d / 22.5) % 16]; }
+  function ft(m){ return Math.round(m * 3.28084 * 2) / 2; }
+  function set(id, t){ var el = document.getElementById(id); if (el) el.textContent = t; }
+  var KEY = 'lsl-spot', n = 0;
+  function load(){
+    var o = sel.options[sel.selectedIndex], mine = ++n;
+    document.getElementById('rp-sl').href = o.getAttribute('data-sl');
+    set('rp-swell', '...'); set('rp-wind', '...'); set('rp-water', '...');
+    fetch('/api/conditions?spot=' + sel.value, {headers:{'Accept':'application/json'}})
+      .then(function(r){ if (!r.ok) throw 0; return r.json(); }).then(function(c){
+        if (mine !== n) return;
+        set('rp-swell', c.swellM == null ? 'n/a' : ft(c.swellM) + ' ft ' + Math.round(c.swellPeriodS) + 's ' + dir(c.swellDirDeg));
+        set('rp-water', c.waterC == null ? 'n/a' : Math.round(c.waterC * 9 / 5 + 32) + '\u00B0F');
+        set('rp-wind', c.windMph == null ? 'n/a' : Math.round(c.windMph) + ' mph ' + dir(c.windDirDeg));
+      }).catch(function(){ if (mine === n){ set('rp-swell', 'n/a'); set('rp-wind', 'n/a'); set('rp-water', 'n/a'); } });
+  }
+  try { var saved = localStorage.getItem(KEY); if (saved && sel.options[+saved]) sel.selectedIndex = +saved; } catch (e) {}
+  sel.addEventListener('change', function(){ try { localStorage.setItem(KEY, sel.selectedIndex); } catch (e) {} load(); });
+  load();
+  fetch('/api/availability', {headers:{'Accept':'application/json'}}).then(function(r){ return r.json(); }).then(function(d){
+    var days = (d && d.days) || [], now = new Date();
+    for (var i = 0; i < days.length; i++){
+      var s = (days[i].slots || []).filter(function(x){ return x.open; })[0];
+      if (s){
+        var dt = new Date(s.startsAt), t = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+        var lab = dt.toDateString() === now.toDateString() ? 'Today' : dt.toDateString() === t.toDateString() ? 'Tomorrow' :
+          dt.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric', timeZone:'America/Los_Angeles'});
+        document.getElementById('rp-next').innerHTML = lab + ' &middot; ' + s.time + ' <span aria-hidden="true">&#8594;</span>';
+        return;
+      }
+    }
   }).catch(function(){});
 })();
 </script>

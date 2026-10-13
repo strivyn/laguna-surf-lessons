@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS gift_cards (
   message         text,
   send_on         date,
   sent_at         timestamptz,
-  status          text NOT NULL DEFAULT 'active',  -- active | spent | void
+  status          text NOT NULL DEFAULT 'active',  -- active | unpaid | spent | void
   created_at      timestamptz NOT NULL DEFAULT now(),
   CONSTRAINT gift_balance_ck CHECK (balance_cents >= 0 AND balance_cents <= initial_cents)
 );

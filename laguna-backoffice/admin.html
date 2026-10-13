@@ -204,7 +204,7 @@ td{padding:9px 10px 9px 0; border-top:1px solid var(--line); vertical-align:top}
       <div class="h"><h2>Issue a card</h2><span class="sub">Sold in person, or making one good</span></div>
       <div class="card">
         <div class="grid2">
-          <label class="fld"><span>Amount ($)</span><input id="gi-amt" type="number" min="50" max="1000" step="5" value="160"></label>
+          <label class="fld"><span>Amount ($)</span><input id="gi-amt" type="number" min="50" max="1000" step="5" value="170"></label>
           <label class="fld"><span>Recipient name</span><input id="gi-rname"></label>
           <label class="fld"><span>Recipient email</span><input id="gi-remail" type="email"></label>
           <label class="fld"><span>From</span><input id="gi-fname"></label>
@@ -510,7 +510,7 @@ function renderCard(card, ledger){
           (card.recipient_name ? 'For ' + esc(card.recipient_name) + '<br>' : '') +
           (card.recipient_email ? esc(card.recipient_email) : '') + '</div>' +
       '</div>' +
-      (card.status === 'void' ? '' :
+      (card.status === 'void' || card.status === 'unpaid' ? '' :
       '<div class="row" style="margin-top:14px; align-items:end">' +
         '<label class="fld" style="max-width:150px"><span>Take off ($)</span>' +
           '<input id="gc-amt" type="number" min="1" step="1" value="' + (card.balance_cents/100) + '"></label>' +
@@ -519,6 +519,7 @@ function renderCard(card, ledger){
         '<div style="padding-bottom:10px"><button class="btn sm" id="gc-redeem">Redeem</button></div>' +
       '</div>') +
       '<div class="acts">' +
+        (card.status === 'unpaid' ? '<p class="small muted" style="margin:0 0 10px">Bought on the site. Take payment, then mark it paid and send them the code.</p><button class="btn sm" id="gc-paid">Mark paid</button> ' : '') +
         '<button class="btn o sm" id="gc-void">' + (card.status==='void'?'Un-void':'Void this card') + '</button>' +
       '</div>' +
       (rows ? '<div class="scroll" style="margin-top:14px"><table><thead><tr><th>When</th><th>Amount</th><th>Reason</th><th>By</th></tr></thead><tbody>' + rows + '</tbody></table></div>' : '') +
@@ -535,6 +536,12 @@ function renderCard(card, ledger){
       findCard(card.code);
       loadGiftList();
     }).catch(function(err){ flash(err.message, 'err'); });
+  });
+  var paid = $('gc-paid');
+  if (paid) paid.addEventListener('click', function(){
+    api('/api/admin/giftcards', {method:'POST', body: JSON.stringify({action:'markpaid', code: card.code})})
+      .then(function(){ flash('Marked paid. The card works now.'); findCard(card.code); loadGiftList(); })
+      .catch(function(err){ flash(err.message, 'err'); });
   });
   $('gc-void').addEventListener('click', function(){
     var next = card.status === 'void' ? 'unvoid' : 'void';
@@ -652,14 +659,13 @@ function renderSettings(){
   $('sched-card').innerHTML =
     '<table><tbody>' +
     '<tr><td class="tiny">Lesson length</td><td>' + sc.durationMin + ' minutes</td></tr>' +
-    '<tr><td class="tiny">All year</td><td>' + sc.timesAllYear.join(' · ') + '</td></tr>' +
-    '<tr><td class="tiny">April–September</td><td>also ' + sc.timesInSeason.join(' · ') + '</td></tr>' +
+    '<tr><td class="tiny">Start times</td><td>' + sc.timesAllYear.join(' · ') + '</td></tr>' +
+    (sc.timesInSeason.length ? '<tr><td class="tiny">April–September</td><td>also ' + sc.timesInSeason.join(' · ') + '</td></tr>' : '') +
     '<tr><td class="tiny">Closed</td><td>' + sc.daysOff.map(function(d){ return DAY[d]; }).join(', ') + '</td></tr>' +
     '<tr><td class="tiny">Booking cutoff</td><td>' + sc.leadTimeHours + ' hours before the lesson</td></tr>' +
     '<tr><td class="tiny">Books ahead</td><td>' + sc.horizonDays + ' days</td></tr>' +
     '</tbody></table>' +
-    '<p class="small muted">Slots sit two hours apart, so a ' + sc.durationMin +
-    '-minute lesson leaves you thirty minutes to turn the gear around. ' +
+    '<p class="small muted">Lessons are ' + sc.durationMin + ' minutes and start about two hours apart, so there is time to turn the gear around. ' +
     'Changing any of this is a one-line edit in <code>lib/availability.js</code>.</p>';
 }
 

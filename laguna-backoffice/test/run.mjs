@@ -63,17 +63,18 @@ function futureDate() {
 }
 
 // ---------------------------------------------------------------- pure logic
-await t('lesson length is ninety minutes on a two-hour grid', async () => {
+await t('lesson length is ninety minutes, 6 AM to 5 PM, no overlaps', async () => {
   const { SCHEDULE } = await import('../lib/availability.js');
   assert.equal(SCHEDULE.durationMin, 90);
   const all = [...SCHEDULE.timesAllYear, ...SCHEDULE.timesInSeason];
-  assert.deepEqual(all, ['7:00 AM', '9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM']);
-  // consecutive slots are two hours apart
+  assert.deepEqual(all, ['6:00 AM', '8:00 AM', '10:00 AM', '12:00 PM', '2:00 PM', '3:30 PM']);
   const d = '2026-07-15';
   const mins = all.map(x => localToInstant(d, x).getTime());
   for (let i = 1; i < mins.length; i++) {
-    assert.equal((mins[i] - mins[i - 1]) / 60000, 120, `${all[i - 1]} -> ${all[i]}`);
+    assert.ok((mins[i] - mins[i - 1]) / 60000 >= SCHEDULE.durationMin, `${all[i - 1]} overlaps ${all[i]}`);
   }
+  // the last lesson is over by 5 PM
+  assert.equal(mins[mins.length - 1] + SCHEDULE.durationMin * 60000, localToInstant(d, '5:00 PM').getTime());
 });
 
 await t('group lessons are gone from the price list', async () => {
@@ -82,10 +83,10 @@ await t('group lessons are gone from the price list', async () => {
   assert.equal(LESSONS.group, undefined);
 });
 
-await t('Tuesdays are closed and winter has no afternoon', async () => {
-  assert.deepEqual(timesFor('2026-09-08'), []);                  // a Tuesday
-  assert.equal(timesFor('2026-01-15').length, 3);                // January
-  assert.equal(timesFor('2026-07-15').length, 5);                // July
+await t('Mondays are closed, every other day runs the full day', async () => {
+  assert.deepEqual(timesFor('2026-10-19'), []);                  // a Monday
+  assert.equal(timesFor('2026-01-15').length, 6);                // January
+  assert.equal(timesFor('2026-07-15').length, 6);                // July
 });
 
 await t('price is computed from the keys, never the client', async () => {
