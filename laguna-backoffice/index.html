@@ -1327,10 +1327,10 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
       <div>
         <h4>Lessons</h4>
         <ul>
-          <li><a href="#lessons">Private lesson</a></li>
-          <li><a href="#lessons">Private group</a></li>
-          <li><a href="#gift">Gift cards</a></li>
-          <li><a href="#lessons">Advanced coaching</a></li>
+          <li><a href="/private-surf-lessons">Private lesson</a></li>
+          <li><a href="/group-surf-lessons">Private group</a></li>
+          <li><a href="/surf-lesson-gift-cards">Gift cards</a></li>
+          <li><a href="/advanced-surf-coaching">Advanced coaching</a></li><li><a href="/kids-surf-lessons">Kids surf lessons</a></li>
         </ul>
       </div>
       <div>
@@ -1338,7 +1338,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
         <ul>
           <li><a href="#troy">Meet Troy</a></li>
           <li><a href="#reviews">Reviews</a></li>
-          <li><a href="#where">Where we meet</a></li>
+          <li><a href="/thalia-street-beach">Where we meet</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
       </div>
@@ -1492,6 +1492,13 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
     state.qty = Math.max(L.min, Math.min(L.max, state.qty));
     buildSurfers(); render();
   });
+  (function(){
+    var m = /^#book-(private|pgroup|advanced)$/.exec(location.hash || '');
+    if (!m) return;
+    var input = wrapL.querySelector('input[value="'+m[1]+'"]');
+    if (input){ input.checked = true; input.dispatchEvent(new Event('change',{bubbles:true})); }
+    var bk = document.getElementById('book'); if (bk) setTimeout(function(){ bk.scrollIntoView(); }, 60);
+  })();
   [].forEach.call(document.querySelectorAll('[data-pick]'), function(a){
     a.addEventListener('click', function(){
       var k = a.getAttribute('data-pick');
