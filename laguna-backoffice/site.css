@@ -216,7 +216,7 @@ section{padding:clamp(60px,8.5vw,120px) 0}
 .cred div{padding-right:26px; margin-right:26px; border-right:1px solid var(--line)}
 .cred div:last-child{border-right:0; margin-right:0; padding-right:0}
 .cred b{display:block; font-weight:600; font-size:.98rem}
-.cred span{font-family:var(--f-lab); font-weight:600; text-transform:uppercase; letter-spacing:.16em; font-size:.64rem; color:var(--mute)}
+.cred > div > span{font-family:var(--f-lab); font-weight:600; text-transform:uppercase; letter-spacing:.14em; font-size:.74rem; color:var(--mute)}
 .pframe{position:relative; border-radius:18px; overflow:hidden; height:clamp(420px,52vw,600px)}
 .pframe svg{position:absolute; inset:0; width:100%; height:100%}
 .troy-g figcaption{font-family:var(--f-lab); font-weight:600; text-transform:uppercase; letter-spacing:.18em; font-size:.68rem; color:var(--mute); margin-top:12px}
@@ -399,7 +399,7 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
 .paydemo{border:1.5px dashed var(--line2); border-radius:14px; padding:16px; background:#FFF}
 .demo-tag{margin:0 0 12px; font-family:var(--f-lab); font-weight:700; text-transform:uppercase; letter-spacing:.14em;
   font-size:.62rem; color:var(--rust)}
-.pay-ghost{opacity:.55; pointer-events:none; display:flex; flex-direction:column; gap:10px}
+.pay-ghost{opacity:1; pointer-events:none; display:flex; flex-direction:column; gap:10px}
 .pg-row{display:flex; gap:10px}
 .pg-pill{flex:1; text-align:center; padding:11px 0; border-radius:9px; border:1.5px solid var(--line2);
   font-weight:600; font-size:.95rem; background:#FFF}

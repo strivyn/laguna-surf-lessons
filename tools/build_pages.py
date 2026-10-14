@@ -202,7 +202,7 @@ def page(p):
 </div></section>
 <section class="sp-body"><div class="wrap sp-cols">
   <div style="display:grid;gap:34px">{secs}
-    <blockquote style="margin:0;border-left:3px solid var(--sun);padding:4px 0 4px 18px"><p style="margin:0;font-size:1.15rem;font-weight:600;line-height:1.45">&ldquo;{esc(q)}&rdquo;</p><p class="lab" style="margin-top:10px">&#9733;&#9733;&#9733;&#9733;&#9733; &middot; {esc(who)} &middot; Google review &middot; 4.8 from 16 reviews</p></blockquote>
+    <blockquote style="margin:0;border-left:3px solid var(--sun);padding:4px 0 4px 18px"><p style="margin:0;font-size:1.15rem;font-weight:600;line-height:1.45">&ldquo;{esc(q)}&rdquo;</p><p class="lab" style="margin-top:10px">&#9733;&#9733;&#9733;&#9733;&#9733; &middot; {esc(who)} &middot; Google review &middot; 4.9 from 38 reviews</p></blockquote>
   </div>
   <div style="display:grid;gap:34px">
     <div class="sp-sec"><p class="lab">The details</p><dl class="sp-dl">{facts}</dl></div>
