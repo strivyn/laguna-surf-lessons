@@ -59,13 +59,14 @@ export default async function handler(req, res) {
 
   const rows = await sql`
     SELECT b.ref, b.lesson_name, b.party_size, b.status, b.notes,
-           b.total_cents, b.gift_cents,
+           b.total_cents, b.gift_cents, b.paid_cents,
            s.starts_at, s.duration_min,
            c.name AS customer_name, c.email, c.phone
       FROM bookings b
       JOIN sessions s  ON s.id = b.session_id
       JOIN customers c ON c.id = b.customer_id
      WHERE s.local_date >= ${from} AND s.local_date <= ${to}
+       AND b.status NOT IN ('pending_payment', 'expired')
      ORDER BY s.starts_at`;
 
   const now = stamp(new Date());
@@ -96,7 +97,7 @@ export default async function handler(req, res) {
       r.phone ? `Phone ${r.phone}` : null,
       r.email ? `Email ${r.email}` : null,
       r.gift_cents > 0 ? `Gift card covered $${(r.gift_cents / 100).toFixed(2)}` : null,
-      `Owed $${(r.total_cents / 100).toFixed(2)}`,
+      r.paid_cents > 0 ? `Paid $${(r.paid_cents / 100).toFixed(2)} by card` : `Owed $${(r.total_cents / 100).toFixed(2)}`,
       r.notes ? `Note: ${r.notes}` : null,
       cancelled ? `CANCELLED (${r.status.replace('_', ' ')})` : null,
     ].filter(Boolean).join('\n');

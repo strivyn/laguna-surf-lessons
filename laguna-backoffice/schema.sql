@@ -118,3 +118,15 @@ CREATE TABLE IF NOT EXISTS audit_log (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS audit_created_idx ON audit_log (created_at DESC);
+
+-- Stripe Checkout (2026-10-19). A booking that owes money sits in
+-- 'pending_payment' holding its slot until Stripe says paid, or the session
+-- expires and the slot is released.
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS stripe_session_id text;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS stripe_payment_intent text;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS paid_cents integer NOT NULL DEFAULT 0;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS paid_at timestamptz;
+ALTER TABLE bookings ADD COLUMN IF NOT EXISTS refunded_cents integer NOT NULL DEFAULT 0;
+ALTER TABLE gift_cards ADD COLUMN IF NOT EXISTS stripe_session_id text;
+ALTER TABLE gift_cards ADD COLUMN IF NOT EXISTS stripe_payment_intent text;
+CREATE INDEX IF NOT EXISTS bookings_pending_idx ON bookings (created_at) WHERE status = 'pending_payment';

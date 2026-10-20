@@ -2,6 +2,8 @@
 
 import { issue, lookup, MIN_CENTS, MAX_CENTS } from '../lib/giftcards.js';
 import { readBody, methodGuard } from '../lib/http.js';
+import { sql } from '../lib/db.js';
+import { paymentsOn, createCheckout, SITE } from '../lib/stripe.js';
 
 export default async function handler(req, res) {
   if (!methodGuard(req, res, 'GET', 'POST')) return;
@@ -34,6 +36,26 @@ export default async function handler(req, res) {
       message: b.message,
       sendOn: b.sendOn || null,
     });
+    if (paymentsOn()) {
+      let session;
+      try {
+        session = await createCheckout({
+          name: `Laguna Surf Lessons gift card, $${card.initial_cents / 100}`,
+          description: `For ${card.recipient_name}. Good for any lesson with Troy.`,
+          amountCents: card.initial_cents,
+          email: b.purchaserEmail || undefined,
+          metadata: { gift: card.code },
+          successUrl: `${SITE}/?giftpaid=${card.code}&cs={CHECKOUT_SESSION_ID}#gift`,
+          cancelUrl: `${SITE}/?giftunpaid=1#gift`,
+        });
+      } catch (err) {
+        console.error('gift checkout failed', err.message);
+        await sql`UPDATE gift_cards SET status = 'void' WHERE code = ${card.code}`;
+        return res.status(502).json({ error: 'Card payment is not working right now. Text Troy at 949-280-5818.' });
+      }
+      await sql`UPDATE gift_cards SET stripe_session_id = ${session.id} WHERE code = ${card.code}`;
+      return res.status(201).json({ checkoutUrl: session.url });
+    }
     res.status(201).json({
       code: card.code,
       amountCents: card.initial_cents,

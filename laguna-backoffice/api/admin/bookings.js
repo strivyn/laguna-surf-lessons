@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   const bookings = await sql`
     SELECT b.id, b.ref, b.session_id, b.lesson_key, b.lesson_name, b.party_size,
            b.subtotal_cents, b.addons_cents, b.gift_cents, b.total_cents,
-           b.gift_code, b.status, b.notes, b.addons, b.created_at,
+           b.gift_code, b.status, b.notes, b.addons, b.created_at, b.paid_cents, b.refunded_cents,
            s.local_date::text AS local_date, s.local_time, s.starts_at,
            c.name AS customer_name, c.email, c.phone,
            w.id AS waiver_id, w.signed_by_name, w.signer_role, w.signed_at, w.expires_at
@@ -31,6 +31,7 @@ export default async function handler(req, res) {
       JOIN customers c ON c.id = b.customer_id
       LEFT JOIN waivers w ON w.booking_id = b.id
      WHERE s.local_date >= ${from} AND s.local_date <= ${to}
+       AND b.status NOT IN ('pending_payment', 'expired')
      ORDER BY s.starts_at`;
 
   const ids = bookings.map(b => Number(b.id));

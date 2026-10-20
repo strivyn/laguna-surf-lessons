@@ -141,7 +141,7 @@ let bookedRef, cancelToken;
 await t('a booking is taken, priced server-side, and stored with its waiver', async () => {
   const res = await call('../api/book.js', { method: 'POST', body: bookingBody({ totalCents: 1 }) });
   assert.equal(res.statusCode, 201);
-  assert.equal(res.body.totalCents, 18500);          // 160 + 25, not the 1 they sent
+  assert.equal(res.body.totalCents, 19500);          // 170 + 25, not the 1 they sent
   bookedRef = res.body.ref;
   cancelToken = res.body.cancelToken;
 
@@ -259,6 +259,7 @@ await t('a gift card covers a booking and the rest is owed', async () => {
     body: { amountCents: 10000, recipientName: 'Jo', recipientEmail: 'jo@example.com' },
   });
   const gcode = issued.body.code;
+  await sql`UPDATE gift_cards SET status = 'active' WHERE code = ${gcode}`; // paid
 
   const d = futureDate();
   await call('../api/availability.js', { query: { from: d, to: d } });
@@ -270,7 +271,7 @@ await t('a gift card covers a booking and the rest is owed', async () => {
   });
   assert.equal(made.statusCode, 201);
   assert.equal(made.body.giftCents, 10000);
-  assert.equal(made.body.totalCents, 6000, '$160 lesson less a $100 card');
+  assert.equal(made.body.totalCents, 7000, '$170 lesson less a $100 card');
 
   const card = await sql`SELECT balance_cents, status FROM gift_cards WHERE code = ${gcode}`;
   assert.equal(card[0].balance_cents, 0);
@@ -294,6 +295,7 @@ await t('a card cannot be spent twice by two racing checkouts', async () => {
     method: 'POST', body: { amountCents: 16000, recipientName: 'Jo', recipientEmail: 'jo@example.com' },
   });
   const gcode = issued.body.code;
+  await sql`UPDATE gift_cards SET status = 'active' WHERE code = ${gcode}`; // paid
   const { redeem } = await import('../lib/giftcards.js');
 
   const tries = Array.from({ length: 6 }, () =>
@@ -501,6 +503,152 @@ await t('a cancelled booking is published as cancelled so it leaves the phone', 
   assert.match(ics, /STATUS:CANCELLED/);
   assert.match(ics, new RegExp('UID:' + b[0].ref));
 });
+
+
+// ---------------------------------------------------------------- Stripe
+// Stripe is faked at the fetch layer: a little in-memory Checkout that the
+// tests can mark paid or expired. Everything above the HTTP call is real.
+const fakeStripe = { sessions: new Map(), refunds: [], n: 0 };
+const realFetch = globalThis.fetch;
+globalThis.fetch = async (url, opts = {}) => {
+  const u = String(url);
+  if (!u.startsWith('https://api.stripe.com/')) {
+    if (u.startsWith('https://api.resend.com/')) return new Response(JSON.stringify({ id: 'em_test' }), { status: 200 });
+    return realFetch(url, opts);
+  }
+  const path = u.replace('https://api.stripe.com/v1', '').split('?')[0];
+  const body = new URLSearchParams(opts.body ? String(opts.body) : '');
+  if (opts.method === 'POST' && path === '/checkout/sessions') {
+    const id = 'cs_test_' + (++fakeStripe.n) + 'abc';
+    const md = {};
+    for (const [k, v] of body) { const m = k.match(/^metadata\[(\w+)\]$/); if (m) md[m[1]] = v; }
+    const s = { id, url: 'https://checkout.stripe.com/c/pay/' + id, metadata: md,
+      amount_total: Number(body.get('line_items[0][price_data][unit_amount]')),
+      payment_status: 'unpaid', status: 'open', payment_intent: null,
+      customer_details: { email: body.get('customer_email') || 'buyer@example.com' } };
+    fakeStripe.sessions.set(id, s);
+    return new Response(JSON.stringify(s), { status: 200 });
+  }
+  if (opts.method === 'GET' && path.startsWith('/checkout/sessions/')) {
+    const s = fakeStripe.sessions.get(decodeURIComponent(path.split('/').pop()));
+    return new Response(JSON.stringify(s || { error: { message: 'no such session' } }), { status: s ? 200 : 404 });
+  }
+  if (opts.method === 'POST' && path === '/refunds') {
+    fakeStripe.refunds.push({ pi: body.get('payment_intent'), amount: Number(body.get('amount')) });
+    return new Response(JSON.stringify({ id: 're_' + fakeStripe.refunds.length }), { status: 200 });
+  }
+  return new Response('{}', { status: 400 });
+};
+const payFake = id => Object.assign(fakeStripe.sessions.get(id), { payment_status: 'paid', status: 'complete', payment_intent: 'pi_' + id });
+
+process.env.STRIPE_SECRET_KEY = 'sk_test_fake';
+process.env.RESEND_API_KEY ||= 're_test_fake';
+
+async function freshSlot() {
+  const d = futureDate();
+  await call('../api/availability.js', { query: { from: d, to: d } });
+  const rows = await sql`SELECT id FROM sessions WHERE local_date = ${d} AND booked_count = 0 ORDER BY starts_at LIMIT 1`;
+  return Number(rows[0].id);
+}
+
+let paidRef, paidCs;
+await t('with Stripe on, a booking goes to Checkout and holds the slot unpaid', async () => {
+  await reset();
+  const sid = await freshSlot();
+  const res = await call('../api/book.js', { method: 'POST', body: bookingBody({ sessionId: sid, addons: [] }) });
+  assert.equal(res.statusCode, 201);
+  assert.match(res.body.checkoutUrl, /^https:\/\/checkout\.stripe\.com\//);
+  paidRef = res.body.ref;
+  const b = await sql`SELECT status, stripe_session_id FROM bookings WHERE ref = ${paidRef}`;
+  assert.equal(b[0].status, 'pending_payment');
+  paidCs = b[0].stripe_session_id;
+  assert.equal(fakeStripe.sessions.get(paidCs).amount_total, 17000);
+  const s = await sql`SELECT booked_count FROM sessions WHERE id = ${sid}`;
+  assert.equal(s[0].booked_count, 1, 'slot is held while they pay');
+  const mail = await sql`SELECT count(*)::int AS n FROM audit_log WHERE action = 'email.sent' AND subject = ${paidRef}`;
+  assert.equal(mail[0].n, 0, 'no confirmation before payment');
+});
+
+await t('an unpaid session does not confirm on return', async () => {
+  const res = await call('../api/pay.js', { query: { cs: paidCs } });
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.body.booking.status, 'pending_payment');
+});
+
+await t('paying confirms the booking, records the payment and emails once', async () => {
+  payFake(paidCs);
+  const res = await call('../api/pay.js', { query: { cs: paidCs } });
+  assert.equal(res.body.booking.status, 'confirmed');
+  assert.equal(res.body.booking.paidCents, 17000);
+  await call('../api/stripe-webhook.js', { method: 'POST', body: { type: 'checkout.session.completed', data: { object: { id: paidCs } } } });
+  const mail = await sql`SELECT count(*)::int AS n FROM audit_log WHERE action = 'email.sent' AND subject = ${paidRef}`;
+  assert.equal(mail[0].n, 1, 'return page and webhook together send one email');
+});
+
+await t('Troy cancelling a paid booking refunds the card in full', async () => {
+  const res = await call('../api/admin/booking.js', { method: 'POST', headers: adminCookie, body: { ref: paidRef, action: 'weather' } });
+  assert.equal(res.body.refundedCents, 17000);
+  assert.equal(fakeStripe.refunds.at(-1).amount, 17000);
+  const again = await call('../api/admin/booking.js', { method: 'POST', headers: adminCookie, body: { ref: paidRef, action: 'cancel' } });
+  assert.equal(again.body.alreadyCancelled, true);
+  assert.equal(fakeStripe.refunds.length, 1, 'never refunded twice');
+});
+
+await t('leaving Checkout releases the slot and puts a gift card back', async () => {
+  await reset();
+  const g = await call('../api/giftcard.js', { method: 'POST', body: { amountCents: 5000, recipientName: 'Jo', recipientEmail: 'jo@example.com' } });
+  const gcs = (await sql`SELECT code, stripe_session_id FROM gift_cards`)[0];
+  assert.match(g.body.checkoutUrl, /checkout\.stripe\.com/);
+  payFake(gcs.stripe_session_id);
+  await call('../api/pay.js', { query: { cs: gcs.stripe_session_id } });
+  const sid = await freshSlot();
+  const res = await call('../api/book.js', { method: 'POST', body: bookingBody({ sessionId: sid, addons: [], giftCode: gcs.code }) });
+  const b = (await sql`SELECT ref, cancel_token, total_cents FROM bookings WHERE ref = ${res.body.ref}`)[0];
+  assert.equal(b.total_cents, 12000, '$170 less the $50 card goes to Checkout');
+  await call('../api/cancel.js', { method: 'POST', body: { ref: b.ref, token: b.cancel_token } });
+  const st = (await sql`SELECT status FROM bookings WHERE ref = ${b.ref}`)[0];
+  assert.equal(st.status, 'expired');
+  const s = (await sql`SELECT booked_count FROM sessions WHERE id = ${sid}`)[0];
+  assert.equal(s.booked_count, 0);
+  const card = (await sql`SELECT balance_cents FROM gift_cards WHERE code = ${gcs.code}`)[0];
+  assert.equal(card.balance_cents, 5000);
+});
+
+await t('a paid gift card goes active and is emailed to the buyer and the recipient', async () => {
+  const sent = await sql`SELECT detail FROM audit_log WHERE action = 'email.sent' AND detail->>'kind' LIKE 'gift%'`;
+  assert.equal(sent.length, 2);
+  const card = (await sql`SELECT status, sent_at FROM gift_cards`)[0];
+  assert.equal(card.status, 'active');
+  assert.ok(card.sent_at);
+});
+
+await t('a checkout left open past its time is swept and the slot comes back', async () => {
+  await reset();
+  const sid = await freshSlot();
+  const res = await call('../api/book.js', { method: 'POST', body: bookingBody({ sessionId: sid, addons: [] }) });
+  await sql`UPDATE bookings SET created_at = now() - interval '40 minutes' WHERE ref = ${res.body.ref}`;
+  const cs = (await sql`SELECT stripe_session_id FROM bookings WHERE ref = ${res.body.ref}`)[0].stripe_session_id;
+  fakeStripe.sessions.get(cs).status = 'expired';
+  await call('../api/availability.js', { query: {} });
+  assert.equal((await sql`SELECT status FROM bookings WHERE ref = ${res.body.ref}`)[0].status, 'expired');
+  assert.equal((await sql`SELECT booked_count FROM sessions WHERE id = ${sid}`)[0].booked_count, 0);
+
+  // ...and if they somehow paid after all, they get the slot back.
+  payFake(cs);
+  await call('../api/pay.js', { query: { cs } });
+  assert.equal((await sql`SELECT status FROM bookings WHERE ref = ${res.body.ref}`)[0].status, 'confirmed');
+  assert.equal((await sql`SELECT booked_count FROM sessions WHERE id = ${sid}`)[0].booked_count, 1);
+});
+
+await t('a paid booking inside 24 hours cannot self-cancel', async () => {
+  const b = (await sql`SELECT id, ref, cancel_token, session_id FROM bookings WHERE status = 'confirmed' LIMIT 1`)[0];
+  await sql`UPDATE sessions SET starts_at = now() + interval '5 hours' WHERE id = ${b.session_id}`;
+  const res = await call('../api/cancel.js', { method: 'POST', body: { ref: b.ref, token: b.cancel_token } });
+  assert.equal(res.statusCode, 409);
+});
+
+delete process.env.STRIPE_SECRET_KEY;
+globalThis.fetch = realFetch;
 
 // ---------------------------------------------------------------- report
 console.log('');

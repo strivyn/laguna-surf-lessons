@@ -9,7 +9,8 @@ import { sql } from '../lib/db.js';
 import { claimSlot, releaseSlot, priceBooking, SCHEDULE } from '../lib/availability.js';
 import { redeem } from '../lib/giftcards.js';
 import { readBody, methodGuard, clientIp, bookingRef } from '../lib/http.js';
-import { sendConfirmation } from '../lib/email.js';
+import { paymentsOn, createCheckout, SITE } from '../lib/stripe.js';
+import { bookingView, emailConfirmation, expireBooking } from '../lib/payments.js';
 
 const WAIVER_VERSION = '2026-08';
 
@@ -84,11 +85,11 @@ export default async function handler(req, res) {
     const bookRows = await sql`
       INSERT INTO bookings
         (ref, session_id, customer_id, lesson_key, lesson_name, party_size, addons,
-         subtotal_cents, addons_cents, gift_cents, total_cents, gift_code, cancel_token)
+         subtotal_cents, addons_cents, gift_cents, total_cents, gift_code, cancel_token, status)
       VALUES (${ref}, ${slot.id}, ${customerId}, ${lessonKey}, ${priced.lesson.name},
               ${priced.partySize}, ${JSON.stringify(priced.addons)},
               ${priced.subtotalCents}, ${priced.addonsCents}, 0, ${priced.totalCents},
-              ${null}, ${cancelToken})
+              ${null}, ${cancelToken}, ${paymentsOn() ? 'pending_payment' : 'confirmed'})
       RETURNING id, ref`;
     bookingId = bookRows[0].id;
 
@@ -138,26 +139,39 @@ export default async function handler(req, res) {
       VALUES ('customer', 'booking.created', ${ref},
               ${JSON.stringify({ sessionId: Number(slot.id), owed, appliedGift })})`;
 
-    // ---- confirmation email. Never decides the booking: it is already made.
-    let emailed = false;
-    try {
-      const sent = await sendConfirmation(String(email).trim(), {
-        ref,
-        lesson: priced.lesson.name,
-        startsAt: slot.starts_at,
-        names: people.map(p => p.name),
-        addons: priced.addons,
-        giftCents: appliedGift,
-        totalCents: owed,
-      });
-      emailed = sent.ok;
+    // ---- money owed: hand off to Stripe Checkout. The slot stays held as
+    // pending_payment until Stripe says paid, or the session lapses and the
+    // sweep gives the slot back.
+    if (paymentsOn() && owed > 0) {
+      const day = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', weekday: 'short', month: 'short', day: 'numeric' })
+        .format(new Date(slot.starts_at));
+      let session;
+      try {
+        session = await createCheckout({
+          name: `${priced.lesson.name}, ${day} at ${slot.local_time}`,
+          description: `${priced.partySize} ${priced.partySize === 1 ? 'surfer' : 'surfers'}. Board and wetsuit included. Booking ${ref}.`,
+          amountCents: owed,
+          email: String(email).trim(),
+          metadata: { ref },
+          successUrl: `${SITE}/?paid=${ref}&cs={CHECKOUT_SESSION_ID}#book`,
+          cancelUrl: `${SITE}/?unpaid=${ref}&t=${cancelToken}#book`,
+        });
+      } catch (err) {
+        console.error('checkout create failed', err.message);
+        await expireBooking(ref, 'checkout could not start');
+        return res.status(502).json({ error: 'Card payment is not working right now. Text Troy at 949-280-5818 and he will book you in.' });
+      }
+      await sql`UPDATE bookings SET stripe_session_id = ${session.id} WHERE id = ${bookingId}`;
       await sql`
         INSERT INTO audit_log (actor, action, subject, detail)
-        VALUES ('system', ${sent.ok ? 'email.sent' : 'email.failed'}, ${ref},
-                ${JSON.stringify(sent)})`;
-    } catch (err) {
-      console.error('confirmation email failed', err);
+        VALUES ('customer', 'booking.checkout', ${ref}, ${JSON.stringify({ session: session.id, owed })})`;
+      return res.status(201).json({ ref, checkoutUrl: session.url, totalCents: owed });
     }
+
+    // ---- nothing to charge (gift card covered it, or payments are off)
+    await sql`UPDATE bookings SET status = 'confirmed' WHERE id = ${bookingId} AND status = 'pending_payment'`;
+    const view = await bookingView(ref);
+    const emailed = await emailConfirmation(view);
 
     res.status(201).json({
       ref,
@@ -171,6 +185,7 @@ export default async function handler(req, res) {
       addonsCents: priced.addonsCents,
       giftCents: appliedGift,
       totalCents: owed,
+      paidCents: 0,
       meetingPoint: 'Troy texts you the spot before your lesson',
     });
   } catch (err) {

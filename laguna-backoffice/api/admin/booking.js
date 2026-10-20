@@ -5,6 +5,7 @@ import { requireAdmin } from '../../lib/auth.js';
 import { releaseSlot } from '../../lib/availability.js';
 import { refund } from '../../lib/giftcards.js';
 import { readBody, methodGuard } from '../../lib/http.js';
+import { refundBookingCard } from '../../lib/payments.js';
 
 export default async function handler(req, res) {
   if (!requireAdmin(req, res)) return;
@@ -35,10 +36,14 @@ export default async function handler(req, res) {
     if (b.gift_code && b.gift_cents > 0) {
       await refund({ code: b.gift_code, cents: b.gift_cents, bookingId: b.id });
     }
+    // Troy cancelling (or calling off the surf) refunds the card in full.
+    let refundedCents = 0, refundError = null;
+    try { ({ refundedCents } = await refundBookingCard(b.id, 'troy')); }
+    catch (err) { refundError = err.message; console.error('card refund failed', err.message); }
     await sql`
       INSERT INTO audit_log (actor, action, subject)
       VALUES ('troy', ${'booking.' + status}, ${String(ref).toUpperCase()})`;
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, refundedCents, refundError });
   }
 
   res.status(400).json({ error: 'unknown action' });

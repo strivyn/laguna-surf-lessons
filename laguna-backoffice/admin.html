@@ -332,7 +332,9 @@ function bookingBlock(b){
     : '<span class="pill bad">No waiver</span>';
 
   var cancelled = b.status !== 'confirmed';
-  var money_line = money(b.total_cents) + (b.gift_cents > 0 ? ' <span class="muted small">(' + money(b.gift_cents) + ' on ' + esc(b.gift_code||'a gift card') + ')</span>' : '');
+  var money_line = (b.paid_cents > 0
+      ? money(b.paid_cents) + ' paid by card' + (b.refunded_cents > 0 ? ' <span class="pill info">' + money(b.refunded_cents) + ' refunded</span>' : '')
+      : money(b.total_cents) + ' owed') + (b.gift_cents > 0 ? ' <span class="muted small">(' + money(b.gift_cents) + ' on ' + esc(b.gift_code||'a gift card') + ')</span>' : '');
 
   return '' +
   '<div class="slot">' +
@@ -480,11 +482,15 @@ document.addEventListener('click', function(e){
       return;
     }
     var msg = act === 'weather'
-      ? 'Call off ' + ref + ' for surf? The slot opens back up and any gift card is put back.'
-      : 'Cancel ' + ref + '? The slot opens back up and any gift card is put back.';
+      ? 'Call off ' + ref + ' for surf? The slot opens back up, a card payment is refunded in full and any gift card is put back.'
+      : 'Cancel ' + ref + '? The slot opens back up, a card payment is refunded in full and any gift card is put back.';
     if (!confirm(msg)) return;
     api('/api/admin/booking', {method:'POST', body: JSON.stringify({ref: ref, action: act})})
-      .then(function(){ flash(act === 'weather' ? 'Called off.' : 'Cancelled.'); boot(); })
+      .then(function(j){
+        if (j && j.refundError) flash('Cancelled, but the card refund failed. Refund it in Stripe.', 'err');
+        else flash((act === 'weather' ? 'Called off.' : 'Cancelled.') + (j && j.refundedCents ? ' Refunded ' + money(j.refundedCents) + '.' : ''));
+        boot();
+      })
       .catch(function(err){ flash(err.message, 'err'); });
   }
 });
@@ -519,7 +525,7 @@ function renderCard(card, ledger){
         '<div style="padding-bottom:10px"><button class="btn sm" id="gc-redeem">Redeem</button></div>' +
       '</div>') +
       '<div class="acts">' +
-        (card.status === 'unpaid' ? '<p class="small muted" style="margin:0 0 10px">Bought on the site. Take payment, then mark it paid and send them the code.</p><button class="btn sm" id="gc-paid">Mark paid</button> ' : '') +
+        (card.status === 'unpaid' ? '<p class="small muted" style="margin:0 0 10px">Not paid yet. If they paid you another way, mark it paid and send them the code.</p><button class="btn sm" id="gc-paid">Mark paid</button> ' : '') +
         '<button class="btn o sm" id="gc-void">' + (card.status==='void'?'Un-void':'Void this card') + '</button>' +
       '</div>' +
       (rows ? '<div class="scroll" style="margin-top:14px"><table><thead><tr><th>When</th><th>Amount</th><th>Reason</th><th>By</th></tr></thead><tbody>' + rows + '</tbody></table></div>' : '') +

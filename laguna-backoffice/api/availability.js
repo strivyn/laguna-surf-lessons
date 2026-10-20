@@ -1,5 +1,7 @@
 import { availability, todayLocal, addDays, SCHEDULE } from '../lib/availability.js';
 import { methodGuard } from '../lib/http.js';
+import { paymentsOn } from '../lib/stripe.js';
+import { sweepPending, deliverDueGifts } from '../lib/payments.js';
 
 export default async function handler(req, res) {
   if (!methodGuard(req, res, 'GET')) return;
@@ -11,11 +13,14 @@ export default async function handler(req, res) {
     if (to > maxTo) to = maxTo;
     if (from > to) return res.status(400).json({ error: 'from is after to' });
 
+    // Settle lapsed checkouts first so their slots show as open again.
+    try { await sweepPending(); await deliverDueGifts(); } catch (err) { console.error('sweep failed', err.message); }
     const days = await availability(from, to);
     res.status(200).json({
       from, to,
       durationMin: SCHEDULE.durationMin,
       leadTimeHours: SCHEDULE.leadTimeHours,
+      payments: paymentsOn(),
       days,
     });
   } catch (err) {

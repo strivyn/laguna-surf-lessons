@@ -426,6 +426,9 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
   padding:14px 16px; font-size:.9rem; color:var(--ink2); line-height:1.6}
 .waiver p{margin:0}
 .paydemo{border:1.5px dashed var(--line2); border-radius:14px; padding:16px; background:#FFF}
+.paybox{border:1.5px solid var(--line2); border-radius:14px; padding:16px 18px; background:#FFF}
+.paybox p{margin:0; font-size:1rem; line-height:1.55}
+.paybox .paybox-h{display:flex; align-items:center; gap:8px; font-weight:700; margin-bottom:6px}
 .demo-tag{margin:0 0 12px; font-family:var(--f-lab); font-weight:700; text-transform:uppercase; letter-spacing:.14em;
   font-size:.62rem; color:var(--rust)}
 .pay-ghost{opacity:1; pointer-events:none; display:flex; flex-direction:column; gap:10px}
@@ -1191,14 +1194,11 @@ details.qa p{margin:0 0 22px}
 
           <div class="step">
             <div class="step-h"><span class="step-n" aria-hidden="true">9</span><span class="lab">Payment</span></div>
-            <div class="paydemo">
-              <p class="demo-tag">Design preview &mdash; in the live build this is the Stripe Payment Element. No card is entered or charged here.</p>
-              <div class="pay-ghost" aria-hidden="true">
-                <div class="pg-row"><span class="pg-pill dark">&#63743; Pay</span><span class="pg-pill">G Pay</span></div>
-                <div class="pg-field">Card number &nbsp; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;</div>
-                <div class="pg-row"><div class="pg-field" style="flex:1">MM / YY</div><div class="pg-field" style="flex:1">CVC</div><div class="pg-field" style="flex:1">ZIP</div></div>
-              </div>
+            <div class="paybox pay-on">
+              <p class="paybox-h"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Secure checkout by Stripe</p>
+              <p>Pay on the next screen with Apple Pay, Google Pay or any card. Full refund with 24 hours&rsquo; notice, or if Troy calls it off for conditions.</p>
             </div>
+            <div class="paybox pay-off" hidden><p>Pay Troy at your lesson.</p></div>
           </div>
         </div>
       </div>
@@ -1284,14 +1284,11 @@ details.qa p{margin:0 0 22px}
 
         <div class="step">
           <div class="step-h"><span class="step-n" aria-hidden="true">3</span><span class="lab">Payment</span></div>
-          <div class="paydemo">
-            <p class="demo-tag">Design preview &mdash; in the live build this is the Stripe Payment Element. No card is entered or charged here.</p>
-            <div class="pay-ghost" aria-hidden="true">
-              <div class="pg-row"><span class="pg-pill dark">&#63743; Pay</span><span class="pg-pill">G Pay</span></div>
-              <div class="pg-field">Card number &nbsp; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;</div>
-              <div class="pg-row"><div class="pg-field" style="flex:1">MM / YY</div><div class="pg-field" style="flex:1">CVC</div><div class="pg-field" style="flex:1">ZIP</div></div>
-            </div>
+          <div class="paybox pay-on">
+            <p class="paybox-h"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Secure checkout by Stripe</p>
+            <p>Pay on the next screen with Apple Pay, Google Pay or any card. Your receipt and the code come straight to your email.</p>
           </div>
+          <div class="paybox pay-off" hidden><p>Troy texts you to take payment.</p></div>
         </div>
       </div>
 
@@ -1311,7 +1308,7 @@ details.qa p{margin:0 0 22px}
           </div>
           <div class="total" style="margin-top:18px"><span>Total</span><span class="tnum" id="s-gc-total">$170</span></div>
           <button class="btn" type="submit" style="width:100%;margin-top:22px" id="gc-go">Continue &mdash; buy gift card</button>
-          <p class="stub-note">Nothing is charged yet. You will see the card exactly as they will before you pay.</p>
+          <p class="stub-note">Nothing is charged yet. You pay on the next screen.</p>
         </div>
         <div id="gc-done" hidden>
           <div class="conf-head"><span class="conf-check" aria-hidden="true">&#10003;</span>
@@ -1324,8 +1321,8 @@ details.qa p{margin:0 0 22px}
           </div>
           <div class="journey">
             <p class="lab" style="margin-bottom:10px">What happens next</p>
-            <div class="j-row"><b>Now</b><span>Troy texts you to take payment</span></div>
-            <div class="j-row"><b>On the day</b><span>The card goes to them with your message</span></div>
+            <div class="j-row"><b>Now</b><span>Your receipt and the code, by email</span></div>
+            <div class="j-row"><b>On the day</b><span>We email the card to them with your message</span></div>
             <div class="j-row"><b>When they book</b><span>Code comes off the total at checkout</span></div>
           </div>
         </div>
@@ -1491,6 +1488,7 @@ details.qa p{margin:0 0 22px}
     return fetch('/api/availability', {headers:{'Accept':'application/json'}})
       .then(function(r){ if (!r.ok) throw new Error('unavailable'); return r.json(); })
       .then(function(d){
+        setPayments(d.payments !== false);
         AVAIL = (d.days || []).filter(function(day){
           return day.slots.some(function(s){ return s.open; });
         });
@@ -1669,14 +1667,83 @@ details.qa p{margin:0 0 22px}
     return !!isBad;
   }
 
+  function setPayments(on){
+    window.LSL_PAY = on;
+    document.querySelectorAll('.pay-on').forEach(function(el){ el.hidden = !on; });
+    document.querySelectorAll('.pay-off').forEach(function(el){ el.hidden = on; });
+  }
+  function confirmLabel(){ return window.LSL_PAY === false ? 'Confirm booking' : 'Continue to payment'; }
+
+  function showBooked(b){
+    clearInterval(holdTimer);
+    $('cf-ref').textContent = b.ref;
+    $('cf-lesson').textContent = b.lesson + ' · ' + b.partySize + (b.partySize === 1 ? ' surfer' : ' surfers');
+    var d = parseDay(b.when.date);
+    $('cf-when').textContent = d.toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'}) +
+      ' · ' + b.when.time;
+    $('cf-paid').textContent = b.paidCents
+      ? money(Math.round(b.paidCents / 100)) + ' by card'
+      : money(Math.round(b.totalCents / 100)) + (b.totalCents ? ' at your lesson' : '') +
+        (b.giftCents ? ' after ' + money(Math.round(b.giftCents / 100)) + ' on your gift card' : '');
+
+    var st = new Date(b.when.startsAt);
+    var en = new Date(st.getTime() + (b.durationMin || 90) * 60000);
+    function g(x){ return x.toISOString().replace(/[-:]|\.\d{3}/g,''); }
+    $('cf-cal').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+      + '&text=' + encodeURIComponent('Surf lesson with Troy - Laguna Surf Lessons')
+      + '&dates=' + g(st) + '/' + g(en)
+      + '&details=' + encodeURIComponent('Booking ' + b.ref + '. Troy texts you the spot before your lesson. Questions: text Troy at 949-280-5818. Board and wetsuit included.');
+
+    $('stub-live').hidden = true;
+    $('stub-done').hidden = false;
+    $('bk-more').hidden = true;
+    document.querySelectorAll('#bk .tk-main input, #bk .tk-main button').forEach(function(el){ el.disabled = true; });
+    document.querySelector('.tk-stub').scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  // Back from Stripe Checkout: paid, or left without paying.
+  (function(){
+    var q = new URLSearchParams(location.search);
+    var clean = function(){ try { history.replaceState(null, '', location.pathname + '#book'); } catch(e){} };
+    if (q.get('paid') && q.get('cs')){
+      clean();
+      $('s-note').textContent = 'Checking your payment\u2026';
+      var tries = 0;
+      (function check(){
+        fetch('/api/pay?cs=' + encodeURIComponent(q.get('cs')), {headers:{'Accept':'application/json'}})
+          .then(function(r){ return r.json(); })
+          .then(function(j){
+            if (j.kind === 'booking' && j.booking && j.booking.status === 'confirmed'){ showBooked(j.booking); return; }
+            if (++tries < 5){ setTimeout(check, 2000); return; }
+            $('s-note').innerHTML = '<b style="color:var(--rust)">We could not confirm that payment yet.</b> If you were charged, your confirmation email is on its way. Questions: text Troy at 949-280-5818.';
+          })
+          .catch(function(){
+            $('s-note').innerHTML = '<b style="color:var(--rust)">We could not check that payment.</b> Text Troy at 949-280-5818.';
+          });
+      })();
+      document.getElementById('book').scrollIntoView({block:'start'});
+    } else if (q.get('unpaid') && q.get('t')){
+      clean();
+      fetch('/api/cancel', {method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ref: q.get('unpaid'), token: q.get('t')})})
+        .catch(function(){})
+        .then(function(){
+          $('s-note').innerHTML = '<b style="color:var(--rust)">Payment was not finished, so nothing was charged.</b> Pick a time to start again.';
+          loadAvailability();
+        });
+      document.getElementById('book').scrollIntoView({block:'start'});
+    }
+  })();
+
   $('bk').addEventListener('submit', function(e){
     e.preventDefault();
     if (state.phase === 1){
       if (!state.time){ return; }
       state.phase = 2;
       $('bk-more').hidden = false;
-      $('s-go').textContent = 'Confirm booking';
-      $('s-note').textContent = 'Once you confirm, check your email for your booking confirmation. If you don\u2019t see it, check your spam folder.';
+      $('s-go').textContent = confirmLabel();
+      $('s-note').textContent = (window.LSL_PAY === false ? 'Once you confirm' : 'You pay on the next screen. After you pay') +
+        ', check your email for your booking confirmation. If you don\u2019t see it, check your spam folder.';
       startHold();
       buildSurfers();
       var first = document.querySelector('#bk-more .step');
@@ -1750,32 +1817,16 @@ details.qa p{margin:0 0 22px}
       });
     })
     .then(function(b){
-      clearInterval(holdTimer);
-      $('cf-ref').textContent = b.ref;
-      $('cf-lesson').textContent = b.lesson + ' · ' + b.partySize + (b.partySize === 1 ? ' surfer' : ' surfers');
-      var d = parseDay(b.when.date);
-      $('cf-when').textContent = d.toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'}) +
-        ' · ' + b.when.time;
-      $('cf-paid').textContent = money(Math.round(b.totalCents / 100)) +
-        (b.giftCents ? ' after ' + money(Math.round(b.giftCents / 100)) + ' on your gift card' : '');
-
-      var st = new Date(b.when.startsAt);
-      var en = new Date(st.getTime() + (b.durationMin || 90) * 60000);
-      function g(x){ return x.toISOString().replace(/[-:]|\.\d{3}/g,''); }
-      $('cf-cal').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
-        + '&text=' + encodeURIComponent('Surf lesson with Troy - Laguna Surf Lessons')
-        + '&dates=' + g(st) + '/' + g(en)
-        + '&details=' + encodeURIComponent('Booking ' + b.ref + '. Troy texts you the spot before your lesson. Questions: text Troy at 949-280-5818. Board and wetsuit included.');
-
-      $('stub-live').hidden = true;
-      $('stub-done').hidden = false;
-      $('bk-more').hidden = true;
-      document.querySelectorAll('#bk .tk-main input, #bk .tk-main button').forEach(function(el){ el.disabled = true; });
-      document.querySelector('.tk-stub').scrollIntoView({behavior:'smooth', block:'center'});
+      if (b.checkoutUrl){
+        goBtn.textContent = 'Opening secure checkout\u2026';
+        location.href = b.checkoutUrl;
+        return;
+      }
+      showBooked(b);
     })
     .catch(function(err){
       goBtn.disabled = false;
-      goBtn.textContent = 'Confirm booking';
+      goBtn.textContent = confirmLabel();
       if (err.status === 409){
         // Somebody got there first while they were filling the form. Say so
         // plainly and put them back on the times rather than pretending.
@@ -2005,6 +2056,7 @@ details.qa p{margin:0 0 22px}
       });
     })
     .then(function(card){
+      if (card.checkoutUrl){ btn.textContent = 'Opening secure checkout\u2026'; location.href = card.checkoutUrl; return; }
       $('gc-code').textContent = card.code;
       $('cf-gc-amt').textContent = money(Math.round(card.amountCents / 100));
       $('cf-gc-who').textContent = card.recipientName + ' \u00b7 ' + card.recipientEmail;
@@ -2018,6 +2070,29 @@ details.qa p{margin:0 0 22px}
       alert(err.message);
     });
   });
+
+  // Back from Stripe Checkout with a paid gift card.
+  (function(){
+    var q = new URLSearchParams(location.search);
+    if (!q.get('giftpaid') || !q.get('cs')) return;
+    try { history.replaceState(null, '', location.pathname + '#gift'); } catch(e){}
+    fetch('/api/pay?cs=' + encodeURIComponent(q.get('cs')), {headers:{'Accept':'application/json'}})
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if (j.kind !== 'gift' || !j.gift) return;
+        var g = j.gift;
+        $('gc-code').textContent = g.code;
+        $('cf-gc-amt').textContent = money(Math.round(g.amountCents / 100));
+        $('cf-gc-who').textContent = g.recipientName + ' \u00b7 ' + g.recipientEmail;
+        $('cf-gc-when').textContent = g.sendOn
+          ? new Date(g.sendOn + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric'})
+          : 'Straight away';
+        $('gc-live').hidden = true;
+        $('gc-done').hidden = false;
+        $('gc-done').scrollIntoView({behavior:'smooth', block:'center'});
+      })
+      .catch(function(){});
+  })();
 
   render();
 })();

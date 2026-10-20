@@ -46,7 +46,8 @@ export function renderConfirmation(b) {
   ];
   if (b.addons.length) rows.push(['Add-ons', b.addons.map(a => a.name).join(', ')]);
   if (b.giftCents) rows.push(['Gift card', '-' + money(b.giftCents)]);
-  rows.push(['Total', money(b.totalCents) + (b.totalCents ? ', paid at your lesson' : '')]);
+  if (b.paidCents) rows.push(['Paid', money(b.paidCents) + ' by card']);
+  else rows.push(['Total', money(b.totalCents) + (b.totalCents ? ', paid at your lesson' : '')]);
 
   const text = [
     `You're booked with Troy.`,
@@ -127,4 +128,79 @@ export async function sendConfirmation(to, booking) {
   } finally {
     clearTimeout(timer);
   }
+}
+
+async function send({ to, subject, html, text, tag }) {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return { ok: false, error: 'RESEND_API_KEY not set' };
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 6000);
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      signal: ctrl.signal,
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: process.env.MAIL_FROM || 'Laguna Surf Lessons <bookings@demetyr.com>',
+        to: [to], subject, html, text,
+        tags: [{ name: 'type', value: tag }],
+      }),
+    });
+    const j = await r.json().catch(() => ({}));
+    return r.ok ? { ok: true, id: j.id } : { ok: false, error: j.message || `HTTP ${r.status}` };
+  } catch (err) {
+    return { ok: false, error: err.name === 'AbortError' ? 'timeout' : err.message };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function giftShell(title, lead, rows, foot) {
+  const tr = rows.map(([k, v]) => `
+    <tr>
+      <td style="padding:10px 0;border-bottom:1px solid #E6D6BA;color:#6B5D57;font-size:13px;letter-spacing:.08em;text-transform:uppercase;width:120px;vertical-align:top">${esc(k)}</td>
+      <td style="padding:10px 0;border-bottom:1px solid #E6D6BA;color:#3E3330;font-size:16px;font-weight:600">${esc(v)}</td>
+    </tr>`).join('');
+  return `<!doctype html><html><body style="margin:0;background:#FBEFD9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#3E3330">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FBEFD9"><tr><td align="center" style="padding:28px 16px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFAF1;border-radius:16px;overflow:hidden">
+  <tr><td style="height:8px;background-color:#EE8F2E"></td></tr>
+  <tr><td style="padding:28px 28px 8px">
+    <img src="${SITE}/apple-touch-icon.png" width="64" height="64" alt="Laguna Surf Lessons" style="display:block;border-radius:12px">
+    <h1 style="margin:20px 0 6px;font-size:28px;line-height:1.15;color:#3E3330">${esc(title)}</h1>
+    <p style="margin:0;font-size:16px;line-height:1.5">${esc(lead)}</p>
+  </td></tr>
+  <tr><td style="padding:12px 28px 4px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${tr}</table></td></tr>
+  <tr><td style="padding:20px 28px 28px"><p style="margin:0 0 18px;font-size:16px;line-height:1.55">${esc(foot)}</p>
+    <a href="${SITE}/#book" style="display:inline-block;background:#C7431E;color:#FFFFFF;text-decoration:none;font-weight:600;font-size:16px;padding:14px 24px;border-radius:999px">Book a lesson</a></td></tr>
+</table>
+<p style="margin:18px 0 0;font-size:13px;color:#6B5D57">Laguna Surf Lessons &middot; <a href="${SITE}" style="color:#6B5D57">surfinglagunabeach.com</a></p>
+</td></tr></table></body></html>`;
+}
+
+/** To whoever bought it: receipt plus the code, so it is never lost. */
+export function sendGiftReceipt(to, g) {
+  const when = g.send_on ? `We email it to ${g.recipient_name} on ${g.send_on}.` : `We have emailed it to ${g.recipient_name}.`;
+  const rows = [['Code', g.code], ['Value', money(g.initial_cents)], ['For', `${g.recipient_name}, ${g.recipient_email}`]];
+  const foot = `${when} Keep this email as a backup. The balance never expires and it works on any lesson: enter the code at checkout. Questions: text Troy at ${TROY_SMS}.`;
+  return send({
+    to, tag: 'giftcard_receipt',
+    subject: `Your Laguna Surf Lessons gift card for ${g.recipient_name}`,
+    html: giftShell('Gift card paid. Thank you.', `Here is the gift card for ${g.recipient_name}.`, rows, foot),
+    text: [`Gift card paid. Thank you.`, '', ...rows.map(([k, v]) => `${k}: ${v}`), '', foot, '', `Book: ${SITE}/#book`].join('\n'),
+  });
+}
+
+/** To the person it is for. */
+export function sendGiftToRecipient(g) {
+  const from = g.purchaser_name || 'Someone';
+  const rows = [['Code', g.code], ['Value', money(g.initial_cents)], ['From', from]];
+  if (g.message) rows.push(['Message', g.message]);
+  const foot = `Book any lesson with Troy and enter the code at checkout. The balance never expires. Questions: text Troy at ${TROY_SMS}.`;
+  return send({
+    to: g.recipient_email, tag: 'giftcard_delivery',
+    subject: `${from} got you a surf lesson`,
+    html: giftShell(`${from} got you a surf lesson.`, `A Laguna Surf Lessons gift card, good for a lesson with Troy.`, rows, foot),
+    text: [`${from} got you a surf lesson.`, '', ...rows.map(([k, v]) => `${k}: ${v}`), '', foot, '', `Book: ${SITE}/#book`].join('\n'),
+  });
 }
