@@ -41,6 +41,7 @@ async function call(method, path, params) {
     if (!r.ok) {
       const err = new Error(j.error?.message || `Stripe HTTP ${r.status}`);
       err.stripe = j.error;
+      err.status = r.status;
       throw err;
     }
     return j;

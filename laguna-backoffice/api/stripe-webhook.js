@@ -17,6 +17,9 @@ export default async function handler(req, res) {
     const out = await settle(id);
     res.status(200).json({ ok: true, kind: out.kind });
   } catch (err) {
+    // A session Stripe does not know (or one from another app on the account)
+    // will never succeed, so tell Stripe to stop retrying it.
+    if (err.status === 404) return res.status(200).json({ ignored: true });
     console.error('webhook settle failed', err.message);
     res.status(500).json({ error: 'retry' });
   }
