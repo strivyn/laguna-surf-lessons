@@ -30,7 +30,7 @@ function calendarLink(ref, startsAt) {
   const en = new Date(st.getTime() + SCHEDULE.durationMin * 60000);
   const g = x => x.toISOString().replace(/[-:]|\.\d{3}/g, '');
   return 'https://calendar.google.com/calendar/render?action=TEMPLATE'
-    + '&text=' + encodeURIComponent('Surf lesson with Troy - Laguna Surf Lessons')
+    + '&text=' + encodeURIComponent('Surf lesson - Laguna Surf Lessons')
     + '&dates=' + g(st) + '/' + g(en)
     + '&details=' + encodeURIComponent(`Booking ${ref}. Troy texts you the spot before your lesson. Questions: text Troy at ${TROY_SMS}.`);
 }
@@ -50,11 +50,13 @@ export function renderConfirmation(b) {
   else rows.push(['Total', money(b.totalCents) + (b.totalCents ? ', paid at your lesson' : '')]);
 
   const text = [
-    `You're booked with Troy.`,
+    `You're booked.`,
     '',
     ...rows.map(([k, v]) => `${k}: ${v}`),
     '',
     `WHERE: Troy picks the spot for each lesson based on the conditions, safety and your ability, and texts you where to meet before your lesson.`,
+    '',
+    `WHO: Most lessons are taught by Troy. When he is booked up, he may send one of his trusted instructors, and he will let you know before your lesson.`,
     '',
     `BRING: A towel, sunscreen, water and a swimsuit to wear under the wetsuit. The board, wetsuit and leash are included. Arrive 15 minutes early.`,
     '',
@@ -77,13 +79,17 @@ export function renderConfirmation(b) {
   <tr><td style="height:8px;background:linear-gradient(90deg,#F3C244 0 20%,#EE8F2E 20% 40%,#DF5B2C 40% 60%,#C13B33 60% 80%,#2E7C9B 80%);background-color:#EE8F2E"></td></tr>
   <tr><td style="padding:28px 28px 8px">
     <img src="${SITE}/apple-touch-icon.png" width="64" height="64" alt="Laguna Surf Lessons" style="display:block;border-radius:12px">
-    <h1 style="margin:20px 0 6px;font-size:28px;line-height:1.15;color:#3E3330">You're booked with Troy.</h1>
+    <h1 style="margin:20px 0 6px;font-size:28px;line-height:1.15;color:#3E3330">You're booked.</h1>
     <p style="margin:0;font-size:16px;line-height:1.5;color:#3E3330">Keep this email. It has everything you need for your lesson.</p>
   </td></tr>
   <tr><td style="padding:12px 28px 4px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0">${tr}</table></td></tr>
   <tr><td style="padding:20px 28px 0">
     <p style="margin:0 0 6px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#A93B27;font-weight:700">Where</p>
     <p style="margin:0;font-size:16px;line-height:1.55">Troy picks the spot for each lesson based on the conditions, safety and your ability, and texts you where to meet before your lesson.</p>
+  </td></tr>
+  <tr><td style="padding:18px 28px 0">
+    <p style="margin:0 0 6px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#A93B27;font-weight:700">Your instructor</p>
+    <p style="margin:0;font-size:16px;line-height:1.55">Most lessons are taught by Troy. When he is booked up, he may send one of his trusted instructors, and he will let you know before your lesson.</p>
   </td></tr>
   <tr><td style="padding:18px 28px 0">
     <p style="margin:0 0 6px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#A93B27;font-weight:700">Bring</p>
@@ -196,11 +202,11 @@ export function sendGiftToRecipient(g) {
   const from = g.purchaser_name || 'Someone';
   const rows = [['Code', g.code], ['Value', money(g.initial_cents)], ['From', from]];
   if (g.message) rows.push(['Message', g.message]);
-  const foot = `Book any lesson with Troy and enter the code at checkout. The balance never expires. Questions: text Troy at ${TROY_SMS}.`;
+  const foot = `Book any lesson and enter the code at checkout. The balance never expires. Questions: text Troy at ${TROY_SMS}.`;
   return send({
     to: g.recipient_email, tag: 'giftcard_delivery',
     subject: `${from} got you a surf lesson`,
-    html: giftShell(`${from} got you a surf lesson.`, `A Laguna Surf Lessons gift card, good for a lesson with Troy.`, rows, foot),
+    html: giftShell(`${from} got you a surf lesson.`, `A Laguna Surf Lessons gift card, good for any lesson.`, rows, foot),
     text: [`${from} got you a surf lesson.`, '', ...rows.map(([k, v]) => `${k}: ${v}`), '', foot, '', `Book: ${SITE}/#book`].join('\n'),
   });
 }

@@ -240,6 +240,15 @@ section{padding:clamp(60px,8.5vw,120px) 0}
 .rev-idx button{width:46px; height:46px; border-radius:50%; border:1.5px solid var(--line2); background:#FFF;
   cursor:pointer; font-size:1.1rem; color:var(--ink); transition:border-color .25s, background .25s, color .25s}
 .rev-idx button:hover{border-color:var(--ink); background:var(--ink); color:#FFF}
+/* review wall */
+.rwall-h{font-size:clamp(1.3rem,2.2vw,1.7rem); margin:clamp(48px,6vw,80px) 0 22px; letter-spacing:-.01em}
+.rwall{columns:3 300px; column-gap:18px}
+.rcard{break-inside:avoid; margin:0 0 18px; background:#FFF; border:1.5px solid var(--line2); border-radius:16px; padding:22px 22px 20px}
+.rcard p{margin:0 0 12px; font-size:1rem; line-height:1.6; color:var(--ink)}
+.rcard .rcard-stars{color:var(--rust); letter-spacing:.12em; margin-bottom:10px}
+.rcard .rcard-by{margin:14px 0 0; font-size:.95rem; color:var(--ink2)}
+.rwall:not(.all) .rcard.more{display:none}
+.rwall-acts{display:flex; flex-wrap:wrap; gap:12px; margin-top:24px}
 .rev-idx span{font-family:var(--f-lab); font-weight:600; letter-spacing:.2em; font-size:.76rem; color:var(--mute)}
 
 /* ---------- where + faq ---------- */
@@ -397,6 +406,9 @@ footer::before{content:""; position:absolute; top:0; left:0; right:0; height:4px
   padding:14px 16px; font-size:.9rem; color:var(--ink2); line-height:1.6}
 .waiver p{margin:0}
 .paydemo{border:1.5px dashed var(--line2); border-radius:14px; padding:16px; background:#FFF}
+.paybox{border:1.5px solid var(--line2); border-radius:14px; padding:16px 18px; background:#FFF}
+.paybox p{margin:0; font-size:1rem; line-height:1.55}
+.paybox .paybox-h{display:flex; align-items:center; gap:8px; font-weight:700; margin-bottom:6px}
 .demo-tag{margin:0 0 12px; font-family:var(--f-lab); font-weight:700; text-transform:uppercase; letter-spacing:.14em;
   font-size:.62rem; color:var(--rust)}
 .pay-ghost{opacity:1; pointer-events:none; display:flex; flex-direction:column; gap:10px}

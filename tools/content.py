@@ -32,6 +32,7 @@ FAQ = [
   "Before hitting the water, we start with land demonstrations on reading waves and ocean conditions, standing up, board handling, "
   "ocean safety and surf etiquette. Then we move to the water and put those skills into practice."),
  ("Will I actually stand up?", "About 95% of Troy's students stand up in their first lesson."),
+ ("Will Troy be my instructor?", "Most lessons are taught by Troy. When he is booked up, he may send one of his trusted instructors, and he will let you know before your lesson."),
  ("Where do we meet?", SPOT_TEXT),
  ("How early should I arrive?",
   "Allow time to find parking, especially in summer. We recommend arriving 15 minutes before your lesson."),
