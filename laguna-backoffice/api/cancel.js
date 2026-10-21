@@ -4,7 +4,7 @@ import { sql } from '../lib/db.js';
 import { releaseSlot } from '../lib/availability.js';
 import { refund } from '../lib/giftcards.js';
 import { readBody, methodGuard } from '../lib/http.js';
-import { refundBookingCard, expireBooking } from '../lib/payments.js';
+import { refundBookingCard, expireBooking, bookingView, alertTroy } from '../lib/payments.js';
 
 export default async function handler(req, res) {
   if (!methodGuard(req, res, 'POST')) return;
@@ -48,5 +48,6 @@ export default async function handler(req, res) {
     INSERT INTO audit_log (actor, action, subject)
     VALUES ('customer', 'booking.cancelled', ${String(ref).toUpperCase()})`;
 
+  try { await alertTroy('cancelled', await bookingView(String(ref).trim().toUpperCase())); } catch {}
   res.status(200).json({ ok: true, refundedCents });
 }

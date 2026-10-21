@@ -7,7 +7,7 @@ import { sql } from './db.js';
 import { claimSlot, releaseSlot, SCHEDULE } from './availability.js';
 import { refund as refundGift } from './giftcards.js';
 import { getCheckout, refundPayment, paymentsOn, CHECKOUT_MINUTES } from './stripe.js';
-import { sendConfirmation, sendGiftReceipt, sendGiftToRecipient } from './email.js';
+import { sendConfirmation, sendGiftReceipt, sendGiftToRecipient, sendTroyAlert } from './email.js';
 import { TZ } from './availability.js';
 
 async function audit(actor, action, subject, detail) {
@@ -19,7 +19,7 @@ async function audit(actor, action, subject, detail) {
 export async function bookingView(ref) {
   const rows = await sql`
     SELECT b.*, s.starts_at, s.local_date::text AS local_date, s.local_time,
-           c.email, c.name AS customer_name
+           c.email, c.phone, c.name AS customer_name
       FROM bookings b
       JOIN sessions s ON s.id = b.session_id
       JOIN customers c ON c.id = b.customer_id
@@ -29,6 +29,15 @@ export async function bookingView(ref) {
   const people = await sql`SELECT name FROM participants WHERE booking_id = ${b.id} ORDER BY id`;
   b.names = people.map(p => p.name);
   return b;
+}
+
+export async function alertTroy(kind, b) {
+  try {
+    const r = await sendTroyAlert(kind, b);
+    await audit('system', r.ok ? 'email.sent' : 'email.failed', b.ref, { kind: 'troy ' + kind, ...r });
+  } catch (err) {
+    console.error('troy alert failed', err.message);
+  }
 }
 
 export function publicBooking(b) {
@@ -58,6 +67,7 @@ export async function emailConfirmation(b) {
       paidCents: b.paid_cents,
     });
     await audit('system', sent.ok ? 'email.sent' : 'email.failed', b.ref, sent);
+    await alertTroy('booked', b);
     return sent.ok;
   } catch (err) {
     console.error('confirmation email failed', err);

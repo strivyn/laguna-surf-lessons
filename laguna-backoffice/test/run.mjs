@@ -581,8 +581,10 @@ await t('paying confirms the booking, records the payment and emails once', asyn
   assert.equal(res.body.booking.status, 'confirmed');
   assert.equal(res.body.booking.paidCents, 17000);
   await call('../api/stripe-webhook.js', { method: 'POST', body: { type: 'checkout.session.completed', data: { object: { id: paidCs } } } });
-  const mail = await sql`SELECT count(*)::int AS n FROM audit_log WHERE action = 'email.sent' AND subject = ${paidRef}`;
+  const mail = await sql`SELECT count(*)::int AS n FROM audit_log WHERE action = 'email.sent' AND subject = ${paidRef} AND detail->>'kind' IS NULL`;
   assert.equal(mail[0].n, 1, 'return page and webhook together send one email');
+  const troy = await sql`SELECT count(*)::int AS n FROM audit_log WHERE action = 'email.sent' AND detail->>'kind' = 'troy booked' AND subject = ${paidRef}`;
+  assert.equal(troy[0].n, 1, 'Troy gets one heads-up per booking');
 });
 
 await t('Troy cancelling a paid booking refunds the card in full', async () => {

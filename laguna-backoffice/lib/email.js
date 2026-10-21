@@ -130,7 +130,7 @@ export async function sendConfirmation(to, booking) {
   }
 }
 
-async function send({ to, subject, html, text, tag }) {
+async function send({ to, subject, html, text, tag, cc = [] }) {
   const key = process.env.RESEND_API_KEY;
   if (!key) return { ok: false, error: 'RESEND_API_KEY not set' };
   const ctrl = new AbortController();
@@ -142,7 +142,7 @@ async function send({ to, subject, html, text, tag }) {
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: process.env.MAIL_FROM || 'Laguna Surf Lessons <bookings@demetyr.com>',
-        to: [to], subject, html, text,
+        to: [to], ...(cc.length ? { cc } : {}), subject, html, text,
         tags: [{ name: 'type', value: tag }],
       }),
     });
@@ -164,7 +164,7 @@ function giftShell(title, lead, rows, foot) {
   return `<!doctype html><html><body style="margin:0;background:#FBEFD9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#3E3330">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FBEFD9"><tr><td align="center" style="padding:28px 16px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#FFFAF1;border-radius:16px;overflow:hidden">
-  <tr><td style="height:8px;background-color:#EE8F2E"></td></tr>
+  <tr><td style="height:8px;background:linear-gradient(90deg,#F3C244 0 20%,#EE8F2E 20% 40%,#DF5B2C 40% 60%,#C13B33 60% 80%,#2E7C9B 80%);background-color:#EE8F2E"></td></tr>
   <tr><td style="padding:28px 28px 8px">
     <img src="${SITE}/apple-touch-icon.png" width="64" height="64" alt="Laguna Surf Lessons" style="display:block;border-radius:12px">
     <h1 style="margin:20px 0 6px;font-size:28px;line-height:1.15;color:#3E3330">${esc(title)}</h1>
@@ -203,4 +203,41 @@ export function sendGiftToRecipient(g) {
     html: giftShell(`${from} got you a surf lesson.`, `A Laguna Surf Lessons gift card, good for a lesson with Troy.`, rows, foot),
     text: [`${from} got you a surf lesson.`, '', ...rows.map(([k, v]) => `${k}: ${v}`), '', foot, '', `Book: ${SITE}/#book`].join('\n'),
   });
+}
+
+/**
+ * Heads-up to Troy. He lives on his phone, so this is short enough to read
+ * in a notification: who, when, how many, paid, and their number to text.
+ * Goes to TROY_ALERT_EMAIL (comma-separated for more than one).
+ */
+export function sendTroyAlert(kind, b) {
+  const to = (process.env.TROY_ALERT_EMAIL || 'troypmacdonald@yahoo.com').split(',').map(x => x.trim()).filter(Boolean);
+  if (!to.length) return Promise.resolve({ ok: false, error: 'no alert address' });
+  const { day, time } = whenText(b.starts_at);
+  const who = b.customer_name || b.email;
+  const size = `${b.party_size} ${b.party_size === 1 ? 'surfer' : 'surfers'}`;
+  const money_ = b.paid_cents ? `Paid ${money(b.paid_cents)} by card` : (b.total_cents ? `${money(b.total_cents)} to collect at the lesson` : 'Covered by gift card');
+  const subject = kind === 'cancelled'
+    ? `Cancelled: ${who}, ${day} at ${time}`
+    : `New booking: ${who}, ${day} at ${time}`;
+  const lines = [
+    kind === 'cancelled' ? 'A lesson was cancelled. The slot is open again on the site.' : 'New lesson booked on surfinglagunabeach.com.',
+    '',
+    `Who: ${who}`,
+    `When: ${day} at ${time}`,
+    `Lesson: ${b.lesson_name}, ${size}`,
+    `Surfers: ${(b.names || []).join(', ')}`,
+    `Phone: ${b.phone || ''}`,
+    `Email: ${b.email}`,
+    kind === 'cancelled' ? `Refunded: ${money(b.refunded_cents || 0)}` : money_,
+    `Booking: ${b.ref}`,
+    '',
+    kind === 'cancelled' ? '' : 'Text them the spot before the lesson.',
+    `All bookings: ${SITE}/admin`,
+  ].filter((x, i, a) => !(x === '' && a[i - 1] === ''));
+  const html = `<!doctype html><html><body style="margin:0;padding:24px 16px;background:#FFFAF1;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#3E3330;font-size:16px;line-height:1.55">
+${lines.map(l => l ? `<p style="margin:0 0 4px">${esc(l).replace(/^(\w[\w ]*):/, '<b>$1:</b>')}</p>` : '<p style="margin:0 0 12px"></p>').join('\n')}
+${b.phone ? `<p style="margin:18px 0 0"><a href="sms:${esc(String(b.phone).replace(/[^\d+]/g, ''))}" style="display:inline-block;background:#C7431E;color:#FFFFFF;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:999px">Text ${esc(who.split(' ')[0])}</a></p>` : ''}
+</body></html>`;
+  return send({ to: to[0], subject, html, text: lines.join('\n'), tag: kind === 'cancelled' ? 'troy_cancel_alert' : 'troy_booking_alert', cc: to.slice(1) });
 }
